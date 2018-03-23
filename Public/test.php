@@ -24,7 +24,6 @@ use Core\Security\Security;
 
 //$cr = new ClassReader('Bundles\\UserBundle\\Controller\\UserController');
 //var_dump($cr->getMethodsAnnotation());
-
 $content = ob_get_clean();
 require 'template.php';
 
