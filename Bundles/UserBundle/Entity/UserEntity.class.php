@@ -29,12 +29,6 @@ class UserEntity extends Entity {
      * @Type string
      * @Length 255
      */
-    protected $prenom;
-
-    /**
-     * @Type string
-     * @Length 255
-     */
     protected $email;
 
     /**
@@ -94,9 +88,6 @@ class UserEntity extends Entity {
 
     public function getNom() { return $this->nom; }
     public function setNom($nom) { $this->nom = $nom; return $this; }
-
-    public function getPrenom() { return $this->prenom; }
-    public function setPrenom($prenom) { $this->prenom = $prenom; return $this; }
 
     public function getEmail() { return $this->email; }
     public function setEmail($email) { $this->email = $email; return $this; }
