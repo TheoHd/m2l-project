@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>M2L Test</title>
+    <title>Portfolio Test</title>
 
     <!-- Bootstrap core CSS -->
     <link href="<?= BASE_URL ?>/Public/Assets/css/bootstrap.css" rel="stylesheet">
@@ -15,10 +15,10 @@
 
   <body cz-shortcut-listen="true">
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="    position: relative;">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">M2L Test</a>
+          <a class="navbar-brand" href="#">Portflio Template</a>
         </div>
       </div>
     </nav>
@@ -26,8 +26,8 @@
     <div class="container" style="padding: 100px;">
 
       <div class="starter-template">
-        <h1>Zone de test M2L</h1>
-        <p class="lead">Cette page sert simplement a réaliser des test pour le projet M2L</p>
+        <h1>Template test Framework</h1>
+        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
 
 
         <?= $content; ?>

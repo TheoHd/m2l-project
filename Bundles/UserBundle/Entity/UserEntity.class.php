@@ -29,6 +29,12 @@ class UserEntity extends Entity {
      * @Type string
      * @Length 255
      */
+    protected $prenom;
+
+    /**
+     * @Type string
+     * @Length 255
+     */
     protected $email;
 
     /**
@@ -39,7 +45,7 @@ class UserEntity extends Entity {
 
     /**
      * @Type array
-     * @Default {"ROLE_ADMIN"}
+     * @Default {"ROLE_EMPLOYE"}
      */
     protected $roles;
 
@@ -50,31 +56,34 @@ class UserEntity extends Entity {
     protected $validationDate;
 
     /**
+     * @Type string
+     * @Length 255
+     */
+    protected $phone;
+
+    /**
+     * @Type integer
+     */
+    protected $nbJour;
+
+    /**
+     * @Type integer
+     */
+    protected $credits;
+
+    /**
      * @Relation OneToOne
-     * @Target AppBundle:ExtensionEntity
+     * @Target AppBundle:AdressEntity
      * @Nullable true
      */
-    protected $extension;
-
-    /**
-     * @Relation OneToMany
-     * @Target AppBundle:ProjectEntity
-     */
-    protected $project;
-
-    /**
-     * @Type text
-     * @Nullable true
-     */
-    protected $description;
-
-
+    protected $adress;
 
     public function __construct()
     {
-        $this->project = new OneToManyCollection('project', $this);
-        $this->extension = new OneToOneCollection('extension', $this);
+        $this->adress = new OneToOneCollection('adress', $this);
     }
+
+
 
     /*
      * Getters and Setters
@@ -86,6 +95,9 @@ class UserEntity extends Entity {
     public function getNom() { return $this->nom; }
     public function setNom($nom) { $this->nom = $nom; return $this; }
 
+    public function getPrenom() { return $this->prenom; }
+    public function setPrenom($prenom) { $this->prenom = $prenom; return $this; }
+
     public function getEmail() { return $this->email; }
     public function setEmail($email) { $this->email = $email; return $this; }
 
@@ -96,15 +108,18 @@ class UserEntity extends Entity {
     public function getValidationDate() { return $this->validationDate; }
     public function setValidationDate($validationDate) { $this->validationDate = $validationDate; return $this; }
 
-    public function getExtension() { return $this->extension->get(); }
-    public function setExtension($extension) { return $this->extension->set($extension); }
+    public function getPhone() { return $this->phone; }
+    public function setPhone($phone) { $this->phone = $phone; return $this; }
 
-    public function getDescription() { return $this->description; }
-    public function setDescription($description) { $this->description = $description; return $this; }
+    public function getNbJour() { return $this->nbJour; }
+    public function setNbJour($nbJour) { $this->nbJour = $nbJour; return $this; }
 
-    public function addProject($project) { return $this->project->add($project); }
-    public function removeProject($project) { return $this->project->remove($project); }
-    public function getProjects() { return $this->project->instance(); }
+    public function getCredits() { return $this->credits; }
+    public function setCredits($credits) { $this->credits = $credits; return $this; }
+
+    public function getAdress() { return $this->adress->get(); }
+    public function setAdress($adress) { return $this->adress->set($adress); }
+
 
     public function getRoles() {
         return $this->roles;

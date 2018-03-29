@@ -47,32 +47,36 @@ class Bundle{
 
     public function getBundleEntities(){
         $path = $this->getRootDir() . 'Entity';
-        $entities = array_diff(scandir($path), array('..', '.'));
+        if(is_dir($path)) {
+            $entities = array_diff(scandir($path), array('..', '.'));
 
-        foreach ($entities as $key => $entity){
-            if(!strpos($entity, 'Entity')){
-                unset($entities[$key]);
-            }else{
-                $entities[$key] = str_replace('.class.php', '', $entity);;
+            foreach ($entities as $key => $entity) {
+                if (!strpos($entity, 'Entity')) {
+                    unset($entities[$key]);
+                } else {
+                    $entities[$key] = str_replace('.class.php', '', $entity);;
+                }
             }
+            return array_values($entities);
         }
-
-        return array_values($entities);
+        return [];
     }
 
     public function getBundleControllers(){
         $path = $this->getRootDir() . 'Controller';
-        $controllers = array_diff(scandir($path), array('..', '.'));
+        if(is_dir($path)){
+            $controllers = array_diff(scandir($path), array('..', '.'));
 
-        foreach ($controllers as $key => $controller){
-            if(!strpos($controller, 'Controller')){
-                unset($controllers[$key]);
-            }else{
-                $controllers[$key] =  str_replace('.class.php', '', $controller);
+            foreach ($controllers as $key => $controller){
+                if(!strpos($controller, 'Controller')){
+                    unset($controllers[$key]);
+                }else{
+                    $controllers[$key] =  str_replace('.class.php', '', $controller);
+                }
             }
+            return array_values($controllers);
         }
-
-        return array_values($controllers);
+        return [];
     }
 
     public function getBundleActions(){

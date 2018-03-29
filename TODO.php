@@ -1,7 +1,5 @@
 <?php
 
-//  Revoir ClassReader pour AnnotationReader pour toutes les class possibles
-
 // @Cascade remove,persist
 // You want to save a non saved entity, please use @Cascade persist
 
@@ -12,10 +10,6 @@
 
 
 //    revoir system upload de fichier
-
-//    * pareil pour getForm
-
-// Revoir method get Form dans les controllers et en statique
 
 //    //$router->add('/changePseudo/{:id}', 'App/Controller/UserController@changePseudo', 'change_pseudo_route_id', ['id' => $router::TYPE_INT]);
 //    //$router->add('/changeEmail/{:id}', 'App/Controller/UserController@changeEmail', 'change_email_route_id', ['id' => $router::TYPE_INT]);
@@ -28,8 +22,22 @@
 
 //mapped by / onetomany , manytoone , manytomany, onetoone
 
-// TODO : getClassName() -> Utils:: ? -> obj ou name / option pour juste nom ou tout le namespace
-// TODO : method retourne nom bundle
+// getClassName() -> Utils:: ? -> obj ou name / option pour juste nom ou tout le namespace
+// method retourne nom bundle
+// Services (fonction php qui peut être accesible partout) -> include de fichier ?
 
-// TODO : Services (fonction php qui peut être accesible partout) -> include de fichier ?
-// TODO : annotations routes
+// log de connexion examinateur
+
+/*
+ *
+ *
+ *
+ * // Without Query String...
+$url = $request->url();
+
+// With Query String...
+$url = $request->fullUrl();
+ *
+ * $name = $request->query('name', 'Helen');
+ *
+ */

@@ -6,6 +6,7 @@ use App;
 use Core\Query\Query;
 use Core\Singleton\Singleton;
 use Core\Utils\Utils;
+use SimpleXMLElement;
 
 class Router {
 
@@ -82,7 +83,7 @@ class Router {
                     }
                     $constructor .= "</routes>";
 
-                    $element = new \SimpleXMLElement($constructor);
+                    $element = new SimpleXMLElement($constructor);
                     $this->addRoutingFile( json_encode($element) , $controllerName);
                 }
             }
@@ -110,6 +111,7 @@ class Router {
                 $route = $XMLArray['url'];
                 $controller = $XMLArray['controller'];
                 $action = $XMLArray['action'];
+                unset($XMLArray['params']['comment']);
                 $params = $XMLArray['params'];
 
                 $controller = str_replace('/', '\\', $controller);
@@ -261,9 +263,8 @@ class Router {
      */
 
     public static function redirectToRoute($routeName, $params = [], $absoluthPath = true){
-        $inst = self::getInstance();
-        $url = $inst->generateUrl($routeName, $params, $absoluthPath);
-        $inst->redirect($url);
+        $url = self::generateUrl($routeName, $params, $absoluthPath);
+        self::redirect($url);
     }
 
     public static function redirect($url){
@@ -286,6 +287,10 @@ class Router {
 
     public static function getCurrentRouteName() {
         return self::getCurrentRoute()['name'];
+    }
+
+    public static function redirectToPreviousRoute(){
+        // TODO :
     }
 
 

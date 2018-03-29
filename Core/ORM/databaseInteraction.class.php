@@ -222,7 +222,8 @@ class databaseInteraction {
         list($bundleName, $bundleEntity) = explode(':', $propertyOpt['target']);
         $propertyName .= "_id";
         $foreignKeyTable = strtolower(str_replace("Entity", "", $bundleEntity));
-        $this->queryContainer["TRIGGER_QUERIES"][] = "ALTER TABLE $tableName ADD CONSTRAINT FK_$foreignKeyTable FOREIGN KEY ($propertyName) REFERENCES $foreignKeyTable(id);";
+        $fk = $this->generateIdentifierName($tableName, $foreignKeyTable);
+        $this->queryContainer["TRIGGER_QUERIES"][] = "ALTER TABLE $tableName ADD CONSTRAINT $fk FOREIGN KEY ($propertyName) REFERENCES $foreignKeyTable(id);";
 
         return $propertyName . " INT " . $nullable;
     }
@@ -241,13 +242,25 @@ class databaseInteraction {
             $foreignKeyColName = $propertyName . "_id";
             $entityColName = $tableName . "_id";
 
-            $this->queryContainer["TRIGGER_QUERIES"][] = "ALTER TABLE $relationTableName ADD CONSTRAINT FK_$foreignKeyTableName FOREIGN KEY ($foreignKeyColName) REFERENCES $foreignKeyTableName(id);";
-            $this->queryContainer["TRIGGER_QUERIES"][] = "ALTER TABLE $relationTableName ADD CONSTRAINT FK_$tableName FOREIGN KEY ($entityColName) REFERENCES $tableName(id);";
+            $fk1 = $this->generateIdentifierName($relationTableName, $foreignKeyTableName);
+            $fk2 = $this->generateIdentifierName($relationTableName, $entityColName);
+
+            $this->queryContainer["TRIGGER_QUERIES"][] = "ALTER TABLE $relationTableName ADD CONSTRAINT $fk1 FOREIGN KEY ($foreignKeyColName) REFERENCES $foreignKeyTableName(id);";
+            $this->queryContainer["TRIGGER_QUERIES"][] = "ALTER TABLE $relationTableName ADD CONSTRAINT $fk2 FOREIGN KEY ($entityColName) REFERENCES $tableName(id);";
 
             $req = "CREATE TABLE $relationTableName ( $entityColName INT , $foreignKeyColName INT );";
 
             $this->queryContainer["INITIAL_QUERIES"][] = $req;
         }
+    }
+
+    protected function generateIdentifierName($relationTableName, $columnName)
+    {
+        $array = [$relationTableName, $columnName];
+        $hash = implode("", array_map(function ($column) {
+            return dechex(crc32($column));
+        }, $array));
+        return substr(strtoupper("FK_" . $hash), 0, 30);
     }
 
     /*
@@ -316,7 +329,7 @@ class databaseInteraction {
      * Compare le script de la base de données (enregister dans un fichier) avec le script générer par rapport aux entités et renvoie false si les versions ne correspondent pas.
      */
     public function compareDatabaseScript() {
-        $fileContent = file_get_contents(ROOT . "/Core/Database/structure.txt");
+        $fileContent = @file_get_contents(ROOT . "/Core/Database/structure.txt");
         $currentBDDScriptInDB = explode(PHP_EOL, $fileContent);
 
         $q = $this->queryContainer;
@@ -356,7 +369,7 @@ class databaseInteraction {
      */
     protected function getDatabaseScriptDiff() {
         $lineToRemove = []; $lineToAdd = [];
-        $fileContent = file_get_contents(ROOT . "/Core/Database/structure.txt");
+        $fileContent = @file_get_contents(ROOT . "/Core/Database/structure.txt");
         $currentScript = explode(PHP_EOL, $fileContent);
 
         $q = $this->queryContainer;

@@ -8,6 +8,7 @@ use \Core\Cookie\Cookie;
 use \Core\Database\Database;
 use \Core\Authentification\Authentification;
 use Core\Installation\Installation;
+use Core\Model\Model;
 use Core\ORM\databaseInteraction;
 use Core\ORM\generateDatabaseScript;
 use \Core\Router\Router;
@@ -25,16 +26,6 @@ class App
 
     public static $routeInstance;
     private static $_instance;
-    private static $auth_instance;
-//    private static $db_instance;
-//    private static $session_instance;
-//    private static $cookie_instance;
-//    private static $config_instance;
-//    private static $request_instance;
-//    private static $server_instance;
-//    private static $query_instance;
-//    private static $parameters_instance;
-//    private static $translations_instance;
 
     //private static $fileManager_instance;
     private static $controller_instance;
@@ -45,8 +36,8 @@ class App
         session_start();
 
         $inst = self::getInstance();
-        $inst->loadAutoloader();
         $inst->InitRequirementConfig();
+        $inst->loadAutoloader();
         $inst->installHtaccess();
 
         ob_start();
@@ -67,6 +58,8 @@ class App
         if (version_compare(phpversion(), '7.1', '<')) {
             die('Please install php version > PHP7.1');
         }
+
+        date_default_timezone_set( @date_default_timezone_get() );
     }
 
     public function installHtaccess(){
@@ -89,6 +82,10 @@ class App
         return $url;
     }
 
+    public static function getDefaultRoute(){
+        return self::getConfig()::get('app:defaultHomePageUrl');
+    }
+
     public static function getInstance(){
         if (is_null(self::$_instance)) {
             self::$_instance = new App();
@@ -105,60 +102,54 @@ class App
      *
      */
 
-    public static function getAuthentification(){
-        return Authentification::getInstance();
-//        if (is_null(self::$auth_instance)) {
-//            self::$auth_instance = new Authentification();
-//        }
-//        return self::$auth_instance;
-    }
-
     public static function getController(){
-//        return Controller::getInstance();
         if (is_null(self::$controller_instance)) {
             self::$controller_instance = new Controller();
         }
         return self::$controller_instance;
     }
 
-    public static function getDb(){
+    public static function getAuthentification() : Authentification{
+        return Authentification::getInstance();
+    }
+
+    public static function getDb() : Database{
         return Database::getInstance();
     }
 
-    public static function getRouter(){
+    public static function getRouter() : Router{
         return Router::getInstance();
     }
 
-    public static function getSession(){
+    public static function getSession() : Session{
         return Session::getInstance();
     }
 
-    public static function getCookie(){
+    public static function getCookie() : Cookie{
         return Cookie::getInstance();
     }
 
-    public static function getConfig(){
+    public static function getConfig() : Config{
         return Config::getInstance();
     }
 
-    public static function getRequest(){
+    public static function getRequest() : Request{
         return Request::getInstance();
     }
 
-    public static function getServer(){
+    public static function getServer() : Server{
         return Server::getInstance();
     }
 
-    public static function getQuery(){
+    public static function getQuery() : Query{
         return Query::getInstance();
     }
 
-    public static function getTranslations(){
+    public static function getTranslations() : Translations{
         return Translations::getInstance();
     }
 
-
-    //    public function getFileManager(){
+//    public function getFileManager(){
 //        if (is_null(self::$fileManager_instance)) {
 //            self::$fileManager_instance = new FileManager();
 //        }
@@ -178,7 +169,7 @@ class App
         exit;
     }
 
-    public static function notFound($messate = 'Erreur 404, la page demandé est introuvable !') {
+    public static function notFound($message = 'Erreur 404, la page demandé est introuvable !') {
         echo '<div class="alert alert-danger">' . $message . '</div>';
         header("HTTP/1.0 404 Not Found");
         exit;
@@ -244,21 +235,16 @@ class App
      *
      */
 
-    public function getModel($table){
+    public function getModel($table) : Model {
 
         $table = str_replace('Entity', '', $table);
 
         list($moduleName, $nomModel) = explode(':', $table);
 
-        if($moduleName == "App" OR $moduleName == "Core"){
-            $nomModel = ucfirst($nomModel) . 'Model';
-            $formClass = implode('\\', [$moduleName, 'Model', $nomModel]);
-        }else{
-            $nomModel = ucfirst($nomModel) . 'Model';
-            $formClass = implode('\\', ['Bundles', $moduleName, 'Model', $nomModel]);
-        }
+        $nomModel = ucfirst($nomModel) . 'Model';
+        $formClass = implode('\\', ['Bundles', ucfirst($moduleName), 'Model', $nomModel]);
 
-        return new $formClass( $this->getDb() );
+        return new $formClass( self::getDb() );
     }
 
     public static function getTable($table){
@@ -292,16 +278,8 @@ class App
      *
      */
 
-    public static function renderController($callable, $datas = '')
-    {
-        list($controller, $action) = explode('@', $callable);
-        list($bundle, $controllerName) = explode(':', $controller);
-
-        $classToCall = "bundles/" . $bundle . "/Controller/" . $controllerName;
-        $classToCall = str_replace("/", "\\", $classToCall);
-
-        $class = new $classToCall();
-        return $class->$action($datas);
+    public static function renderController($callable, $datas = []){
+        return self::getInstance()->getController()->renderController($callable, $datas);
     }
 
     public static function render($template, $params = []){
@@ -313,12 +291,7 @@ class App
     }
 
     public static function translate($key, $params = []) {
-        $translation = self::getTranslations();
-        if($key == 'all' || $key == '*'){
-            return $translation->all();
-        }
-
-        return $translation->get($key, $params);
+        return self::getTranslations()->get($key, $params);
     }
 
 
