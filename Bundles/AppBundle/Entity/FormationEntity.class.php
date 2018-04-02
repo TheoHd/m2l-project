@@ -17,6 +17,11 @@ class FormationEntity extends Entity {
     /**
      * @Type text
      */
+    protected $nom;
+
+    /**
+     * @Type text
+     */
     protected $contenu;
 
     /**
@@ -27,7 +32,7 @@ class FormationEntity extends Entity {
     /**
      * @Type datetime
      */
-    protected $fin;
+    protected $duree;
 
     /**
      * @Relation OneToOne
@@ -58,14 +63,17 @@ class FormationEntity extends Entity {
 
     public function getId() { return $this->id; }
 
+    public function getNom() { return $this->nom; }
+    public function setNom($nom) { $this->nom = $nom; return $this; }
+
     public function getContenu() { return $this->contenu; }
     public function setContenu($contenu) { $this->contenu = $contenu; return $this; }
 
     public function getDeb() { return $this->deb; }
     public function setDeb($deb) { $this->deb = $deb; return $this; }
 
-    public function getFin() { return $this->fin; }
-    public function setFin($fin) { $this->fin = $fin; return $this; }
+    public function getDuree() { return $this->duree; }
+    public function setDuree($duree) { $this->duree = $duree; return $this; }
 
     public function getPrestataire() { return $this->prestataire->get(); }
     public function setPrestataire($prestataire) { return $this->prestataire->set($prestataire); }

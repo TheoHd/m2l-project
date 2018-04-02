@@ -14,7 +14,7 @@ class LoginForm extends Form
 
     public function loginForm()
     {
-        $this->setAction('#')->setMethod('POST')->setFormId('loginForm');
+        $this->setAction('#')->setMethod('POST')->setFormName('loginForm');
         $this->email('email', 'Email :');
         $this->password('password', 'Mot de passe :');
         $this->checkbox('remember', 'Se souvenir de moi');
@@ -42,7 +42,7 @@ class LoginForm extends Form
 
     public function forgotPasswordForm()
     {
-        $this->setAction('#')->setMethod('POST')->setFormId('forgotPasswordForm');
+        $this->setAction('#')->setMethod('POST')->setFormName('forgotPasswordForm');
         $this->email('email', 'Saisir votre Adresse Email :');
         //$this->captcha();
         $this->submit('Réinitialiser mon mot de passe');
@@ -68,7 +68,7 @@ class LoginForm extends Form
 
     public function registerForm()
     {
-        $this->setAction('#')->setMethod('POST')->setFormId('registerForm');
+        $this->setAction('#')->setMethod('POST')->setFormName('registerForm');
         $this->text('nom', 'Nom :');
         $this->email('email', 'Email :');
         $this->password('password', 'Mot de passe :');
@@ -101,7 +101,7 @@ class LoginForm extends Form
 
     public function resetPasswordForm()
     {;
-        $this->setAction('#')->setMethod('POST')->setFormId('resetPasswordForm');
+        $this->setAction('#')->setMethod('POST')->setFormName('resetPasswordForm');
         $this->password('newPassword', 'Votre nouveau mot de passe :');
         $this->password('repeatPassword', 'Veuillez ressaisir votre nouveau mot de passe :');
         $this->submit("Enregistrer le nouveau mot de passe");

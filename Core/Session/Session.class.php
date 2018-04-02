@@ -38,11 +38,11 @@ class Session extends Singleton {
     }
 
     public static function success($message){
-        self::addFlash('success', "<div class='alert alert-success'>$message</div>");
+        self::addFlash('success', $message);
     }
 
     public static function error($message){
-        self::addFlash('error', "<div class='alert alert-danger'>$message</div>");
+        self::addFlash('error', $message);
     }
 
     public static function getSuccess(){

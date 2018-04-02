@@ -74,9 +74,9 @@ class Validation{
 
     public function isDate($nomChamp, $isRequired = true, $options = []){
         $result = $this->isRequired($nomChamp, $isRequired, $options);
-        if($result){
-            $result = $this->regexCompare($nomChamp, SELf::DATE_REGEX, $options);
-        }
+//        if($result){
+//            $result = $this->regexCompare($nomChamp, SELf::DATE_REGEX, $options);
+//        }
         return $this;
     }
 
@@ -156,7 +156,7 @@ class Validation{
 
 
 
-    public function isRequired($nomChamp, $isRequired, $options){
+    public function isRequired($nomChamp, $isRequired = true, $options = []){
         if(isset($this->data[$nomChamp])){
             $value = $this->data[$nomChamp];
         }else{
@@ -176,7 +176,7 @@ class Validation{
         return true;
     }
 
-    public function regexCompare($nomChamp, $RegexCompare, $options){
+    public function regexCompare($nomChamp, $RegexCompare, $options = []){
         $value = $this->data[$nomChamp];
         if(preg_match( $RegexCompare, $value) == false){
             if(isset($options['regexErrorMsg']) && !empty($options['regexErrorMsg'])) {

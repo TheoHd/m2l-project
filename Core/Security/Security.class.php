@@ -68,6 +68,11 @@ class Security extends Singleton {
         return $inst->roles[$roleName];
     }
 
+    public static function getRoles(){
+        $inst = self::getInstance();
+        return $inst->roles;
+    }
+
     public static function convertRolesToArray($roles){
         if( !empty((array) $roles) ){
             $values = explode(',', str_replace(['{', '}'], ['', ''], $roles));

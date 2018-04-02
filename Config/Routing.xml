@@ -2,8 +2,8 @@
 
     <route name="default_route">
         <url>/home</url>
-        <controller>FILE:</controller>
-        <action>test.php</action>
+        <controller>AppBundle/AppController</controller>
+        <action>indexAction</action>
     </route>
 
 </routes>

@@ -5,14 +5,14 @@
     <generateNewPasswordWhenForgot>false</generateNewPasswordWhenForgot>
 
 
-    <template_login>userBundle:form</template_login>
-    <template_register>UserBundle:form</template_register>
-    <template_forgot>UserBundle:form</template_forgot>
-    <template_reset>UserBundle:form</template_reset>
+    <template_login>AppBundle:user:login</template_login>
+    <template_register>AppBundle:user:register</template_register>
+    <template_forgot>AppBundle:user:forgot</template_forgot>
+    <template_reset>AppBundle:user:reset</template_reset>
 
 
-    <template_changePassword>UserBundle:form</template_changePassword>
-    <template_changeEmail>UserBundle:form</template_changeEmail>
+    <template_changePassword>AppBundle:user:changePassword</template_changePassword>
+    <template_changeEmail>AppBundle:user:changeEmail</template_changeEmail>
 
     <!--<template_login></template_login>-->
     <!--<template_login></template_login>-->

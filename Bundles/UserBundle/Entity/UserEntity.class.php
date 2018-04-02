@@ -9,10 +9,9 @@ use \Core\Entity\Entity;
 use Core\Security\Security;
 
 /**
- * @Entity lol
+ * @FormSubmitLabel Créer
  */
 class UserEntity extends Entity {
-
 
     /**
      * @Type identifier
@@ -40,6 +39,7 @@ class UserEntity extends Entity {
     /**
      * @Type array
      * @Default {"ROLE_EMPLOYE"}
+     * @FormLabel Roles :
      */
     protected $roles;
 
@@ -52,16 +52,20 @@ class UserEntity extends Entity {
     /**
      * @Type string
      * @Length 255
+     * @Nullable true
+     * @FormPlaceholder Numéro de téléphone...
      */
     protected $phone;
 
     /**
      * @Type integer
+     * @Nullable true
      */
     protected $nbJour;
 
     /**
      * @Type integer
+     * @Nullable true
      */
     protected $credits;
 
@@ -69,6 +73,7 @@ class UserEntity extends Entity {
      * @Relation OneToOne
      * @Target AppBundle:AdressEntity
      * @Nullable true
+     * @FormRelationMethod create
      */
     protected $adress;
 
@@ -157,5 +162,10 @@ class UserEntity extends Entity {
             }
         }
         return (isset($rolesList[ $role ]) AND !empty($rolesList[ $role ]));
+    }
+
+    public function __toString()
+    {
+        return $this->getNom() . ' <' . $this->getEmail() . '>';
     }
 }

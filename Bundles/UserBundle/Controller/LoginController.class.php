@@ -24,9 +24,9 @@ Class LoginController extends Controller {
             if( $form->isValid() ){
                 $data = $form->getData();
                 if( ! $auth->login($data['email'], $data['password'], $data['remember'] ) ){
-                    $auth->logout(); $form->error( App::translate('userBundle:error_invalidEmailOrPassword') );
+                    $auth->logout(); Session::error( App::translate('userBundle:error_invalidEmailOrPassword') );
                 }
-            }else{  $form->error( $form->getErrors() ); }
+            }else{  Session::error($form->getErrors()); }
         }
 
         if($auth->logged()){
@@ -98,7 +98,7 @@ Class LoginController extends Controller {
                        Session::success( App::translate('userBundle:success_verificationEmailSend') );
                        App::redirectToRoute('login');
                     }catch (Exception $e){
-                        $form->error( App::translate('userBundle:error_registrationFailed', [$mail->ErrorInfo]) );
+                        Session::error( App::translate('userBundle:error_registrationFailed', [$mail->ErrorInfo]) );
                     }
                 }else{
                     try {
@@ -115,11 +115,11 @@ Class LoginController extends Controller {
                        Session::success( App::translate('userBundle:success_registerSucceed') );
                        App::redirectToRoute('login');
                     }catch (Exception $e){
-                        $form->error(App::translate('userBundle:error_registrationFailed', [$mail->ErrorInfo]));
+                        Session::error(App::translate('userBundle:error_registrationFailed', [$mail->ErrorInfo]));
                     }
                 }
             } else {
-                $form->error( $form->getErrors() );
+                Session::error( $form->getErrors() );
             }
         }
 
@@ -204,7 +204,7 @@ Class LoginController extends Controller {
                         Session::success( App::translate('userBundle:success_newPasswordSend') );
                         App::redirectToRoute('login');
                     }catch (Exception $e){
-                        $form->error( App::translate('userBundle:error_emailSendingFailed', [$mail->ErrorInfo]) );
+                        Session::error( App::translate('userBundle:error_emailSendingFailed', [$mail->ErrorInfo]) );
                     }
                 }else{
                     list($token, $userId) = explode('-/-\-', $auth->generateAuthToken($user));
@@ -220,10 +220,10 @@ Class LoginController extends Controller {
                         Session::success( App::translate('userBundle:success_resetLinkSend') );
                         App::redirectToRoute('login');
                     }catch (Exception $e){
-                        $form->error(  App::translate('userBundle:error_emailSendingFailed', [$mail->ErrorInfo]) );
+                        Session::error(  App::translate('userBundle:error_emailSendingFailed', [$mail->ErrorInfo]) );
                     }
                 }
-            }else{ $form->error( $form->getErrors() ); }
+            }else{ Session::error( $form->getErrors() ); }
         }
 
         return $this->render( Config::get('userBundle:template_forgot') , [
@@ -267,7 +267,7 @@ Class LoginController extends Controller {
                     App::redirectToRoute('login');
 
                 }else{
-                    $form->error( $form->getErrors() );
+                    Session::error( $form->getErrors() );
                 }
             }
         }else{

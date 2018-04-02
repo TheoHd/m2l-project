@@ -14,7 +14,7 @@ class AccountForm extends Form
 
     public function changePasswordForm()
     {
-        $this->setAction('#')->setMethod('POST')->setFormId('changePasswordForm');
+        $this->setAction('#')->setMethod('POST')->setFormName('changePasswordForm');
         $this->password('oldPassword', 'Ancien Mot de passe :');
         $this->password('newPassword', 'Nouveau Mot de passe :');
         $this->password('repeatPassword', 'Retapez votre nouveau Mot de passe :');
@@ -37,7 +37,7 @@ class AccountForm extends Form
 
     public function changeEmailForm()
     {
-        $this->setAction('#')->setMethod('POST')->setFormId('changeEmailForm');
+        $this->setAction('#')->setMethod('POST')->setFormName('changeEmailForm');
         $this->email('oldEmail', 'Ancienne adresse email :', true, null, ['disabled' => 'disabled', 'class' => 'form-control']);
         $this->email('newEmail', 'Nouvelle adresse email :');
         $this->submit('Modifier mon adresse email');

@@ -52,4 +52,9 @@ class PrestataireEntity extends Entity {
     public function getAdress() { return $this->adress->get(); }
     public function setAdress($adress) { return $this->adress->set($adress); }
 
+    public function __toString()
+    {
+        return $this->getNom() . ' - ' . $this->getAdress();
+    }
+
 }

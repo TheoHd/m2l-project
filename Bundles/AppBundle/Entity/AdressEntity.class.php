@@ -29,6 +29,7 @@ class AdressEntity extends Entity {
     /**
      * @Type string
      * @Length 255
+     * @FormPlaceholder Code postal :
      */
     protected $postalCode;
 
@@ -59,5 +60,10 @@ class AdressEntity extends Entity {
 
     public function getCity() { return $this->city; }
     public function setCity($city) { $this->city = $city; return $this; }
+
+    public function __toString()
+    {
+        return $this->getNum() . ' ' . $this->getRue() . ' ' . $this->getPostalcode() . ', ' . $this->getCity();
+    }
 
 }

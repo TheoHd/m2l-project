@@ -53,10 +53,10 @@ Class AccountController extends Controller {
                 $mail->send();
 
                 $userManager->update($currentUser, ['password' => $auth->encryptPassword($data['newPassword'])]);
-                $form->success( App::translate('userBundle:success_passwordChanged') );
+                Session::success( App::translate('userBundle:success_passwordChanged') );
 
             }else{
-                $form->error( $form->getErrors() );
+                Session::error( $form->getErrors() );
             }
         }
 
@@ -83,7 +83,7 @@ Class AccountController extends Controller {
             if( $form->isValid() ){
 
             }else{
-                $form->error( $form->getErrors() );
+                Session::error( $form->getErrors() );
             }
         }
 
