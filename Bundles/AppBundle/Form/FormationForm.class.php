@@ -19,10 +19,11 @@ class FormationForm extends Form {
         $this->number('prerequis', 'Crédits :');
 
 
-//        $this->OneToMany('prestataire', 'Prestataire :', 'appBundle:prestataire');
-//        $this->ManyToMany('members', 'Salariés :', 'userBundle:user', ['roles' => '{ ROLE_USER }']);
+        $this->OneToOne('prestataire', 'Prestataire :', 'appBundle:prestataire');
+        //$this->OneToMany('members', 'Salariés :', 'userBundle:user', ['roles' => '{ ROLE_USER }']);
 
-        $this->addEntityForm('prestataire', 'appBundle:prestataire');
+        //$this->addEntityFormMultiple('prestataire', 'appBundle:prestataire');
+//        $this->addEntityForm('user', 'userBundle:user');
         //$this->addForm('appBundle:adressForm', 'new');
 
         $this->submit('Ajouter');

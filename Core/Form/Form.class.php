@@ -3,6 +3,7 @@
 namespace Core\Form;
 
 use App;
+use Core\ClassReader\ClassReader;
 
 class Form{
 
@@ -15,7 +16,7 @@ class Form{
 	protected $enctype = '';
 	protected $isIncludeForm = false;
 
-	protected $success = array(), $error = array(), $message = array(), $htmlFormConstructor = array(), $formScript = array();
+	protected $success = array(), $errors = array(), $messages = array(), $htmlFormConstructor = array(), $formScript = array();
 
     public function __construct($data = []){
 		$this->data = $data;
@@ -31,35 +32,47 @@ class Form{
 	}
 
     public function unsetData($index){
-        $value = $this->data;
-        if(isset($value[$index]) && !empty($value[$index])){
-            $this->data[$index] = '';
-        }
+        $index = strtolower($index);
+        $oldVal = $this->htmlFormConstructor[$index];
+        $newVal = str_replace('__'.strtoupper($index).'__', '', $oldVal);;
+        $this->htmlFormConstructor[$index] = $newVal;
         return $this;
     }
+
     public function clear(){
-        $data = $this->data;
-        foreach ($data as $k => $v){
-            $this->unsetData($k);
-        }
+        $this->data = null;
     }
 
     public function getDefaultData($index, $default = ""){
         $values = $this->data;
-        extract($values);
+        if(!is_null($values)){
+            extract($values);
+            $name = explode('[', $index)[0];
+            preg_match_all("/\[([a-z0-9]+)\]/", $index, $matches);
+            unset($matches[0]);
+            $matches = $matches[1];
 
-        $name = explode('[', $index)[0];
-
-        preg_match_all("/\[([a-z0-9]+)\]/", $index, $matches);
-        unset($matches[0]);
-        $matches = $matches[1];
-
-        $currentValue = $values[$name];
-        foreach ($matches as $k){
-            $currentValue = $currentValue[$k];
+            $currentValue = $values[$name];
+            foreach ($matches as $k){
+                if(isset($currentValue[$k])){
+                    $currentValue = $currentValue[$k];
+                }
+            }
+            return $currentValue;
+        }else{
+            return '';
         }
+    }
 
-        return $currentValue;
+    public function getData($selectedValue = array() ){
+        $values = $this->data;
+        $return = [];
+        foreach ($values as $k => $v) {
+            if(in_array($k , $selectedValue) || empty($selectedValue)){
+                $return[$k] = $v;
+            }
+        }
+        return $return;
     }
 
 	public function addFormScript($script){ $this->formScript[] = $script; }
@@ -78,24 +91,25 @@ class Form{
 	public function getEnctype(){ return $this->enctype; }
 
     public function getFormConstructor(){ return $this->htmlFormConstructor; }
-	public function success($value){ $this->success[] = $value; return $this; }
-    public function error($value){ $this->error[] = $value; return $this; }
     public function setData($name, $value){ $this->data[$name] = $value; return $this; }
-    public function injectData($value){ $this->data = $value; return $this; }
+
+    public function success($success){ $this->success[] = $success; return $this; }
+    public function error($error){ $this->errors[] = $error; return $this; }
+    public function message($message){ $this->messages[] = $message; return $this; }
+
+    public function getErrors(){ return $this->errors; }
+    public function getSuccess(){ return $this->success; }
+    public function getMessages(){ return $this->messages; }
+
     public function setValidation(Validation $validation){ $this->validation = $validation; return $this; }
     public function getValidation() : Validation{ return $this->validation; }
-    public function isValid(){ return $this->validation->isValid(); }
-    public function getData(){ return $this->validation->getData(); }
-    public function databaseInteraction($result, $error){ return $this->validation->databaseInteraction($result, $error); }
-    public function isEqual($champs1, $champs2, $error = 'default'){ return $this->validation->isEqual($champs1, $champs2, $error); }
 
-    public function getErrors(){ return $this->validation->getErrors(); }
-    public function getSuccess(){ return $this->success; }
-    public function getMessage(){ return $this->message; }
+    public function isValid(){ return $this->validation->isValid(); }
+    public function databaseInteraction($result, $error){ return $this->validation->databaseInteraction($result, $error); }
+    public function isEqual($champs1, $champs2, $error){ return $this->validation->isEqual($champs1, $champs2, $error); }
 
     private function registerElement($name, $returnElem){ $this->htmlFormConstructor[$name] = $returnElem; }
-    public function convertElementIdToName($elem)
-    {
+    public function convertElementIdToName($elem) {
         preg_match('/name="([^"]+)"/', $elem, $matches);
         $matches = $matches[1];
         return $matches;
@@ -104,6 +118,7 @@ class Form{
     public function getElementName($name){
         return strtolower($this->formName . '[' . $name . ']');
     }
+
     public function getElementId($name){
         if( !$this->isIncludeForm ) {
             return strtolower($this->formName . '_' . $name);
@@ -114,7 +129,6 @@ class Form{
     }
 
 	protected function addTextElement($name, $label, $isRequired, $value, $options, $typeElem ){
-
         $elemOption = "";
         foreach ($options as $k => $v){
             $elemOption .= $k.'="'.$v.'"';
@@ -123,7 +137,7 @@ class Form{
         $realName =  $this->getElementName($name);
         $id =  $this->getElementId($name);
 
-		$requiredElem = ($isRequired) ? 'required' : '' ;
+		$requiredElem = ($isRequired) ? 'arequired' : '' ; // TODO / REMOVE a
 		$asterisk = ($isRequired) ? '__REQUIRED__' : '' ;
 
 		$labelElem = ($label != '') ? '<label for="'. $id .'">'. $label . $asterisk .'</label>' : '' ;
@@ -143,7 +157,6 @@ class Form{
         $realName =  $this->getElementName($name);
         $id =  $this->getElementId($name);
 
-
 		$classElem = ($class != '') ? 'class="'.$class.'"' : '' ;
         $value = htmlentities($value);
         $returnElem = '<input type="submit" id="'.$id.'" name="'.$realName.'" '.$classElem.' value="'.$value.'">';
@@ -152,6 +165,11 @@ class Form{
 	}
 
 	protected function addCheckboxElement($name, $label, $isRequired, $value, $options){
+        $elemOption = '';
+        foreach ($options as $k => $v){
+            $elemOption .= $k . '="'.$v.'"';
+        }
+
         $realName =  $this->getElementName($name);
         $id =  $this->getElementId($name);
 
@@ -162,12 +180,17 @@ class Form{
 		$valueElem = ($value != '' && $value == true) ? "checked" : '' ;
 
 		$inputElem = '<input type="checkbox" name="'.$realName.'" id="'.$id.'" '.$valueElem.' '.$requiredElem.'>';
-		$returnElem = "<label for='$id'>$inputElem $label $asterisk</label>";
+		$returnElem = '<label '.$elemOption.' for="'.$id.'">'.$inputElem.' '.$label.' '.$asterisk.'</label>';
 
         $this->registerElement($id, $returnElem);
 	}
 
     protected function addRadioElement($name, $label, $values, $isRequired, $options){
+        $elemOption = '';
+        foreach ($options as $k => $v){
+            $elemOption .= $k . '="'.$v.'"';
+        }
+
         $realName =  $this->getElementName($name);
         $id =  $this->getElementId($name);
 
@@ -179,17 +202,16 @@ class Form{
 
 		foreach ($values as $k => $v) {
 			$checkedElem = ($value != '' && $value == $k) ? 'checked'  : '' ;
-			$returnElem .= '<label style="font-weight:normal;"><input type="radio" name="'.$realName.'" id="'.$id.'" value="'.$k.'" '.$checkedElem.' '.$requiredElem.'> '.$v.'</label><br>';
+			$returnElem .= '<label '.$elemOption.' style="font-weight:normal;"><input type="radio" name="'.$realName.'" id="'.$id.'" value="'.$k.'" '.$checkedElem.' '.$requiredElem.'> '.$v.'</label><br>';
 		}
 
         $this->registerElement($id, $returnElem);
 	}
 
 	protected function addSelectElement($name, $label, $values, $isRequired, $isMultiple, $options){
-
         $elemOption = '';
         foreach ($options as $k => $v){
-            $elemOption .= "$k='$v'";
+            $elemOption .= $k . '="'.$v.'"';
         }
 
         $realName =  $this->getElementName($name);
@@ -222,13 +244,17 @@ class Form{
 
     // Text input Form
 
-	public function text($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
-	    $this->addTextElement($name, $label, $isRequired, $value, $options, 'text'); return $this;
-	}
+    public function text($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
+        $this->addTextElement($name, $label, $isRequired, $value, $options, 'text'); return $this;
+    }
+
+    public function hidden($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
+        $this->addTextElement($name, $label, $isRequired, $value, $options, 'hidden'); return $this;
+    }
 
 	public function password($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
 	    $this->addTextElement($name, $label, $isRequired, $value, $options, 'password'); return $this;
-	} 
+	}
 
 	public function email($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
 	    $this->addTextElement($name, $label, $isRequired, $value, $options, 'email'); return $this;
@@ -242,10 +268,18 @@ class Form{
 	    $this->addTextElement($name, $label, $isRequired, $value, $options, 'tel'); return $this;
 	}
 
-	public function date($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
-		$options['pattern'] = "\d{4}-\d{2}-\d{2}"; $option['placeholder'] = "YYYY-MM-DD";
-		$this->addTextElement($name, $label, $isRequired, $value, $options, 'date'); return $this;
-	}
+    public function datetime($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
+        $this->addTextElement($name, $label, $isRequired, $value, $options, 'datetime'); return $this;
+    }
+
+    public function date($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
+        $options['pattern'] = "\d{4}-\d{2}-\d{2}"; $option['placeholder'] = "YYYY-MM-DD";
+        $this->addTextElement($name, $label, $isRequired, $value, $options, 'date'); return $this;
+    }
+
+    public function time($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
+        $this->addTextElement($name, $label, $isRequired, $value, $options, 'time'); return $this;
+    }
 
 	public function number($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
 	    $this->addTextElement($name, $label, $isRequired, $value, $options, 'number'); return $this;
@@ -378,6 +412,7 @@ class Form{
 
     public function addEntityForm($propertName, $relationTarget){
         $name = $this->getElementName($propertName);
+        $name .= "[0]";
         $form = new FormEntity($relationTarget, [], $name, true);
         $constructor = $form->getFormConstructor();
 
@@ -386,7 +421,11 @@ class Form{
         }
     }
 
-    public function addEntityFormMultiple($propertName, $relationTarget){
+    public function addEntityFormMultiple($propertName, $relationTarget, $labelBtnAdd = false, $labelBtnRemove = false){
+
+        if(!$labelBtnAdd){ $labelBtnAdd = "Ajouter : prestataire"; }
+        if(!$labelBtnRemove){ $labelBtnRemove = "Supprimer : prestataire __INDEX__"; }
+
         $name = $this->getElementName($propertName);
         $id = $this->getElementId($propertName);
 
@@ -395,48 +434,23 @@ class Form{
         $form = new FormEntity($relationTarget, [], $name, true);
         $constructor = $form->getFormConstructor();
 
-        $return = '<div class="form-group">';
+        $return = '<div class="group-form">';
         foreach($constructor as $k => $input){
             $return .= $input;
         }
         $return .= "</div>";
 
         $return = htmlentities($return);
-        $template = "<button  class='btn btn-primary form-duplicate-btn' data-containerClass='$propertName-elements' data-containerName='$propertName-element-' data-prototype='$return'>Ajouter une adresse</button>";
-        $script = "<script>
-
-    $(document).ready(function(){
-        let count = 0;
-        $('.form-duplicate-btn').click(function(e){
-           e.preventDefault();
-           
-           let template = $(this).attr('data-prototype');
-           let containerName = $(this).attr('data-containerName');
-           let className = $(this).attr('data-containerClass');
-           
-           let button = \"<button class='btn btn-danger form-remove-btn' data-target='\" + containerName + count + \"'>Supprimer l'adresse</button><br><br>\"; 
-           
-           template = \"<div class='\" + className + \"' id='\" + containerName + count + \"'>\" + template + button + \"</div>\";
-           template = template.replace(/__index__/gi, count);
-           
-           $(this).before(template);
-           
-           count++;
-        });
-        
-        $(document).on('click', '.form-remove-btn', function(e){
-            e.preventDefault();
-            
-            let target = $(this).attr('data-target');
-            console.log(target);
-            $('#'+target).remove();
-        });
-    });
-
-                    </script>";
+        $template = '<button  class="btn btn-primary form-duplicate-btn" data-containerClass="'.$propertName.'-elements" data-containerName="'.$propertName.'-element-" data-prototype="'.$return.'" data-labelBtnRemove="'.$labelBtnRemove.'">'.$labelBtnAdd.'</button>';
+        $script = " <script> $(document).ready(function(){ let count = 0; $(document).on('click', '.form-duplicate-btn', function(e){ e.preventDefault(); let template = $(this).attr('data-prototype');    let containerName = $(this).attr('data-containerName');    let className = $(this).attr('data-containerClass');    let labelBtnRemove = $(this).attr('data-labelBtnRemove'); let button = \"<button class='btn btn-danger form-remove-btn' data-target='\" + containerName + count + \"'>\" + labelBtnRemove + \"</button><br><br>\";  template = \"<div class='\" + className + \"' id='\" + containerName + count + \"'>\" + template + button + \"</div>\";    template = template.replace(/__index__/gi, count); $(this).before(template); count++; }); $(document).on('click', '.form-remove-btn', function(e){ e.preventDefault(); let target = $(this).attr('data-target'); console.log(target); $('#'+target).remove(); }); }); </script>";
 
         $this->addFormScript($script);
+        $this->htmlFormConstructor[$id] = $template;
+    }
 
-        $this->htmlFormConstructor[] = $template;
+
+    public function inject($entity){
+        $data = new FormEntityInjection($entity);
+        $this->data[ $this->getFormName() ] = $data->getData();
     }
 }

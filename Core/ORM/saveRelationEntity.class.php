@@ -6,6 +6,7 @@ use App;
 use Core\ClassReader\ClassReader;
 use Core\ClassReader\EntityRelationReader;
 use Core\Collection\OneToOneCollection;
+use Core\Entity\Entity;
 
 class saveRelationEntity extends ClassReader {
 
@@ -35,7 +36,7 @@ class saveRelationEntity extends ClassReader {
         }
     }
 
-    public function oneToOneMethod($variable, $entityRelation, $entity){
+    public function oneToOneMethod($variable, $entityRelation, Entity $entity){
 
         $relationEntityModel = str_replace('Entity', '', $entityRelation);
         $method = "get" . ucfirst( $variable );
@@ -63,7 +64,7 @@ class saveRelationEntity extends ClassReader {
         }
     }
 
-    public function oneToManyMethod($variable, $entityRelation, $entity){
+    public function oneToManyMethod($variable, $entityRelation, Entity $entity){
 
         $tableList = $this->db->getTableList();
 
@@ -87,12 +88,12 @@ class saveRelationEntity extends ClassReader {
 
                     if ($relationEntity->getId() == null) {
 //                    var_dump('Entity has been added');
-                        $result = App::getTable($modelpath)->addNewEntity($relationEntity)->save($this->debug);
+                        App::getTable($modelpath)->addNewEntity($relationEntity)->save($this->debug);
                         $lastId = $this->db->lastInsertId();
                     } else {
                         if ($relationEntity->hasBeenChanged()) {
 //                        var_dump('Entity has been modified');
-                            $result = App::getTable($modelpath)->addUpdateEntity($relationEntity)->save($this->debug);
+                            App::getTable($modelpath)->addUpdateEntity($relationEntity)->save($this->debug);
                         } else {
 //                        var_dump('Entity has been set');
                         }
@@ -126,7 +127,6 @@ class saveRelationEntity extends ClassReader {
             if($savedEntityId){
                 $this->db->getPDO()->query($query);
             }
-            var_dump($query);
         }
     }
 

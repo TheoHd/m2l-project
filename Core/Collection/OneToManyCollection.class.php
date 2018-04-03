@@ -13,6 +13,7 @@ class OneToManyCollection{
 
     private $elementToAdd;
     private $elementToRemove;
+    private $dbElements;
 
     public function __construct($propertyName, $parentElement) {
         $this->className = get_class($parentElement);
@@ -31,10 +32,6 @@ class OneToManyCollection{
         $this->elements = $data;
         $this->dbElements = $data;
     }
-
-
-
-
 
     public function add($element) {
         $this->loadElementFromDatabase();
@@ -97,6 +94,7 @@ class OneToManyCollection{
 
     public function getElementsId(){
         if($this->elements != null){
+            $return = [];
             foreach ($this->elements as $e){
                 $return[] = $e->getId();
             }
@@ -108,6 +106,7 @@ class OneToManyCollection{
 
     public function getDatabaseElementsId(){
         if($this->dbElements != null){
+            $return = [];
             foreach ($this->dbElements as $e){
                 $return[] = $e->getId();
             }
@@ -187,7 +186,7 @@ class OneToManyCollection{
     }
 
     public function __debugInfo() {
-        return ['elements' => $this->elements] ?? ['elements' => 'null'];
+        return $this->element ?? ['element' => 'null'];
     }
 
 }

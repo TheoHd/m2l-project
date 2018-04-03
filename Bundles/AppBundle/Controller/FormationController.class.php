@@ -2,9 +2,11 @@
 
 namespace Bundles\AppBundle\Controller;
 
+use App;
 use Bundles\AppBundle\Form\FormEntity;
 use Core\Controller\Controller;
 use Core\Form\Form;
+use Core\Form\FormEntityTraitement;
 use Core\Request\Request;
 
 Class FormationController extends Controller {
@@ -41,20 +43,9 @@ Class FormationController extends Controller {
      * @RouteUrl /formation/add
      */
     public function addAction(){
-        $form = $this->getForm('appBundle:formationForm', 'new', $_POST);
 
-        $entity = \App::getTable('userBundle:user')->findById(4);
-//        $form = new \Core\Form\FormEntity('userBundle:user', Request::all());
-
-        if( $this->request->is('post') ){
-//            if($form->isValid()){
-//                var_dump("ok");
-//            }else{
-//                $form->error( $form->getErrors() );
-//            }
-        }
-
-        $this->render('userBundle:form', [
+        $form = $this->getEntityForm("appBundle:formation", Request::all());
+        $this->render('appBundle:form', [
             'form' => $form->render()
         ]);
     }

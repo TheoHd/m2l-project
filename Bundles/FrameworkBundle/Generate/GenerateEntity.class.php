@@ -15,6 +15,7 @@ class GenerateEntity extends Generate {
         $methods = $inst->generateEntitesMethods($properties);
 
         $inst->createEntityClass($entityName, $bundleName, $annotations, $constructor, $methods);
+        $inst->createModelClass($entityName, $bundleName);
     }
 
     public function generateEntitesMethods($properties){
@@ -112,8 +113,24 @@ class GenerateEntity extends Generate {
         return $this->createFile($fileName, $content);
     }
 
+    protected function createModelClass( $entityName, $bundleName ){
+        $folder = $this->path . "/" . $bundleName . "/Model";
+        $modelName = str_ireplace('Entity', 'Model', $entityName);
+        if( ! is_dir($folder) ){ mkdir($folder); }
+        $fileName = $folder . "/" . $modelName . ".class.php";
+        $find = ["%%BUNDLE_NAME%%", "%%MODEL_NAME%%"];
+        $replace = [$bundleName, $modelName];
+        $content = $this->insertInfoInClass( $find, $replace, $this->getTemplateFile("Model.txt") );
+        return $this->createFile($fileName, $content);
+    }
+
     public static function delete($bundleName, $entityName){
         $link = ROOT . "/Bundles/" . $bundleName . "/Entity/" . $entityName . ".class.php";
+        if(file_exists($link)){
+            unlink($link);
+        }
+        $modelName = str_ireplace('Entity', 'Model', $entityName);
+        $link = ROOT . "/Bundles/" . $bundleName . "/Model/" . $modelName . ".class.php";
         if(file_exists($link)){
             unlink($link);
         }

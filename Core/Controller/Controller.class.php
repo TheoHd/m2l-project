@@ -2,7 +2,10 @@
 
 namespace Core\Controller;
 use \App;
+use Core\Entity\Entity;
 use Core\Form\Form;
+use Core\Form\FormEntity;
+use Core\Form\FormEntityTraitement;
 use Core\Singleton\Singleton;
 
 //class Controller extends Singleton {
@@ -138,6 +141,25 @@ class Controller {
         $class = new $formClass($datas);
 
         return $class->$method();
+    }
+
+    public function getEntityForm( $entityName, $requestData , $successMsg = 'Données ajoutées !' ) : FormEntity {
+
+        $form = new FormEntity($entityName);
+
+        if( $this->request->is('post') ){
+            if( $form->isValid() ){
+                $traitement = new FormEntityTraitement($entityName, $requestData );
+                if($traitement){
+                    $form->clear();
+                    $form->success($successMsg);
+                }
+//            }else{
+                // Erreur
+            }
+        }
+
+        return $form;
     }
 
 }

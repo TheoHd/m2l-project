@@ -1,0 +1,13 @@
+<?php
+
+namespace Bundles\%%BUNDLE_NAME%%\Model;
+
+use Core\Collection\OneToManyCollection;
+use Core\Collection\OneToOneCollection;
+use \Core\Model\Model;
+
+class %%MODEL_NAME%% extends Model {
+
+
+
+}

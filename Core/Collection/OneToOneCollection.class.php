@@ -41,7 +41,7 @@ class OneToOneCollection{
     }
 
     public function __debugInfo() {
-        return ['element' => $this->element] ?? ['element' => 'null'];
+        return [$this->element] ?? ['element' => 'null'];
     }
 
     public function __toString() {

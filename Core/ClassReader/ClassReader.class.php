@@ -75,6 +75,7 @@ class ClassReader{
         $propertiesComment = $this->propertiesReader();
         $regex = $this->classReaderRegex;
 
+        $return = [];
         foreach ($propertiesComment as $propertyName => $propertyDoc) {
             if(preg_match_all($regex, $propertyDoc, $docElements)) {
                 unset($docElements[0]);

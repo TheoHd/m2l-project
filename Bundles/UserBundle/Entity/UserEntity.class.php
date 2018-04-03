@@ -9,7 +9,7 @@ use \Core\Entity\Entity;
 use Core\Security\Security;
 
 /**
- * @FormSubmitLabel Créer
+ * @FormBtnLabel Valider
  */
 class UserEntity extends Entity {
 
@@ -38,7 +38,8 @@ class UserEntity extends Entity {
 
     /**
      * @Type array
-     * @Default {"ROLE_EMPLOYE"}
+     * @Default {"ROLE_EMPLOYE":"ROLE_EMPLOYE"}
+     * @Nullable true
      * @FormLabel Roles :
      */
     protected $roles;
@@ -70,10 +71,10 @@ class UserEntity extends Entity {
     protected $credits;
 
     /**
-     * @Relation OneToMany
+     * @Relation OneToOne
      * @Target AppBundle:AdressEntity
      * @Nullable true
-     * @FormRelationType create
+     * @FormRelationType select
      */
     protected $adress;
 
@@ -116,53 +117,16 @@ class UserEntity extends Entity {
     public function getAdress() { return $this->adress->get(); }
     public function setAdress($adress) { return $this->adress->set($adress); }
 
+//    public function addAdress($adress) { return $this->adress->add($adress); }
+//    public function removeAdress($adress) { return $this->adress->remove($adress); }
+//    public function getAdress() { return $this->adress->instance(); }
 
-    public function getRoles() {
-        return $this->roles;
-    }
 
-    public function addRole($roles) {
-        if( is_array($roles) ){
-            $res = Security::convertRolesToArray($this->roles);
-            foreach ($roles as $role){
-                $res[$role] = $role;
-            }
-        }else{
-            $res = Security::convertRolesToArray($this->roles);
-            $res[$roles] = $roles;
-        }
-
-        $this->roles = '{ ' . implode(', ', $res) . ' }';
-        return $this;
-    }
-
-    public function removeRole($roles) {
-        if( is_array($roles) ){
-            $res = Security::convertRolesToArray($this->roles);
-            foreach ($roles as $role){
-                unset($res[$role]);
-            }
-        }else{
-            $res = Security::convertRolesToArray($this->roles);
-            unset($res[$roles]);
-        }
-        $this->roles = '{ ' . implode(', ', $res) . ' }';
-        return $this;
-    }
-
-    public function hasRole($role) {
-        $rolesList = Security::convertRolesToArray($this->roles);
-        foreach ($rolesList as $value){
-            $childRoles = Security::getInstance()->getChildRoles( trim($value) );
-            if($childRoles){
-                foreach ($childRoles as $childRole){
-                    $childRole = trim($childRole);
-                    $rolesList[ $childRole ] = $childRole;
-                }
-            }
-        }
-        return (isset($rolesList[ $role ]) AND !empty($rolesList[ $role ]));
-    }
+    public function getRoles() { return $this->roles; }
+    public function addRole($roles) { $this->roles = Security::addRole($this->roles, $roles); }
+    public function setRoles($roles) { $this->roles = Security::setRoles($this->roles, $roles); }
+    public function removeRole($roles) { $this->roles = Security::removeRole($this->roles, $roles); }
+    public function hasRole($role) { return Security::hasRole($this->roles, $role); }
 
     public function __toString()
     {

@@ -11,26 +11,43 @@ class FormRenderer{
     public $beforeSurround = "<div class='form-group'>";
     public $afterSurround = "</div>";
     public $requiredElem = '<sup style="color:red">*</sup>';
+    protected $success, $error, $messages;
 
     public function __construct(Form $form)
     {
         $this->form = $form;
         $this->constructor = $form->getFormConstructor();
         $this->defaultConstructor = $form->getFormConstructor();
+
+        $this->success = $form->getSuccess();
+        $this->error = $form->getErrors();
+        $this->messages = $form->getMessages();
     }
 
+    public function success(){
+        if( !empty($this->success) ){
+            $return =  "<div class='alert alert-success'>".implode('<br>', $this->success)."</div>";
+            unset($this->success);
+            return $return;
+        }
+        return '';
+    }
 
-//    public function prender(){
-//        $form = $this->form;
-//
-//        $htmlFormRendered = '';
-//        if( !empty($form->getErrors()) ){ $htmlFormRendered = "<div class='alert alert-danger'>".implode(PHP_EOL, $form->getErrors())."</div>"; }
-//        if( !empty($form->getSuccess()) ){ $htmlFormRendered = "<div class='alert alert-success'>".implode(PHP_EOL, $form->getSuccess())."</div>"; }
-//        if( !empty($form->getMessage()) ){ $htmlFormRendered = $form->getMessage(); }
-//
-//
-//        return $htmlFormRendered;
-//    }
+    public function error(){
+        if( !empty($this->error) ){
+           $return = "<div class='alert alert-danger'>".implode('<br>', $this->error)."</div>";
+           unset($this->error);
+           return $return;
+        }
+        return '';
+    }
+
+    public function message(){
+        if( !empty($this->error) ) {
+            return implode(PHP_EOL, $this->messages);
+        }
+        return '';
+    }
 
     public function getAll(){
 
@@ -95,7 +112,7 @@ class FormRenderer{
 
     public function __toString()
     {
-        return $this->start() . $this->end() . $this->loadScripts();
+        return $this->success() . $this->error() . $this->message() . $this->start() . $this->end() . $this->loadScripts();
     }
 
 }

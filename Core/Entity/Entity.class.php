@@ -15,6 +15,8 @@ class Entity{
         //$this->originalDataHash = $this->dataHash();
     }
 
+    public function getId(){ return $this->id; }
+
     protected function dataHash(){
         $vars = $this->getEntityVars();
         if( !empty($vars) ) {
