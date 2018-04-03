@@ -43,7 +43,8 @@ class FormEntity extends Form {
             $relationType = (isset($propertyAnnotation['relation']) && !empty($propertyAnnotation['relation'])) ? $propertyAnnotation['relation'] : false;
             $relationTarget = (isset($propertyAnnotation['target']) && !empty($propertyAnnotation['target'])) ? $propertyAnnotation['target'] : false;
             $isRequired = (isset($propertyAnnotation['nullable']) && $propertyAnnotation['nullable'] == 'true') ? false : true ;
-            $isRequired = false;
+
+            $isRequired = false; // TODO : à supprimer
 
             $formLabel = (isset($propertyAnnotation['formlabel']) && !empty($propertyAnnotation['formlabel'])) ? $propertyAnnotation['formlabel'] : $propertName ;
             $formType = (isset($propertyAnnotation['formType']) && !empty($propertyAnnotation['formType'])) ? $propertyAnnotation['formType'] : $type ;
@@ -52,13 +53,16 @@ class FormEntity extends Form {
             if($type){
                 $this->generateInput($formType, $formLabel, $propertName, $isRequired, $placeholder);
             }elseif($relationType){
-                $formRelationMethod = (isset($propertyAnnotation['formrelationmethod']) && !empty($propertyAnnotation['formrelationmethod'])) ? $propertyAnnotation['formrelationmethod'] : 'select' ;
+                $formRelationMethod = (isset($propertyAnnotation['formrelationtype']) && !empty($propertyAnnotation['formrelationtype'])) ? $propertyAnnotation['formrelationtype'] : 'select' ;
                 $this->generateRelationInput($relationType, $relationTarget, $formRelationMethod, $formLabel, $propertName, $isRequired);
             }
         }
 
         $submitLabel = (isset($classAnnotation['formsubmitlabel']) && !empty($classAnnotation['formsubmitlabel'])) ? $classAnnotation['formsubmitlabel'] : 'Create' ;
-        $this->submit($submitLabel);
+
+        if( !$this->isIncludeForm ){
+            $this->submit($submitLabel);
+        }
     }
 
     private function generateInput($type, $formLabel, $propertName, $isRequired, $placeholder){

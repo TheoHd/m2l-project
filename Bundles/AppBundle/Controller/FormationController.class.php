@@ -41,18 +41,17 @@ Class FormationController extends Controller {
      * @RouteUrl /formation/add
      */
     public function addAction(){
-//        $form = $this->getForm('appBundle:formationForm', 'new', $_POST);
+        $form = $this->getForm('appBundle:formationForm', 'new', $_POST);
 
         $entity = \App::getTable('userBundle:user')->findById(4);
-        $form = new \Core\Form\FormEntity('userBundle:user');
+//        $form = new \Core\Form\FormEntity('userBundle:user', Request::all());
 
         if( $this->request->is('post') ){
-            var_dump(Request::all());
-            if($form->isValid()){
-                var_dump("ok");
-            }else{
-                $form->error( $form->getErrors() );
-            }
+//            if($form->isValid()){
+//                var_dump("ok");
+//            }else{
+//                $form->error( $form->getErrors() );
+//            }
         }
 
         $this->render('userBundle:form', [

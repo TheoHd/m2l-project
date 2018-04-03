@@ -30,14 +30,6 @@ class Form{
         return new FormRenderer( $this );
 	}
 
-    public function getDefaultData($index, $default = ""){
-        $value = $this->data;
-        if(isset($value[$index]) && !empty($value[$index])){
-            return $value[$index];
-        }
-        return $default;
-    }
-
     public function unsetData($index){
         $value = $this->data;
         if(isset($value[$index]) && !empty($value[$index])){
@@ -50,6 +42,24 @@ class Form{
         foreach ($data as $k => $v){
             $this->unsetData($k);
         }
+    }
+
+    public function getDefaultData($index, $default = ""){
+        $values = $this->data;
+        extract($values);
+
+        $name = explode('[', $index)[0];
+
+        preg_match_all("/\[([a-z0-9]+)\]/", $index, $matches);
+        unset($matches[0]);
+        $matches = $matches[1];
+
+        $currentValue = $values[$name];
+        foreach ($matches as $k){
+            $currentValue = $currentValue[$k];
+        }
+
+        return $currentValue;
     }
 
 	public function addFormScript($script){ $this->formScript[] = $script; }
@@ -84,6 +94,12 @@ class Form{
     public function getMessage(){ return $this->message; }
 
     private function registerElement($name, $returnElem){ $this->htmlFormConstructor[$name] = $returnElem; }
+    public function convertElementIdToName($elem)
+    {
+        preg_match('/name="([^"]+)"/', $elem, $matches);
+        $matches = $matches[1];
+        return $matches;
+    }
 
     public function getElementName($name){
         return strtolower($this->formName . '[' . $name . ']');
@@ -101,7 +117,7 @@ class Form{
 
         $elemOption = "";
         foreach ($options as $k => $v){
-            $elemOption .= "$k='$v'";
+            $elemOption .= $k.'="'.$v.'"';
         }
 
         $realName =  $this->getElementName($name);
@@ -110,14 +126,14 @@ class Form{
 		$requiredElem = ($isRequired) ? 'required' : '' ;
 		$asterisk = ($isRequired) ? '__REQUIRED__' : '' ;
 
-		$labelElem = ($label != '') ? "<label for='$id'>$label $asterisk</label>" : '' ;
+		$labelElem = ($label != '') ? '<label for="'. $id .'">'. $label . $asterisk .'</label>' : '' ;
 
 		if($typeElem == 'textarea'){
             $valueElem = ($value != '') ? "$value" : 'default-"__'.strtoupper($id).'__"' ;
-			$returnElem = $labelElem . "<textarea $elemOption name='$realName' id='$id' $requiredElem $options>$valueElem</textarea>";
+			$returnElem = $labelElem . '<textarea '.$elemOption.' name="'.$realName.'" id="'.$id.'" '.$requiredElem.' '.$elemOption.'>'.$valueElem.'</textarea>';
 		}else{
-            $valueElem = ($value != '') ? "value='$value'" : 'data-default="__'.strtoupper($id).'__"' ;
-			$returnElem = $labelElem . "<input $elemOption type='$typeElem' name='$realName' id='$id' $valueElem $requiredElem $options>";
+            $valueElem = ($value != '') ? 'value="$value"' : 'data-default="__'.strtoupper($id).'__"' ;
+			$returnElem = $labelElem . '<input type="'.$typeElem.'" name="'.$realName.'" id="'.$id.'" '.$valueElem.' '.$requiredElem.' '.$elemOption.'>';
 		}
 
         $this->registerElement($id, $returnElem);
@@ -128,7 +144,7 @@ class Form{
         $id =  $this->getElementId($name);
 
 
-		$classElem = ($class != '') ? "class='$class'" : "" ;
+		$classElem = ($class != '') ? 'class="'.$class.'"' : '' ;
         $value = htmlentities($value);
         $returnElem = '<input type="submit" id="'.$id.'" name="'.$realName.'" '.$classElem.' value="'.$value.'">';
 
@@ -136,37 +152,37 @@ class Form{
 	}
 
 	protected function addCheckboxElement($name, $label, $isRequired, $value, $options){
-//        $id =  strtolower($this->formName . '_' . "$name");
-//        $name = strtolower($this->formName . "[$name]");
+        $realName =  $this->getElementName($name);
+        $id =  $this->getElementId($name);
 
 		$requiredElem = ($isRequired) ? 'required' : '' ;
 		$asterisk = ($isRequired) ? '__REQUIRED__' : '' ;
 
-		$value = $this->getDefaultData($name, $value);
+		$value = $this->getDefaultData($realName, $value);
 		$valueElem = ($value != '' && $value == true) ? "checked" : '' ;
 
-		$inputElem = "<input type='checkbox' name='$name' id='$id' $valueElem $requiredElem>";
+		$inputElem = '<input type="checkbox" name="'.$realName.'" id="'.$id.'" '.$valueElem.' '.$requiredElem.'>';
 		$returnElem = "<label for='$id'>$inputElem $label $asterisk</label>";
 
-        $this->registerElement($name, $returnElem);
+        $this->registerElement($id, $returnElem);
 	}
 
     protected function addRadioElement($name, $label, $values, $isRequired, $options){
-//        $id =  strtolower($this->formName . '_' . "$name");
-//        $name = strtolower($this->formName . "[$name]");
+        $realName =  $this->getElementName($name);
+        $id =  $this->getElementId($name);
 
 		$requiredElem = ($isRequired) ? 'required' : '' ;
 		$asterisk = ($isRequired) ? '__REQUIRED__' : '' ;
 
-		$returnElem = ($label != '') ? "<label for='$id'>$label $asterisk</label><br>" : '' ;
-		$value = $this->getDefaultData($name);
+		$returnElem = ($label != '') ? '<label for="'.$id.'">'.$label.' '.$asterisk.'</label><br>' : '' ;
+		$value = $this->getDefaultData($realName);
 
 		foreach ($values as $k => $v) {
 			$checkedElem = ($value != '' && $value == $k) ? 'checked'  : '' ;
-			$returnElem .= "<label style='font-weight:normal;'><input type='radio' name='$name' id='$id' value='$k' $checkedElem $requiredElem> $v</label><br>";
+			$returnElem .= '<label style="font-weight:normal;"><input type="radio" name="'.$realName.'" id="'.$id.'" value="'.$k.'" '.$checkedElem.' '.$requiredElem.'> '.$v.'</label><br>';
 		}
 
-        $this->registerElement($name, $returnElem);
+        $this->registerElement($id, $returnElem);
 	}
 
 	protected function addSelectElement($name, $label, $values, $isRequired, $isMultiple, $options){
@@ -176,35 +192,32 @@ class Form{
             $elemOption .= "$k='$v'";
         }
 
-        $realName = $name;
-//        $id =  strtolower($this->formName . '_' . "$name");
-//        $name = strtolower($this->formName . "[$name]");
+        $realName =  $this->getElementName($name);
+        $id =  $this->getElementId($name);
 
-        if($isMultiple){ $name = $name . "[]"; }
+        if($isMultiple){ $realName = $realName . "[]"; }
 
 		$requiredElem = ($isRequired) ? 'required' : '' ;
 		$multipleElem = ($isMultiple) ? 'multiple' : '' ;
 		$asterisk = ($isRequired) ? '__REQUIRED__' : '' ;
 
-		$returnElem = ($label != '') ? "<label for='$id'>$label $asterisk</label> " : '' ;
-        $r = str_replace('[]', '', $realName);
-		$value = $this->getDefaultData( strtolower($this->formName) );
-		if(isset($value[$r])){
-		    $value = $value[$r];
-        }else{ $value = []; }
+        $returnElem = ($label != '') ? '<label for="'.$id.'">'.$label.' '.$asterisk.'</label><br>' : '' ;
 
-		$returnElem .= "<select $elemOption name='$name' id='$id' $multipleElem class='custom-select'>";
+        $r = str_replace('[]', '', $realName);
+		$value = $this->getDefaultData( $r );
+
+		$returnElem .= '<select '.$elemOption.' name="'.$realName.'" id="'.$id.'" '.$multipleElem.' class="custom-select">';
 		foreach ($values as $k => $v) {
             if(is_array($value)){
                 if(in_array($k, $value)){
                     $selectedElem = 'selected';
                 }else{ $selectedElem = ''; }
             }else{ $selectedElem = ($value != '' && $value == $k) ? 'selected'  : '' ; }
-			$returnElem .= "<option value='$k' $requiredElem $selectedElem>$v</option>";
+			$returnElem .= '<option value="'.$k.'" '.$requiredElem.' '.$selectedElem.'>'.$v.'</option>';
 		}
 		$returnElem .= '</select>';
 
-        $this->registerElement($name, $returnElem);
+        $this->registerElement($id, $returnElem);
 	}
 
     // Text input Form
@@ -271,12 +284,12 @@ class Form{
         $this->radio($name, $label, ['true' => "Oui", 'false' => "Non"], $isRequired, $options); return $this;
     }
 
-	public function submit($value = 'Envoyer', $name = 'submit', $class = 'btn-primary', $inline = true){
-		$this->addBtnElement($name, $value, 'btn '.$class, $inline); return $this;
+	public function submit($value = 'Envoyer', $name = 'submit', $class = 'btn-primary'){
+		$this->addBtnElement($name, $value, 'btn '.$class); return $this;
 	}
 
-	public function cancel($value = 'Annuler', $name = 'cancel', $class = 'btn-danger', $inline = true){ 
-		$this->addBtnElement($name, $value, 'btn '.$class, $inline); return $this;
+	public function cancel($value = 'Annuler', $name = 'cancel', $class = 'btn-danger'){
+		$this->addBtnElement($name, $value, 'btn '.$class); return $this;
 	}
 
 
@@ -367,19 +380,63 @@ class Form{
         $name = $this->getElementName($propertName);
         $form = new FormEntity($relationTarget, [], $name, true);
         $constructor = $form->getFormConstructor();
+
         foreach($constructor as $k => $input){
-            $this->htmlFormConstructor[$k] = $input;
+            $this->htmlFormConstructor[$k] = ($input);
         }
     }
 
     public function addEntityFormMultiple($propertName, $relationTarget){
         $name = $this->getElementName($propertName);
-        $name .= "[%%INDEX%%]";
+        $id = $this->getElementId($propertName);
+
+        $name .= "[__INDEX__]";
+
         $form = new FormEntity($relationTarget, [], $name, true);
         $constructor = $form->getFormConstructor();
-        foreach($constructor as $k => $input){
-            $this->htmlFormConstructor[$k] = $input;
-        }
-    }
 
+        $return = '<div class="form-group">';
+        foreach($constructor as $k => $input){
+            $return .= $input;
+        }
+        $return .= "</div>";
+
+        $return = htmlentities($return);
+        $template = "<button  class='btn btn-primary form-duplicate-btn' data-containerClass='$propertName-elements' data-containerName='$propertName-element-' data-prototype='$return'>Ajouter une adresse</button>";
+        $script = "<script>
+
+    $(document).ready(function(){
+        let count = 0;
+        $('.form-duplicate-btn').click(function(e){
+           e.preventDefault();
+           
+           let template = $(this).attr('data-prototype');
+           let containerName = $(this).attr('data-containerName');
+           let className = $(this).attr('data-containerClass');
+           
+           let button = \"<button class='btn btn-danger form-remove-btn' data-target='\" + containerName + count + \"'>Supprimer l'adresse</button><br><br>\"; 
+           
+           template = \"<div class='\" + className + \"' id='\" + containerName + count + \"'>\" + template + button + \"</div>\";
+           template = template.replace(/__index__/gi, count);
+           
+           $(this).before(template);
+           
+           count++;
+        });
+        
+        $(document).on('click', '.form-remove-btn', function(e){
+            e.preventDefault();
+            
+            let target = $(this).attr('data-target');
+            console.log(target);
+            $('#'+target).remove();
+        });
+    });
+
+                    </script>";
+
+        $this->addFormScript($script);
+
+        $this->htmlFormConstructor[] = $template;
+    }
 }

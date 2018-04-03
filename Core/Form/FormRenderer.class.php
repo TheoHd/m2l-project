@@ -84,7 +84,8 @@ class FormRenderer{
         $form = $this->form;
         $elem = $this->constructor[$index];
 
-        $value = $form->getDefaultData($index);
+        $name = $form->convertElementIdToName($elem);
+        $value = $form->getDefaultData($name);
         $elem = str_ireplace('data-default="__'.strtoupper($index).'__"', 'value="'.$value.'"', $elem);
         $elem = str_ireplace('default-"__'.strtoupper($index).'__"', $value, $elem);
         $elem = str_ireplace('__REQUIRED__', $this->requiredElem, $elem);

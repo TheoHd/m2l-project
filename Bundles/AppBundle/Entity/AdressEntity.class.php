@@ -39,10 +39,6 @@ class AdressEntity extends Entity {
      */
     protected $city;
 
-    public function __construct()
-    {
-    }
-
     /*
      * Getters and Setters
      */

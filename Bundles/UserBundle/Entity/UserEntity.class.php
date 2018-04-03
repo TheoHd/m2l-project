@@ -70,10 +70,10 @@ class UserEntity extends Entity {
     protected $credits;
 
     /**
-     * @Relation OneToOne
+     * @Relation OneToMany
      * @Target AppBundle:AdressEntity
      * @Nullable true
-     * @FormRelationMethod create
+     * @FormRelationType create
      */
     protected $adress;
 
