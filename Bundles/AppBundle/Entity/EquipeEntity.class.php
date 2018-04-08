@@ -15,22 +15,22 @@ class EquipeEntity extends Entity {
     protected $id;
 
     /**
-     * @Relation OneToMany
-     * @Target UserBundle:UserEntity
+     * @Type string
+     * @Length 255
      */
-    protected $employe;
+    protected $nom;
 
     /**
-     * @Relation OneToMOne
+     * @Relation OneToOne
      * @Target UserBundle:UserEntity
      */
     protected $chef;
 
     /**
-     * @Type string
-     * @Length 255
+     * @Relation OneToMany
+     * @Target UserBundle:UserEntity
      */
-    protected $nom;
+    protected $employe;
 
     public function __construct()
     {

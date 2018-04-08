@@ -25,6 +25,8 @@
                             Lors de la déchéance d'un chef, les demandes faites pas les membres de son équipe ne pourront être validé que par un administrateur.
                             <br><br>
                             <code>Chaques équipes doit bénéficier d'un chef afin que celui-ci puisse valider les demandes.</code>
+                            <br><br>
+                            <a href="<?= App::generateUrl('add_membre') ?>" class="btn btn-primary btn-sm">Ajouter un cadre</a>
                         </div>
                         <form action="">
                             <input type="text" placeholder="Rechercher un chef/cadre..." class="form-control">

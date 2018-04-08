@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <?= App::getRessource('appBundle:js:jquery.min.js') ?>
 
     <title>Portfolio Test</title>
 
@@ -18,7 +18,7 @@
     <script src="https://www.google.com/recaptcha/api.js"></script>
 </head>
 
-<body cz-shortcut-listen="true">
+<body>
 
 <nav class="navbar navbar-inverse navbar-fixed-top" style="    position: relative;">
     <div class="container">
@@ -39,8 +39,19 @@
                 echo Session::getFlash('success');
             }
         ?>
-
-        <?= $form ?>
+        <?= $form->start() ?>
+        <?= $form->hasError() ? "<div class='alert alert-danger'><b>Veuillez corriger vos erreurs !</b></div>" : '' ; ?>
+        <?= $form->foreach(function($index, $form){ ?>
+                <div class="form-group">
+                <?php
+                    echo $form->get($index);
+                    if($form->hasError($index)) :
+                        echo "<small class='form-text text-danger'>{$form->getError($index)}</small>";
+                    endif;
+                ?>
+                </div>
+        <?php }); ?>
+        <?= $form->end() ?>
     </div>
 
 </div>

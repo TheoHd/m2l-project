@@ -25,6 +25,8 @@
                             Vous pouvez <code>voir</code>, <code>supprimer</code> et <code>ajouter</code> des membres à une équipe.
                             <br><br>
                             <code>Chaques équipes doit bénéficier d'un chef afin que celui-ci puisse valider les demandes.</code>
+                            <br><br>
+                            <a href="<?= App::generateUrl('add_equipe') ?>" class="btn btn-primary btn-sm">Créer une nouvelle équipe</a>
                         </div>
                     </div>
                 </div>

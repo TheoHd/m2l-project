@@ -26,6 +26,8 @@
                             Listing des différents préstataires enregistrés dans la base de données de la maison des ligues de lorraine.
                             <br><br>
                             <code>Si il y a plusieurs contacts pour une entreprise, veuillez créer plusieurs préstataires différents.</code>
+                            <br><br>
+                            <a href="<?= App::generateUrl('add_formation') ?>" class="btn btn-primary btn-sm">Ajouter une formation</a>
                         </div>
                     </div>
                 </div>

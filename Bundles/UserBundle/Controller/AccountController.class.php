@@ -36,9 +36,12 @@ Class AccountController extends Controller {
             $currentUser = $auth->getUser();
             $currentUserPassword = $currentUser->getPassword();
 
-            $data = $form->getData();
-            $form->isEqual($currentUserPassword, $auth->encryptPassword($data['oldPassword']), App::translate('userBundle:error_invalidOldPassword'));
-            $form->isEqual($data['newPassword'], $data['repeatPassword'], App::translate('userBundle:error_passwordDoesntMatch'));
+            $newPassword = $form->getData('newPassword');
+            $repeatPassword = $form->getData('repeatPassword');
+            $oldPassword = $form->getData('oldPassword');
+
+            $form->isEqual($currentUserPassword, $auth->encryptPassword($oldPassword), App::translate('userBundle:error_invalidOldPassword'));
+            $form->isEqual($newPassword, $repeatPassword, App::translate('userBundle:error_passwordDoesntMatch'));
 
             if( $form->isValid() ){
 
@@ -47,21 +50,19 @@ Class AccountController extends Controller {
                 $mail->setContent( $this->render('userBundle:emails:changePassword', [
                     'nom' => $currentUser->getNom(),
                     'ip' => Server::getClientIp(),
-                    'password' => $data['newPassword']
+                    'password' => $newPassword
                 ], true) );
                 $mail->addAddress($currentUser->getEmail());
                 $mail->send();
 
-                $userManager->update($currentUser, ['password' => $auth->encryptPassword($data['newPassword'])]);
-                Session::success( App::translate('userBundle:success_passwordChanged') );
+                $userManager->update($currentUser, ['password' => $auth->encryptPassword($newPassword)]);
+                $form->success( App::translate('userBundle:success_passwordChanged') );
 
-            }else{
-                Session::error( $form->getErrors() );
             }
         }
 
         return $this->render( Config::get('userBundle:template_changePassword') , [
-            'form' => $form->render(true)
+            'form' => $form->render()
         ]);
     }
 
@@ -75,20 +76,30 @@ Class AccountController extends Controller {
         $form->setData('oldEmail', $currentUserEmail);
 
         if( $this->request->is('post') ){
-            $data = $form->getData();
+            $newEmail = $form->getData('newEmail');
             $userManager = App::getTable('userBundle:user');
-            $hasUser = $userManager->has(['email' => $data['newEmail'] ]);
+            $hasUser = $userManager->has(['email' => $newEmail ]);
             $form->databaseInteraction( !$hasUser , App::translate('userBundle:error_emailAlreadyInDatabase') );
-
             if( $form->isValid() ){
 
-            }else{
-                Session::error( $form->getErrors() );
+                $mail = new Email();
+                $mail->setSubject( App::translate('userBundle:email_subject_EmailChanged') );
+                $mail->setContent( $this->render('userBundle:emails:changeEmail', [
+                    'nom' => $currentUser->getNom(),
+                    'ip' => Server::getClientIp(),
+                    'oldEmail' => $currentUserEmail,
+                    'newEmail' => $newEmail
+                ], true) );
+                $mail->addAddress($newEmail);
+                $mail->send();
+
+                $userManager->update($currentUser, ['email' => $newEmail]);
+                $form->success( App::translate('userBundle:success_emailChanged') );
             }
         }
 
         return $this->render( Config::get('userBundle:template_changeEmail') , [
-            'form' => $form->render(true)
+            'form' => $form->render()
         ]);
     }
 

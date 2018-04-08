@@ -26,7 +26,6 @@ class FormEntityTraitement {
 
         if( !isset($this->data['id']) || empty($this->data['id']) ){ // Create Method
             $this->entity = $this->entityManager->new();
-            $this->entityManager->persist($this->entity);
 
         }elseif( isset($this->data['id']) && !empty($this->data['id'])  ){ // Update Method
             $id = $this->data['id'];
@@ -35,13 +34,14 @@ class FormEntityTraitement {
 
         $this->getEntity();
 
+        var_dump($this->getEntity()); // TODO : check
+
         if( !$this->isChildEntity ) {
             $this->entityManager->save();
         }
     }
 
     public function getEntity() {
-
         $propertiesAnnotation = $this->getAnnotations();
         $this->injectValuesInEntity($propertiesAnnotation);
 

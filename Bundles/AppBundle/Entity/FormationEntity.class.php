@@ -15,7 +15,8 @@ class FormationEntity extends Entity {
     protected $id;
 
     /**
-     * @Type text
+     * @Type string
+     * @Length 255
      */
     protected $nom;
 
@@ -30,7 +31,7 @@ class FormationEntity extends Entity {
     protected $deb;
 
     /**
-     * @Type datetime
+     * @Type integer
      */
     protected $duree;
 

@@ -31,7 +31,7 @@ class LoginForm extends Form
         $validation->isEmail('email');
         $validation->isPassword('password');
 
-        $this->validation = $validation;
+        $this->setValidation($validation);
     }
 
     /*
@@ -57,7 +57,7 @@ class LoginForm extends Form
         $validation->isEmail('email');
         //$validation->isValidCaptcha( $validation::GOOGLE_CAPTCHA_NAME );
 
-        $this->validation = $validation;
+        $this->setValidation($validation);
     }
 
     /*
@@ -90,7 +90,7 @@ class LoginForm extends Form
         $validation->isPassword('repeatPassword');
         //$validation->isValidCaptcha( $validation::GOOGLE_CAPTCHA_NAME);
 
-        $this->validation = $validation;
+        $this->setValidation($validation);
     }
 
     /*
@@ -102,8 +102,8 @@ class LoginForm extends Form
     public function resetPasswordForm()
     {;
         $this->setAction('#')->setMethod('POST')->setFormName('resetPasswordForm');
-        $this->password('newPassword', 'Votre nouveau mot de passe :');
-        $this->password('repeatPassword', 'Veuillez ressaisir votre nouveau mot de passe :');
+        $this->password('newPassword', 'Nouveau mot de passe :');
+        $this->password('repeatPassword', 'Vérification du nouveau mot de passe :');
         $this->submit("Enregistrer le nouveau mot de passe");
 
         $this->resetPasswordFormValidation();
@@ -116,7 +116,7 @@ class LoginForm extends Form
         $validation->isPassword('newPassword');
         $validation->isPassword('repeatPassword');
 
-        $this->validation = $validation;
+        $this->setValidation($validation);
     }
 
 }

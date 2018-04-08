@@ -4,6 +4,8 @@
     <accountConfirmationRequired>true</accountConfirmationRequired>
     <generateNewPasswordWhenForgot>false</generateNewPasswordWhenForgot>
 
+    <registrationAuthorized>false</registrationAuthorized>
+
 
     <template_login>AppBundle:user:login</template_login>
     <template_register>AppBundle:user:register</template_register>

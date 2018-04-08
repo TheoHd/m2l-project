@@ -21,31 +21,31 @@
             <h4 class="auth-header">
                 M2L - Mot de passe
             </h4>
-            <?php
-                if( Session::hasFlashes('error') ) {
-                    echo  "<p class='alert-msg error-msg'>".Session::getFlash('error')."</p>";
-                }
-                if( Session::hasFlashes('success') ) {
-                    echo  "<p class='alert-msg success-msg'>".Session::getFlash('success')."</p>";
-                }
-            ?>
+
+            <?= Session::hasFlashes('error') ? "<p class='alert-msg error-msg'>".Session::getFlash('error')."</p>" : '' ; ?>
+            <?= Session::hasFlashes('success') ? "<p class='alert-msg success-msg'>".Session::getFlash('success')."</p>" : '' ; ?>
+
+            <?= $form->hasError() ? "<p class='alert-msg error-msg'>".$form->getErrors()."</p>" : '' ; ?>
+            <?= $form->hasSuccess() ? "<p class='alert-msg success-msg'>".$form->getSuccess()."</p>" : '' ; ?>
+
+            <?= $form->start() ?>
             <form action="" method="post">
                 <div class="form-group">
-                    <label for="">Ancien mot de passe</label><input class="form-control" placeholder="Entrer votre ancien mot de passe" type="password" name="oldPassword">
+                    <?= $form->get('oldPassword') ?>
                     <div class="pre-icon os-icon os-icon-fingerprint"></div>
                 </div>
                 <div class="form-group">
-                    <label for="">Nouveau mot de passe</label><input class="form-control" placeholder="Entrer votre nouveau mot de passe" type="password" name="newPassword">
+                    <?= $form->get('newPassword') ?>
                     <div class="pre-icon os-icon os-icon-fingerprint"></div>
                 </div>
                 <div class="form-group">
-                    <label for="">Vérification du nouveau mot de passe</label><input class="form-control" placeholder="Entrer votre nouveau mot de passe" type="password" name="repeatPassword">
+                    <?= $form->get('repeatPassword') ?>
                     <div class="pre-icon os-icon os-icon-fingerprint"></div>
                 </div>
                 <div class="buttons-w">
-                    <button class="btn btn-primary">Modifier mon mot de passe</button>
+                    <?= $form->get('submit') ?>
                 </div>
-            </form>
+            <?= $form->end() ?>
             <div style="text-align:center;padding: 50px 0;"><small><a href="<?= App::generateUrl('showProfil') ?>"><i class="fa fa-arrow-left"></i> Retour</a></small></div>
         </div>
     </div>

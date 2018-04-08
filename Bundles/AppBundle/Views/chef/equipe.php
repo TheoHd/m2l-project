@@ -25,7 +25,7 @@
                             Voici la liste des salarié associé à votre équipe. Vous pouvez en ajouter, en supprimer, les contacter et voir leurs profils.
                             <br>
                             <br>
-                            <a href="" class="btn btn-primary btn-sm">Créer un nouveau compte pour un salarié</a>
+                            <a href="<?= App::generateUrl('add_membre') ?>" class="btn btn-primary btn-sm">Créer un nouveau compte pour un salarié</a>
                             <a href="" class="btn btn-info btn-sm">Ajouter une personne existante à mon équipe</a>
                         </div>
                     </div>

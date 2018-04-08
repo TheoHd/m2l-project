@@ -10,6 +10,14 @@
     <meta content="Admin dashboard html template" name="description">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <?= App::getRessource('appBundle:css:main.css') ?>
+    <style>
+        label[for='loginform_remember']{
+            margin-bottom:0;
+        }
+        #loginform_submit{
+            display: inline-block;
+        }
+    </style>
 </head>
 <body class="auth-wrapper">
     <div class="all-wrapper menu-side with-pattern">
@@ -20,37 +28,34 @@
             <h4 class="auth-header">
                 M2L - Connection
             </h4>
-                <?php
-                    if( Session::hasFlashes('error') ) {
-                        echo  "<p class='alert-msg error-msg'>".Session::getFlash('error')."</p>";
-                    }
-                    if( Session::hasFlashes('success') ) {
-                        echo  "<p class='alert-msg success-msg'>".Session::getFlash('success')."</p>";
-                    }
-                ?>
-            <form action="" method="post">
+
+            <?= Session::hasFlashes('error') ? "<p class='alert-msg error-msg'>".Session::getFlash('error')."</p>" : '' ; ?>
+            <?= Session::hasFlashes('success') ? "<p class='alert-msg success-msg'>".Session::getFlash('success')."</p>" : '' ; ?>
+
+            <?= $form->hasError() ? "<p class='alert-msg error-msg'>".$form->getErrors()."</p>" : '' ; ?>
+            <?= $form->hasSuccess() ? "<p class='alert-msg success-msg'>".$form->getSuccess()."</p>" : '' ; ?>
+
+            <?= $form->start() ?>
                 <div class="form-group">
-                    <label for="">Adresse Email</label>
-                    <input class="form-control" placeholder="Entrer votre adresse email" type="text" name="email">
+                    <?= $form->get('email') ?>
                     <div class="pre-icon os-icon os-icon-user-male-circle"></div>
                 </div>
                 <div class="form-group">
-                    <label for="">Mot de passe</label>
-                    <input class="form-control" placeholder="Entrer votre mot de passe" type="password" name="password">
+                    <?= $form->get('password') ?>
                     <div class="pre-icon os-icon os-icon-fingerprint"></div>
                 </div>
                 <div class="buttons-w">
-                    <button class="btn btn-primary">Se connecter</button>
+                    <?= $form->get('submit') ?>
                     <div class="form-check-inline">
                         <small>
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="remember">Se souvenir de moi
+                            <label class="form-check-label" style="padding-left:0;">
+                                <?= $form->get('remember') ?>
                             </label>
                         </small>
                     </div>
                 </div>
                 <div style="text-align:center;margin-top: 50px;"><small><a href="<?= App::generateUrl('forgotPassword') ?>">Mot de passe oublié ?</a></small></div>
-            </form>
+            <?= $form->end() ?>
         </div>
     </div>
 </body>

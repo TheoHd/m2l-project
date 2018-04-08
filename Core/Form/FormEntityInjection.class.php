@@ -53,7 +53,7 @@ class FormEntityInjection {
                     $entity = $this->entity->$method();
 
                     $data = new FormEntityInjection($entity, true);
-                    $this->data[strtolower($propertName)] = $data->getData();
+                    $this->data[strtolower($propertName)][0] = $data->getData();
 
                 }elseif($relationType == 'OneToMany'){
 

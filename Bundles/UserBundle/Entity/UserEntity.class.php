@@ -2,9 +2,12 @@
 
 namespace Bundles\UserBundle\Entity;
 
+use App;
 use Core\Collection\ArrayCollection;
 use Core\Collection\OneToManyCollection;
 use Core\Collection\OneToOneCollection;
+use Core\Config\Config;
+use Core\Email\Email;
 use \Core\Entity\Entity;
 use Core\Security\Security;
 
@@ -21,24 +24,26 @@ class UserEntity extends Entity {
     /**
      * @Type string
      * @Length 255
+     * @FormValidation [ isRequired(), rangeLength(2,20) ]
      */
     protected $nom;
 
     /**
      * @Type string
      * @Length 255
+     * @FormType email
      */
     protected $email;
 
     /**
      * @Type string
      * @Length 255
+     * @FormType password
      */
     protected $password;
 
     /**
      * @Type array
-     * @Default {"ROLE_EMPLOYE":"ROLE_EMPLOYE"}
      * @Nullable true
      * @FormLabel Roles :
      */
@@ -55,6 +60,7 @@ class UserEntity extends Entity {
      * @Length 255
      * @Nullable true
      * @FormPlaceholder Numéro de téléphone...
+     * @FormValidation (isPhone())
      */
     protected $phone;
 
@@ -115,7 +121,7 @@ class UserEntity extends Entity {
     public function setCredits($credits) { $this->credits = $credits; return $this; }
 
     public function getAdress() { return $this->adress->get(); }
-    public function setAdress($adress) { return $this->adress->set($adress); }
+    public function setAdress($adress) { $this->adress->set($adress); return $this; }
 
 //    public function addAdress($adress) { return $this->adress->add($adress); }
 //    public function removeAdress($adress) { return $this->adress->remove($adress); }
@@ -131,5 +137,25 @@ class UserEntity extends Entity {
     public function __toString()
     {
         return $this->getNom() . ' <' . $this->getEmail() . '>';
+    }
+
+    public function __beforePersist(){
+        $this->__plainPassword = $this->password;
+        $this->password = sha1($this->password);
+        $this->addRole('ROLE_EMPLOYE');
+    }
+
+    public function __afterPersist(){
+        $email = new Email();
+        $email->addAddress($this->getEmail());
+
+        $email->setContent( App::getController()->render('userBundle:emails:register', [
+            'nom' => $this->getNom(),
+            'email' => $this->getEmail(),
+            'password' => $this->__plainPassword
+        ], true) );
+
+        $email->setSubject( App::translate('userBundle:email_subject_welcome', [ Config::get('app:email_SiteName') ]));
+        $email->send();
     }
 }

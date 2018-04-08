@@ -21,24 +21,19 @@
             <h4 class="auth-header">
                 M2L - Mot de passe oublié
             </h4>
-            <?php
-                if( Session::hasFlashes('error') ) {
-                    echo  "<p class='alert-msg error-msg'>".Session::getFlash('error')."</p>";
-                }
-                if( Session::hasFlashes('success') ) {
-                    echo  "<p class='alert-msg success-msg'>".Session::getFlash('success')."</p>";
-                }
-            ?>
-            <form action="" method="post">
+
+            <?= $form->hasError() ? "<p class='alert-msg error-msg'>".$form->getErrors()."</p>" : '' ; ?>
+            <?= $form->hasSuccess() ? "<p class='alert-msg success-msg'>".$form->getSuccess()."</p>" : '' ; ?>
+
+            <?= $form->start() ?>
                 <div class="form-group">
-                    <label for="">Adresse Email</label>
-                    <input class="form-control" placeholder="Entrer votre adresse email" type="text" name="email">
+                    <?= $form->get('email') ?>
                     <div class="pre-icon os-icon os-icon-user-male-circle"></div>
                 </div>
                 <div class="buttons-w">
-                    <button class="btn btn-primary">Réinitialiser mon mot de passe</button>
+                    <?= $form->get('submit') ?>
                 </div>
-            </form>
+            <?= $form->end() ?>
             <div style="text-align:center;padding: 50px 0;"><small><a href="<?= App::generateUrl('login') ?>"><i class="fa fa-arrow-left"></i> Retour</a></small></div>
         </div>
     </div>

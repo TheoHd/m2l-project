@@ -19,8 +19,9 @@
                 <a href="<?= BASE_URL ?>"><img alt="" src="<?= App::getRessource('appBundle:images:logo-big.png') ?>"></a>
             </div>
             <h4 class="auth-header">
-                M2L - Adresse email
+                M2L - Réinitialisation
             </h4>
+
             <?= Session::hasFlashes('error') ? "<p class='alert-msg error-msg'>".Session::getFlash('error')."</p>" : '' ; ?>
             <?= Session::hasFlashes('success') ? "<p class='alert-msg success-msg'>".Session::getFlash('success')."</p>" : '' ; ?>
 
@@ -28,20 +29,19 @@
             <?= $form->hasSuccess() ? "<p class='alert-msg success-msg'>".$form->getSuccess()."</p>" : '' ; ?>
 
             <?= $form->start() ?>
-            <form action="" method="post">
                 <div class="form-group">
-                    <?= $form->get('oldEmail') ?>
+                    <?= $form->get('newPassword') ?>
                     <div class="pre-icon os-icon os-icon-fingerprint"></div>
                 </div>
                 <div class="form-group">
-                    <?= $form->get('newEmail') ?>
+                    <?= $form->get('repeatPassword') ?>
                     <div class="pre-icon os-icon os-icon-fingerprint"></div>
                 </div>
                 <div class="buttons-w">
                     <?= $form->get('submit') ?>
                 </div>
-                <?= $form->end() ?>
-                <div style="text-align:center;padding: 50px 0;"><small><a href="<?= App::generateUrl('showProfil') ?>"><i class="fa fa-arrow-left"></i> Retour</a></small></div>
+            <?= $form->end() ?>
+            <div style="text-align:center;padding: 50px 0;"><small><a href="<?= App::generateUrl('showProfil') ?>"><i class="fa fa-arrow-left"></i> Retour</a></small></div>
         </div>
     </div>
 </body>

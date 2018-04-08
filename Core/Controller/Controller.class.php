@@ -68,7 +68,7 @@ class Controller {
         return $class->$action($datas);
     }
 
-    public function render($template, $templateVars = [], $getRenderer = false){
+    public function render($template, $templateVars = [], $getRenderedTemplate = false){
 
         if(!isset($GLOBALS['templateVars']) or empty($GLOBALS['templateVars'])){
             $GLOBALS['templateVars'] = [];
@@ -93,7 +93,7 @@ class Controller {
 
         extract($templateVars);
 
-        if($getRenderer){
+        if($getRenderedTemplate){
             ob_start();
             include($filePath);
             return ob_get_clean();
@@ -143,22 +143,18 @@ class Controller {
         return $class->$method();
     }
 
-    public function getEntityForm( $entityName, $requestData , $successMsg = 'Données ajoutées !' ) : FormEntity {
-
+    public function getEntityForm( $entityName, $requestData , $entity = false, $successMsg = 'Données ajoutées !' ) : FormEntity {
         $form = new FormEntity($entityName);
 
         if( $this->request->is('post') ){
             if( $form->isValid() ){
-                $traitement = new FormEntityTraitement($entityName, $requestData );
+                $traitement = new FormEntityTraitement($entityName, $requestData);
                 if($traitement){
                     $form->clear();
                     $form->success($successMsg);
                 }
-//            }else{
-                // Erreur
             }
         }
-
         return $form;
     }
 

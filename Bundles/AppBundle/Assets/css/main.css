@@ -10542,22 +10542,31 @@ b{
     align-content: center;
 }
 
-.alert-msg{
-    margin: 0 20px;
+.alert-msg, .alert{
+    /*margin: 0 20px;*/
     padding: 10px;
     text-align:center;
     border-radius: 5px;
-    color: rgba(255, 255, 255, 0.85);
+    color: rgb(255, 255, 255);
 }
 
-.error-msg{
+.error-msg, .alert-danger{
     background: #e15249;
 }
 
-.success-msg{
+.success-msg, .alert-success{
     background: #6ac92d;
+}
+
+.info-msg, .alert-info{
+  background-color: #5bc0de;
 }
 
 .alert-msg b{
     color: white;
+}
+
+.buttons-w input[type='submit'] {
+  margin:  0 auto;
+  display:  block;
 }

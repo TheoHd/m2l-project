@@ -64,7 +64,7 @@ class saveRelationEntity extends ClassReader {
         }
     }
 
-    public function oneToManyMethod($variable, $entityRelation, Entity $entity){
+    public function oneToManyMethod($variable, $entityRelation, $entity){
 
         $tableList = $this->db->getTableList();
 
@@ -88,12 +88,12 @@ class saveRelationEntity extends ClassReader {
 
                     if ($relationEntity->getId() == null) {
 //                    var_dump('Entity has been added');
-                        App::getTable($modelpath)->addNewEntity($relationEntity)->save($this->debug);
+                        $result = App::getTable($modelpath)->addNewEntity($relationEntity)->save($this->debug);
                         $lastId = $this->db->lastInsertId();
                     } else {
                         if ($relationEntity->hasBeenChanged()) {
 //                        var_dump('Entity has been modified');
-                            App::getTable($modelpath)->addUpdateEntity($relationEntity)->save($this->debug);
+                            $result = App::getTable($modelpath)->addUpdateEntity($relationEntity)->save($this->debug);
                         } else {
 //                        var_dump('Entity has been set');
                         }

@@ -47,6 +47,12 @@ class Entity{
 
         $parameters = array_diff_key($allVars, $systemVars);
 
+        foreach ($parameters as $parameterName => $parameter) {
+            if(strpos($parameterName, '__') === 0){
+                unset($parameters[$parameterName]);
+            }
+        }
+
         return $parameters;
     }
 

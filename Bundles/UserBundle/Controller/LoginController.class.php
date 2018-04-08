@@ -24,9 +24,9 @@ Class LoginController extends Controller {
             if( $form->isValid() ){
                 $data = $form->getData();
                 if( ! $auth->login($data['email'], $data['password'], $data['remember'] ) ){
-                    $auth->logout(); Session::error( App::translate('userBundle:error_invalidEmailOrPassword') );
+                    $auth->logout(); $form->error('error', App::translate('userBundle:error_invalidEmailOrPassword') );
                 }
-            }else{  Session::error($form->getErrors()); }
+            }
         }
 
         if($auth->logged()){
@@ -34,7 +34,7 @@ Class LoginController extends Controller {
         }
 
         return $this->render( Config::get('userBundle:template_login') , [
-            'form' => $form->render(true)
+            'form' => $form->render()
         ]);
     }
 
@@ -45,7 +45,7 @@ Class LoginController extends Controller {
 
     public function registerAction()
     {
-        if(App::getUser()){
+        if(App::getUser() or Config::get('userBundle:registrationAuthorized') == 'false'){
             App::redirect( BASE_URL );
         }
 
@@ -55,12 +55,12 @@ Class LoginController extends Controller {
 
         if ($this->request->is('post')) {
 
-            $data = $form->getData();
-            $plainPassword = $data['password'];
-            $newPassword = $auth->encryptPassword($data['password']);
-            $repeatPassword = $auth->encryptPassword($data['repeatPassword']);
-            $email = $data['email'];
-            $nom = $data['nom'];
+
+            $plainPassword = $form->getData('password');
+            $newPassword = $auth->encryptPassword($plainPassword);
+            $repeatPassword = $auth->encryptPassword( $form->getData('plainPassword') );
+            $email = $form->getData('email');
+            $nom = $form->getData('nom');
 
             $hasUserWithThisEmail = $userManager->has(['email' => $email]);
             $form->isEqual($newPassword, $repeatPassword, App::translate("userBundle:error_passwordDoesntMatch"));
@@ -112,19 +112,17 @@ Class LoginController extends Controller {
 
                         $createdUser->setValidationDate( date("Y-m-d H:i:s") );
                         $userManager->save();
-                       Session::success( App::translate('userBundle:success_registerSucceed') );
+                        Session::success( App::translate('userBundle:success_registerSucceed') );
                        App::redirectToRoute('login');
                     }catch (Exception $e){
-                        Session::error(App::translate('userBundle:error_registrationFailed', [$mail->ErrorInfo]));
+                        $form->error('global', App::translate('userBundle:error_registrationFailed', [$mail->ErrorInfo]));
                     }
                 }
-            } else {
-                Session::error( $form->getErrors() );
             }
         }
 
         return $this->render( Config::get('userBundle:template_register') , [
-            'form' => $form->render(true)
+            'form' => $form->render()
         ]);
     }
 
@@ -179,21 +177,21 @@ Class LoginController extends Controller {
         if( $this->request->is('post') ){
 
             $generatedPassword = $auth->generatePassword();
-            $datas = $form->getData();
-            $emailData = $datas['email'];
+            $emailData =$form->getData('email');
 
             $hasUserWithThisEmail = $userManager->has(['email' => $emailData]);
             $form->databaseInteraction( $hasUserWithThisEmail ,  App::translate('userBundle:error_noEmailFound')  );
 
             if( $form->isValid() ){
                 $user = $userManager->findByEmail($emailData);
+                $email = $form->getData('email');
                 $form->unsetData('email');
 
                 if( Config::get('userBundle:generateNewPasswordWhenForgot') == 'true' ){
                     $emailContent = $this->render('userBundle:emails:forgot', ['generatedPassword' => $generatedPassword], true);
                     $mail = new Email(true);
                     try {
-                        $mail->addAddress($datas['email']);
+                        $mail->addAddress($email);
                         $mail->setContent($emailContent);
                         $mail->setSubject( App::translate('userBundle:email_subject_forgotPassword') );
                         $mail->send();
@@ -204,7 +202,7 @@ Class LoginController extends Controller {
                         Session::success( App::translate('userBundle:success_newPasswordSend') );
                         App::redirectToRoute('login');
                     }catch (Exception $e){
-                        Session::error( App::translate('userBundle:error_emailSendingFailed', [$mail->ErrorInfo]) );
+                        $form->error('global', App::translate('userBundle:error_emailSendingFailed', [$mail->ErrorInfo]) );
                     }
                 }else{
                     list($token, $userId) = explode('-/-\-', $auth->generateAuthToken($user));
@@ -212,7 +210,7 @@ Class LoginController extends Controller {
                     $emailContent = $this->render('userBundle:emails:reset', ['lien' => $lien], true);
                     $mail = new Email(true);
                     try {
-                        $mail->addAddress($datas['email']);
+                        $mail->addAddress($email);
                         $mail->setContent($emailContent);
                         $mail->setSubject( App::translate('userBundle:email_subject_forgotPassword') );
                         $mail->send();
@@ -220,14 +218,14 @@ Class LoginController extends Controller {
                         Session::success( App::translate('userBundle:success_resetLinkSend') );
                         App::redirectToRoute('login');
                     }catch (Exception $e){
-                        Session::error(  App::translate('userBundle:error_emailSendingFailed', [$mail->ErrorInfo]) );
+                        $form->error('global', App::translate('userBundle:error_emailSendingFailed', [$mail->ErrorInfo]) );
                     }
                 }
-            }else{ Session::error( $form->getErrors() ); }
+            }
         }
 
         return $this->render( Config::get('userBundle:template_forgot') , [
-            'form' => $form->render(true)
+            'form' => $form->render()
         ]);
     }
 
@@ -246,28 +244,28 @@ Class LoginController extends Controller {
 
         if($token == $params['token']){
             if( $this->request->is('post') ){
-                $data = $form->getData();
-                $form->isEqual($data['newPassword'], $data['repeatPassword'],  App::translate('userBundle:error_passwordDoesntMatch') );
+
+                $newPassword = $form->getData('newPassword');
+                $repeatPassword = $form->getData('repeatPassword');
+
+                $form->isEqual($newPassword, $repeatPassword,  App::translate('userBundle:error_passwordDoesntMatch') );
 
                 if( $form->isValid() ){
-                    $user->setPlainPassword($data['newPassword']);
+                    $user->setPlainPassword($newPassword);
                     $userManager->save();
-
+//
                     $mail = new Email();
                     $mail->setSubject( App::translate('userBundle:email_subject_passwordChanged') );
                     $mail->setContent( $this->render('userBundle:emails:changePassword', [
                         'nom' => $user->getNom(),
                         'ip' => Server::getClientIp(),
-                        'password' => $data['newPassword']
+                        'password' => $newPassword
                     ], true) );
                     $mail->addAddress($user->getEmail());
                     $mail->send();
 
                     Session::success( App::translate('userBundle:success_passwordReset') );
                     App::redirectToRoute('login');
-
-                }else{
-                    Session::error( $form->getErrors() );
                 }
             }
         }else{
@@ -275,7 +273,7 @@ Class LoginController extends Controller {
         }
 
         return $this->render( Config::get('userBundle:template_reset') , [
-            'form' => $form->render(true)
+            'form' => $form->render()
         ]);
     }
 

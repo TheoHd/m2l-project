@@ -20,14 +20,10 @@
         <h4 class="auth-header">
             M2L - Inscription
         </h4>
-        <?php
-            if( Session::hasFlashes('error') ) {
-                echo  "<p class='alert-msg error-msg'>".Session::getFlash('error')."</p>";
-            }
-            if( Session::hasFlashes('success') ) {
-                echo  "<p class='alert-msg success-msg'>".Session::getFlash('success')."</p>";
-            }
-        ?>
+
+        <?= Session::hasFlashes('error') ? "<p class='alert-msg error-msg'>".Session::getFlash('error')."</p>" : '' ; ?>
+        <?= Session::hasFlashes('success') ? "<p class='alert-msg success-msg'>".Session::getFlash('success')."</p>" : '' ; ?>
+
         <form action="" method="post">
             <div class="form-group">
                 <label for="">Nom Complet</label>

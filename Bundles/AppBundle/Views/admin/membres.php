@@ -29,7 +29,7 @@
                         <form action="">
                             <input type="text" placeholder="Rechercher un membre (nom, prenom, email ...)" class="form-control">
                         </form>
-                        <a href="" class="btn btn-primary btn-sm">Créer un nouveau compte pour un salarié</a>
+                        <a href="<?= App::generateUrl('add_membre') ?>" class="btn btn-primary btn-sm">Créer un nouveau compte pour un salarié</a>
                     </div>
                 </div>
 

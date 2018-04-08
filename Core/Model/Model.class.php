@@ -196,10 +196,16 @@ class Model{
      * Ajoute un element
      */
 
-    protected function DatabaseAddEntity($element, $debug = false){
+    protected function DatabaseAddEntity(Entity $element, $debug = false){
+
+        if(method_exists($element, '__beforePersist')){
+            $element->__beforePersist();
+        }
 
         $table = $this->getTableName();
         $tableInputs = $element->getEntityVars();
+
+        $queryConstructor = []; $prepareConstructor = []; $values = [];
 
         foreach ($tableInputs as $inputName => $v){
             $getInput = "get" . ucfirst($inputName);
@@ -224,10 +230,14 @@ class Model{
         $query = "INSERT INTO $table ($QueConstructor) VALUES ($ArgConstructor) ";
 
         if($debug){ var_dump($query, $values); }
-
         $result = $this->db->add($query, $values);
 
         if($result){
+
+            if(method_exists($element, '__afterPersist')){
+                $element->__afterPersist();
+            }
+
             if($debug){ echo App::translate('app:entitySavedSuccess'); }
             return $this->db->lastInsertId();
         }else{
@@ -240,10 +250,15 @@ class Model{
      * Met à jour un element
      */
 
-    protected function DatabaseUpdateEntity($element, $debug = false){
+    protected function DatabaseUpdateEntity(Entity $element, $debug = false){
+
+        if(method_exists($element, '__beforeUpdate')){
+            $element->__beforeUpdate();
+        }
 
         $table = $this->getTableName();
         $tableInputs = $element->getEntityVars();
+        $queryConstructor = []; $values = [];
 
         foreach ($tableInputs as $inputName => $v){
             $queryConstructor[] = "$inputName = ?";
@@ -269,12 +284,17 @@ class Model{
         $result = $this->db->add($query, $values);
 
         if($result){
+
+            if(method_exists($element, '__afterUpdate')){
+                $element->__afterUpdate();
+            }
+
             if($debug){ echo App::translate('app:entityUpdatedSuccess'); }
+            return $element->getId();
         }else{
             if($debug){ echo App::translate('app:entityUpdatedError'); }
+            return false;
         }
-
-        return $element->getId();
     }
 
 

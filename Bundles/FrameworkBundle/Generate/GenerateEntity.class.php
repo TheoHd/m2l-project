@@ -71,7 +71,7 @@ class GenerateEntity extends Generate {
         $template = "";
 
         foreach ($properties as $k => $property){
-            $typeAnnotation = ""; $defaultAnnotation = ""; $nullableAnnotation = ""; $lengthAnnotation = ""; $targetAnnotation = "";
+            $defaultAnnotation = ""; $nullableAnnotation = ""; $lengthAnnotation = ""; $targetAnnotation = "";
             $startAnnotation = "    /**" . PHP_EOL;
 
             if($property['propertyType'] != 'OneToOne' AND $property['propertyType'] != 'OneToMany'){

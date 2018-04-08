@@ -4,6 +4,7 @@ namespace Bundles\AppBundle\Controller;
 
 use App;
 use Bundles\AppBundle\Form\FormEntity;
+use Bundles\UserBundle\Entity\UserEntity;
 use Core\Controller\Controller;
 use Core\Form\Form;
 use Core\Form\FormEntityTraitement;
@@ -43,9 +44,9 @@ Class FormationController extends Controller {
      * @RouteUrl /formation/add
      */
     public function addAction(){
+        $form = $this->getEntityForm("userbundle:user", Request::all());
 
-        $form = $this->getEntityForm("appBundle:formation", Request::all());
-        $this->render('appBundle:form', [
+        $this->render('userbundle:form', [
             'form' => $form->render()
         ]);
     }

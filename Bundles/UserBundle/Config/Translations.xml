@@ -4,6 +4,7 @@
     <email_subject_welcome>Bienvenue sur %s</email_subject_welcome>
     <email_subject_forgotPassword>Réinitialisation de votre mot de passe.</email_subject_forgotPassword>
     <email_subject_passwordChanged>Changement de votre mot de passe.</email_subject_passwordChanged>
+    <email_subject_EmailChanged>Changement de votre adresse email.</email_subject_EmailChanged>
 
     <success_verificationEmailSend>Une email contenant un lien pour vérifier votre compte vous à été envoyé.</success_verificationEmailSend>
     <success_registerSucceed>Votre compte a bien été créer. Vous pouvez dés maintenant vous connecter à votre compte.</success_registerSucceed>
@@ -12,6 +13,7 @@
     <success_resetLinkSend>Un email contenant un lien pour réinitialiser votre mot de passe vous a été envoyé !</success_resetLinkSend>
     <success_passwordReset>Votre mot de passe à bien été modifié. Veuillez maintenant vous connecter.</success_passwordReset>
     <success_passwordChanged>Votre mot de passe à bien été modifié.</success_passwordChanged>
+    <success_emailChanged>Votre adresse email à bien été modifié.</success_emailChanged>
 
     <error_invalidEmailOrPassword>Adresse Email ou mot de passe incorrect !</error_invalidEmailOrPassword>
     <error_passwordDoesntMatch>Les deux mots de passe ne correspondent pas !</error_passwordDoesntMatch>

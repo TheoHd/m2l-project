@@ -17,6 +17,7 @@ class AdressEntity extends Entity {
     /**
      * @Type string
      * @Length 255
+     * @FormValidation ( rangeLength(1,10) )
      */
     protected $num;
 
