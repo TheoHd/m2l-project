@@ -45,30 +45,20 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>#2</td>
-                                    <td>John Mayers</td>
-                                    <td>bvasseur77@gmail.com</td>
-                                    <td>29 salariés</td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Voir l'équipe</a>
-                                        <a href="" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i> Modifier l'équipe</a>
-                                        <a href="" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Supprimer l'équipe</a>
-                                        <a href="" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Ajouter un membre</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#3</td>
-                                    <td>Baptiste Vasseur</td>
-                                    <td>baptiste77370@hotmail.fr</td>
-                                    <td>12 salariés</td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Voir l'équipe</a>
-                                        <a href="" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i> Modifier l'équipe</a>
-                                        <a href="" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Supprimer l'équipe</a>
-                                        <a href="" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Ajouter un membre</a>
-                                    </td>
-                                </tr>
+                                <?php foreach($equipes as $equipe) : ?>
+                                    <tr>
+                                        <td>#<?= $equipe->getId() ?></td>
+                                        <td><?= $equipe->getChef()->getNom() ?></td>
+                                        <td><?= $equipe->getChef()->getEmail() ?></td>
+                                        <td><?= count($equipe->getEmploye()->all()) ?></td>
+                                        <td class="text-right">
+                                            <a href="<?=App::generateUrl('list_equipe', ['id' => $equipe->getId()]) ?>" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Voir l'équipe</a>
+                                            <a href="<?= App::generateUrl('update_equipe', ['id' => $equipe->getId()]) ?>" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i> Modifier l'équipe</a>
+                                            <a href="<?= App::generateUrl('delete_equipe', ['id' => $equipe->getId()]) ?>" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Supprimer l'équipe</a>
+                                            <a href="<?= App::generateUrl('update_equipe', ['id' => $equipe->getId()]) ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Ajouter un membre</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>

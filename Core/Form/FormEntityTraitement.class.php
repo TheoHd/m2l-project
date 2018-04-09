@@ -34,7 +34,7 @@ class FormEntityTraitement {
 
         $this->getEntity();
 
-        var_dump($this->getEntity()); // TODO : check
+//        var_dump($this->getEntity()); // TODO : check
 
         if( !$this->isChildEntity ) {
             $this->entityManager->save();

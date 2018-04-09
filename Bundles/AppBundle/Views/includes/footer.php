@@ -25,6 +25,16 @@
               $('.tab-element').hide();
               $(id).show();
           });
+
+          $('.btn-delete-trigger').click(function(e){
+              e.preventDefault();
+
+              if(confirm('Voulez-vous vraiment supprimer cette element ?')){
+                  document.location.href = $(this).attr('href');
+              }else{
+                  return false;
+              }
+          })
       </script>
   </body>
 </html>

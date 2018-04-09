@@ -61,45 +61,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td><a href=""><b>Formation Google</b></a></td>
-                                    <td>3 Jours</td>
-                                    <td>340 Crédits</td>
-                                    <td><code>Charlestown</code></td>
-                                    <td>52 Rue kléber, 92100 Levallois-Perret</td>
-                                    <td class="text-center"><div class="status-pill green"></div></td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
-                                        <a href="" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
-                                        <a href="" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><a href=""><b>Formation Google</b></a></td>
-                                    <td>3 Jours</td>
-                                    <td>340 Crédits</td>
-                                    <td><code>Charlestown</code></td>
-                                    <td>52 Rue kléber, 92100 Levallois-Perret</td>
-                                    <td class="text-center"><div class="status-pill green"></div></td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
-                                        <a href="" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
-                                        <a href="" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><a href=""><b>Formation Google</b></a></td>
-                                    <td>3 Jours</td>
-                                    <td>340 Crédits</td>
-                                    <td><code>Charlestown</code></td>
-                                    <td>52 Rue kléber, 92100 Levallois-Perret</td>
-                                    <td class="text-center"><div class="status-pill green"></div></td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
-                                        <a href="" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
-                                        <a href="" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
-                                    </td>
-                                </tr>
+                                <?php foreach($soon as $formation) : ?>
+                                    <tr>
+                                        <td><a href=""><b><?= $formation->getNom() ?></b></a></td>
+                                        <td><?= $formation->getDuree() ?> Jours</td>
+                                        <td><?= $formation->getPrerequis() ?> Crédits</td>
+                                        <td><code><?= $formation->getPrestataire()->getEntrepriseName() ?></code></td>
+                                        <td><?= $formation->getAdress() ?></td>
+                                        <td class="text-center"><div class="status-pill green"></div></td>
+                                        <td class="text-right">
+                                            <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
+                                            <a href="<?= App::generateUrl('update_formation', ['id' => $formation->getId()]) ?>" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
+                                            <a href="<?= App::generateUrl('delete_formation', ['id' => $formation->getId()]) ?>" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -123,45 +99,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td><a href=""><b>Formation Google</b></a></td>
-                                    <td>3 Jours</td>
-                                    <td>340 Crédits</td>
-                                    <td><code>Charlestown</code></td>
-                                    <td>52 Rue kléber, 92100 Levallois-Perret</td>
-                                    <td class="text-center"><div class="status-pill green"></div></td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
-                                        <a href="" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
-                                        <a href="" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><a href=""><b>Formation Google</b></a></td>
-                                    <td>3 Jours</td>
-                                    <td>340 Crédits</td>
-                                    <td><code>Charlestown</code></td>
-                                    <td>52 Rue kléber, 92100 Levallois-Perret</td>
-                                    <td class="text-center"><div class="status-pill green"></div></td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
-                                        <a href="" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
-                                        <a href="" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><a href=""><b>Formation Google</b></a></td>
-                                    <td>3 Jours</td>
-                                    <td>340 Crédits</td>
-                                    <td><code>Charlestown</code></td>
-                                    <td>52 Rue kléber, 92100 Levallois-Perret</td>
-                                    <td class="text-center"><div class="status-pill green"></div></td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
-                                        <a href="" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
-                                        <a href="" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
-                                    </td>
-                                </tr>
+                                <?php foreach($ended as $formation) : ?>
+                                    <tr>
+                                        <td><a href=""><b><?= $formation->getNom() ?></b></a></td>
+                                        <td><?= $formation->getDuree() ?> Jours</td>
+                                        <td><?= $formation->getPrerequis() ?> Crédits</td>
+                                        <td><code><?= $formation->getPrestataire()->getEntrepriseName() ?></code></td>
+                                        <td><?= $formation->getAdress() ?></td>
+                                        <td class="text-center"><div class="status-pill blue"></div></td>
+                                        <td class="text-right">
+                                            <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
+                                            <a href="<?= App::generateUrl('update_formation', ['id' => $formation->getId()]) ?>" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
+                                            <a href="<?= App::generateUrl('delete_formation', ['id' => $formation->getId()]) ?>" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -185,45 +137,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td><a href=""><b>Formation Google</b></a></td>
-                                    <td>3 Jours</td>
-                                    <td>340 Crédits</td>
-                                    <td><code>Charlestown</code></td>
-                                    <td>52 Rue kléber, 92100 Levallois-Perret</td>
-                                    <td class="text-center"><div class="status-pill green"></div></td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
-                                        <a href="" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
-                                        <a href="" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><a href=""><b>Formation Google</b></a></td>
-                                    <td>3 Jours</td>
-                                    <td>340 Crédits</td>
-                                    <td><code>Charlestown</code></td>
-                                    <td>52 Rue kléber, 92100 Levallois-Perret</td>
-                                    <td class="text-center"><div class="status-pill green"></div></td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
-                                        <a href="" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
-                                        <a href="" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><a href=""><b>Formation Google</b></a></td>
-                                    <td>3 Jours</td>
-                                    <td>340 Crédits</td>
-                                    <td><code>Charlestown</code></td>
-                                    <td>52 Rue kléber, 92100 Levallois-Perret</td>
-                                    <td class="text-center"><div class="status-pill green"></div></td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
-                                        <a href="" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
-                                        <a href="" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
-                                    </td>
-                                </tr>
+                                <?php foreach($canceled as $formation) : ?>
+                                    <tr>
+                                        <td><a href=""><b><?= $formation->getNom() ?></b></a></td>
+                                        <td><?= $formation->getDuree() ?> Jours</td>
+                                        <td><?= $formation->getPrerequis() ?> Crédits</td>
+                                        <td><code><?= $formation->getPrestataire()->getEntrepriseName() ?></code></td>
+                                        <td><?= $formation->getAdress() ?></td>
+                                        <td class="text-center"><div class="status-pill red"></div></td>
+                                        <td class="text-right">
+                                            <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
+                                            <a href="<?= App::generateUrl('update_formation', ['id' => $formation->getId()]) ?>" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
+                                            <a href="<?= App::generateUrl('delete_formation', ['id' => $formation->getId()]) ?>" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -247,45 +175,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td><a href=""><b>Formation Google</b></a></td>
-                                    <td>3 Jours</td>
-                                    <td>340 Crédits</td>
-                                    <td><code>Charlestown</code></td>
-                                    <td>52 Rue kléber, 92100 Levallois-Perret</td>
-                                    <td class="text-center"><div class="status-pill green"></div></td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
-                                        <a href="" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
-                                        <a href="" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><a href=""><b>Formation Google</b></a></td>
-                                    <td>3 Jours</td>
-                                    <td>340 Crédits</td>
-                                    <td><code>Charlestown</code></td>
-                                    <td>52 Rue kléber, 92100 Levallois-Perret</td>
-                                    <td class="text-center"><div class="status-pill green"></div></td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
-                                        <a href="" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
-                                        <a href="" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><a href=""><b>Formation Google</b></a></td>
-                                    <td>3 Jours</td>
-                                    <td>340 Crédits</td>
-                                    <td><code>Charlestown</code></td>
-                                    <td>52 Rue kléber, 92100 Levallois-Perret</td>
-                                    <td class="text-center"><div class="status-pill green"></div></td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
-                                        <a href="" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
-                                        <a href="" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
-                                    </td>
-                                </tr>
+                                <?php foreach($reported as $formation) : ?>
+                                    <tr>
+                                        <td><a href=""><b><?= $formation->getNom() ?></b></a></td>
+                                        <td><?= $formation->getDuree() ?> Jours</td>
+                                        <td><?= $formation->getPrerequis() ?> Crédits</td>
+                                        <td><code><?= $formation->getPrestataire()->getEntrepriseName() ?></code></td>
+                                        <td><?= $formation->getAdress() ?></td>
+                                        <td class="text-center"><div class="status-pill yellow"></div></td>
+                                        <td class="text-right">
+                                            <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
+                                            <a href="<?= App::generateUrl('update_formation', ['id' => $formation->getId()]) ?>" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
+                                            <a href="<?= App::generateUrl('delete_formation', ['id' => $formation->getId()]) ?>" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>

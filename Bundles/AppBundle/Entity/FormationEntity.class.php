@@ -43,14 +43,23 @@ class FormationEntity extends Entity {
 
     /**
      * @Type integer
+     * @FormLabel credits
      */
     protected $prerequis;
 
     /**
      * @Relation OneToOne
      * @Target AppBundle:AdressEntity
+     * @FormRelationType create
      */
     protected $adress;
+
+    /**
+     * @Type string
+     * @Length 255
+     * @Default 1
+     */
+    protected $statut;
 
     public function __construct()
     {
@@ -61,8 +70,6 @@ class FormationEntity extends Entity {
     /*
      * Getters and Setters
      */
-
-    public function getId() { return $this->id; }
 
     public function getNom() { return $this->nom; }
     public function setNom($nom) { $this->nom = $nom; return $this; }
@@ -85,4 +92,6 @@ class FormationEntity extends Entity {
     public function getAdress() { return $this->adress->get(); }
     public function setAdress($adress) { return $this->adress->set($adress); }
 
+    public function getStatut(){ return $this->statut; }
+    public function setStatut($statut){ $this->statut = $statut;}
 }

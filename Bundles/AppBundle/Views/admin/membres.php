@@ -33,6 +33,7 @@
                     </div>
                 </div>
 
+                <?php foreach($membres as $membre) : ?>
                 <div class="element-wrapper col-md-3" style="float: left;">
                     <div class="element-box full-chat-w">
                         <div class="user-intro">
@@ -40,8 +41,8 @@
                                 <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
                             </div>
                             <div class="user-intro-info">
-                                <a href=""><h5 class="user-name">Baptiste Vasseur</h5></a>
-                                <div class="user-sub">bvasseur77@gmail.com</div>
+                                <a href=""><h5 class="user-name"><?= $membre->getNom() ?></h5></a>
+                                <div class="user-sub"><?= $membre->getEmail() ?></div>
                                 <div class="user-social">
                                     <a href="#" class="btn btn-primary btn-sm">Voir le profil</a>
                                     <a href="#" class="btn btn-success btn-sm">Promouvoir</a>
@@ -50,126 +51,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="element-wrapper col-md-3" style="float: left;">
-                    <div class="element-box full-chat-w">
-                        <div class="user-intro">
-                            <div class="avatar">
-                                <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                            </div>
-                            <div class="user-intro-info">
-                                <h5 class="user-name">Baptiste Vasseur</h5>
-                                <div class="user-sub">bvasseur77@gmail.com</div>
-                                <div class="user-social">
-                                    <a href="#" class="btn btn-primary btn-sm">Voir le profil</a>
-                                    <a href="#" class="btn btn-success btn-sm">Promouvoir</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="element-wrapper col-md-3" style="float: left;">
-                    <div class="element-box full-chat-w">
-                        <div class="user-intro">
-                            <div class="avatar">
-                                <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                            </div>
-                            <div class="user-intro-info">
-                                <h5 class="user-name">Baptiste Vasseur</h5>
-                                <div class="user-sub">bvasseur77@gmail.com</div>
-                                <div class="user-social">
-                                    <a href="#" class="btn btn-primary btn-sm">Voir le profil</a>
-                                    <a href="#" class="btn btn-success btn-sm">Promouvoir</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="element-wrapper col-md-3" style="float: left;">
-                    <div class="element-box full-chat-w">
-                        <div class="user-intro">
-                            <div class="avatar">
-                                <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                            </div>
-                            <div class="user-intro-info">
-                                <h5 class="user-name">Baptiste Vasseur</h5>
-                                <div class="user-sub">bvasseur77@gmail.com</div>
-                                <div class="user-social">
-                                    <a href="#" class="btn btn-primary btn-sm">Voir le profil</a>
-                                    <a href="#" class="btn btn-success btn-sm">Promouvoir</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="element-wrapper col-md-3" style="float: left;">
-                    <div class="element-box full-chat-w">
-                        <div class="user-intro">
-                            <div class="avatar">
-                                <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                            </div>
-                            <div class="user-intro-info">
-                                <h5 class="user-name">Baptiste Vasseur</h5>
-                                <div class="user-sub">bvasseur77@gmail.com</div>
-                                <div class="user-social">
-                                    <a href="#" class="btn btn-primary btn-sm">Voir le profil</a>
-                                    <a href="#" class="btn btn-success btn-sm">Promouvoir</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="element-wrapper col-md-3" style="float: left;">
-                    <div class="element-box full-chat-w">
-                        <div class="user-intro">
-                            <div class="avatar">
-                                <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                            </div>
-                            <div class="user-intro-info">
-                                <h5 class="user-name">Baptiste Vasseur</h5>
-                                <div class="user-sub">bvasseur77@gmail.com</div>
-                                <div class="user-social">
-                                    <a href="#" class="btn btn-primary btn-sm">Voir le profil</a>
-                                    <a href="#" class="btn btn-success btn-sm">Promouvoir</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="element-wrapper col-md-3" style="float: left;">
-                    <div class="element-box full-chat-w">
-                        <div class="user-intro">
-                            <div class="avatar">
-                                <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                            </div>
-                            <div class="user-intro-info">
-                                <h5 class="user-name">Baptiste Vasseur</h5>
-                                <div class="user-sub">bvasseur77@gmail.com</div>
-                                <div class="user-social">
-                                    <a href="#" class="btn btn-primary btn-sm">Voir le profil</a>
-                                    <a href="#" class="btn btn-success btn-sm">Promouvoir</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="element-wrapper col-md-3" style="float: left;">
-                    <div class="element-box full-chat-w">
-                        <div class="user-intro">
-                            <div class="avatar">
-                                <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                            </div>
-                            <div class="user-intro-info">
-                                <h5 class="user-name">Baptiste Vasseur</h5>
-                                <div class="user-sub">bvasseur77@gmail.com</div>
-                                <div class="user-social">
-                                    <a href="#" class="btn btn-primary btn-sm">Voir le profil</a>
-                                    <a href="#" class="btn btn-success btn-sm">Promouvoir</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <?php endforeach; ?>
 
             </div>
         </div>

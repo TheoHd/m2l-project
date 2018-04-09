@@ -23,20 +23,4 @@ Class ChefController extends Controller {
         $this->render('appBundle:chef:demand');
     }
 
-    /**
-     * @RouteName add_membre
-     * @RouteUrl /chef/membres/add
-     */
-    public function addMembreAction(){
-        $form = $this->getEntityForm('userBundle:user', Request::all());
-
-        $this->render('appBundle:includes:form', [
-            'pageTitle' => "Ajout d'un nouveau membre",
-            'pageDesc' => "",
-            'previousUrl' => "gestion_membres",
-            'btnText' => "Retour à la liste des membres",
-            'form' => $form->render(),
-        ]);
-    }
-
 }

@@ -463,7 +463,7 @@ class Form{
 
     public function inject($entity){
         $data = new FormEntityInjection($entity);
-        var_dump($data->getData());
+//        var_dump($data->getData());
         $this->data[ $this->getFormName() ] = $data->getData();
     }
 }

@@ -9,29 +9,12 @@ use Core\Controller\Controller;
 use Core\Form\Form;
 use Core\Form\FormEntityTraitement;
 use Core\Request\Request;
+use Core\Session\Session;
 
 Class FormationController extends Controller {
 
     /**
-     * @RouteName formations_list
-     * @RouteUrl /formations
-     */
-    public function listAction(){
-        $this->render('appBundle:formation:list');
-    }
-
-    /**
-     * @RouteName formation_show
-     * @RouteUrl /formation/{:id}
-     * @RouteParam id ([0-9]+)
-     */
-    public function showAction(){
-        $this->render('appBundle:formation:show');
-    }
-
-
-    /**
-     * @RouteName formation_show_avis
+     * @RouteName avis_formations
      * @RouteUrl /formation/{:id}/avis
      * @RouteParam id ([0-9]+)
      */
@@ -40,14 +23,80 @@ Class FormationController extends Controller {
     }
 
     /**
-     * @RouteName formation_add
-     * @RouteUrl /formation/add
+     * @RouteName list_formations
+     * @RouteUrl /admin/formations
      */
-    public function addAction(){
-        $form = $this->getEntityForm("userbundle:user", Request::all());
+    public function showFormationAction(){
 
-        $this->render('userbundle:form', [
-            'form' => $form->render()
+        $formations = App::getTable('appBundle:formation')->findAll();
+
+        $soon = []; $ended = []; $canceled = []; $reported = [];
+
+        foreach ($formations as $f){
+            if($f->getStatut() == 0){
+                $canceled[] = $f;
+            }elseif($f->getStatut() == 1){
+                $soon[] = $f;
+            }elseif($f->getStatut() == 2){
+                $ended[] = $f;
+            }elseif($f->getStatut() == -1){
+                $reported[] = $f;
+            }
+        }
+
+        $this->render('appBundle:admin:formations', [
+            'canceled' => $canceled,
+            'soon' => $soon,
+            'ended' => $ended,
+            'reported' => $reported,
         ]);
     }
+
+    /**
+     * @RouteName add_formation
+     * @RouteUrl /admin/formations/add
+     */
+    public function addFormationAction(){
+        $form = $this->getEntityForm('appBundle:formation', Request::all());
+
+        $this->render('appBundle:includes:form', [
+            'pageTitle' => "Ajout d'une nouvelle formation",
+            'pageDesc' => "",
+            'previousUrl' => "list_formations",
+            'btnText' => "Retour à la liste des formations",
+            'form' => $form->render(),
+        ]);
+    }
+
+    /**
+     * @RouteName update_formation
+     * @RouteUrl /admin/formations/update/{:id}
+     * @RouteParam :id ([0-9]+)
+     */
+    public function updateFormationAction($params){
+        $entity = App::getTable('appBundle:formation')->findById($params['id']);
+
+        $form = $this->getEntityForm('appBundle:formation', Request::all());
+        $form->inject($entity);
+
+        $this->render('appBundle:includes:form', [
+            'pageTitle' => "Modification d'une formation #" . $entity->getId(),
+            'pageDesc' => "",
+            'previousUrl' => "list_formations",
+            'btnText' => "Retour à la liste des formations",
+            'form' => $form->render(),
+        ]);
+    }
+
+    /**
+     * @RouteName delete_formation
+     * @RouteUrl /admin/formations/delete/{:id}
+     * @RouteParam :id ([0-9]+)
+     */
+    public function deleteFormationAction($params){
+        App::getTable('appBundle:formation')->remove($params['id']);
+        Session::success('Le formation à bien été supprimé !');
+        App::redirectToRoute('list_formations');
+    }
+
 }

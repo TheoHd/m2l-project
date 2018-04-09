@@ -7957,8 +7957,10 @@ body {
     background-color: #f8bc34; }
   .status-pill.red {
     background-color: #c21a1a; }
-  .status-pill.green {
-    background-color: #71c21a; }
+.status-pill.green {
+  background-color: #71c21a; }
+.status-pill.blue {
+  background-color: #4145c2; }
 
 /*
  #5. Users list element

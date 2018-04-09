@@ -79,6 +79,10 @@ class FormEntity extends Form {
             $this->email($propertName, $formLabel, $isRequired, null, ['class' => 'form-control', 'placeholder' => $placeholder]);
             $this->validation->isEmail($propertName, $isRequired, $formValidation);
 
+        }elseif($type == 'phone'){
+            $this->phone($propertName, $formLabel, $isRequired, null, ['class' => 'form-control', 'placeholder' => $placeholder]);
+            $this->validation->isPhone($propertName, $isRequired, $formValidation);
+
         }elseif($type == 'password'){
             $this->password($propertName, $formLabel, $isRequired, null, ['class' => 'form-control', 'placeholder' => $placeholder]);
             $this->validation->isPassword($propertName, $isRequired, $formValidation);

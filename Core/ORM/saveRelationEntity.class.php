@@ -88,12 +88,12 @@ class saveRelationEntity extends ClassReader {
 
                     if ($relationEntity->getId() == null) {
 //                    var_dump('Entity has been added');
-                        $result = App::getTable($modelpath)->addNewEntity($relationEntity)->save($this->debug);
+                       App::getTable($modelpath)->addNewEntity($relationEntity)->save($this->debug);
                         $lastId = $this->db->lastInsertId();
                     } else {
                         if ($relationEntity->hasBeenChanged()) {
 //                        var_dump('Entity has been modified');
-                            $result = App::getTable($modelpath)->addUpdateEntity($relationEntity)->save($this->debug);
+                           App::getTable($modelpath)->addUpdateEntity($relationEntity)->save($this->debug);
                         } else {
 //                        var_dump('Entity has been set');
                         }

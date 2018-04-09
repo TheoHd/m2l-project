@@ -1,3 +1,4 @@
+<?php use Core\Session\Session; ?>
 <?= App::render('appBundle:includes:header') ?>
 
     <div class="content-w">
@@ -29,9 +30,11 @@
                             <br>
                             <a href="<?= App::generateUrl('add_prestataire') ?>" class="btn btn-primary btn-sm">Ajouter un prestataire</a>
                         </div>
+                        <?= Session::hasFlashes('success') ? "<div class='alert alert-success'>".Session::getFlash('success')."</div>" : '' ?>
                     </div>
                 </div>
 
+                <?php foreach($prestataires as $prestataire) : ?>
                 <div class="element-wrapper">
                     <div class="element-box">
                         <div class="table-responsive">
@@ -48,17 +51,17 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td><code>Charlestown</code></td>
-                                    <td>Aurélien Caballero</td>
-                                    <td class="text-center"><a href="">acaballero@charlestown.fr</a></td>
-                                    <td class="text-center">(+33) 01 64 08 43 51</td>
-                                    <td>52 Rue kléber, 92100 Levallois-Perret</td>
+                                    <td><code><?= $prestataire->getEntrepriseName() ?></code></td>
+                                    <td><?= $prestataire->getContactName() ?></td>
+                                    <td class="text-center"><a href=""><?= $prestataire->getContactEmail() ?></a></td>
+                                    <td class="text-center"><?= $prestataire->getContactPhone() ?></td>
+                                    <td><?= $prestataire->getAdress() ?></td>
                                     <td class="text-right">
                                         <a href="" class="btn btn-primary btn-sm btn-m5"><i class="fa fa-envelope"></i> Contacter</a>
                                         <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
                                         <br>
-                                        <a href="" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
-                                        <a href="" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
+                                        <a href="<?= App::generateUrl('update_prestataire', ['id' => $prestataire->getId()]) ?>" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
+                                        <a href="<?= App::generateUrl('delete_prestataire', ['id' => $prestataire->getId()]) ?>" class="btn btn-danger btn-sm btn-m5 btn-delete-trigger"><i class="fa fa-times"></i> Supprimer</a>
                                     </td>
                                 </tr>
 
@@ -67,111 +70,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="element-wrapper">
-                    <div class="element-box">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered" style="margin-bottom:0;">
-                                <thead>
-                                <tr>
-                                    <th>Nom de l'entreprise</th>
-                                    <th>Nom du contact</th>
-                                    <th>Adresse email du contact</th>
-                                    <th>Numéro de téléphone du contact</th>
-                                    <th>Adresse de l'entreprise</th>
-                                    <th class="text-right">Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td><code>Charlestown</code></td>
-                                    <td>Aurélien Caballero</td>
-                                    <td class="text-center"><a href="">acaballero@charlestown.fr</a></td>
-                                    <td class="text-center">(+33) 01 64 08 43 51</td>
-                                    <td>52 Rue kléber, 92100 Levallois-Perret</td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-primary btn-sm btn-m5"><i class="fa fa-envelope"></i> Contacter</a>
-                                        <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
-                                        <br>
-                                        <a href="" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
-                                        <a href="" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="element-wrapper">
-                    <div class="element-box">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered" style="margin-bottom:0;">
-                                <thead>
-                                <tr>
-                                    <th>Nom de l'entreprise</th>
-                                    <th>Nom du contact</th>
-                                    <th>Adresse email du contact</th>
-                                    <th>Numéro de téléphone du contact</th>
-                                    <th>Adresse de l'entreprise</th>
-                                    <th class="text-right">Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td><code>Charlestown</code></td>
-                                    <td>Aurélien Caballero</td>
-                                    <td class="text-center"><a href="">acaballero@charlestown.fr</a></td>
-                                    <td class="text-center">(+33) 01 64 08 43 51</td>
-                                    <td>52 Rue kléber, 92100 Levallois-Perret</td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-primary btn-sm btn-m5"><i class="fa fa-envelope"></i> Contacter</a>
-                                        <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
-                                        <br>
-                                        <a href="" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
-                                        <a href="" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="element-wrapper">
-                    <div class="element-box">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered" style="margin-bottom:0;">
-                                <thead>
-                                <tr>
-                                    <th>Nom de l'entreprise</th>
-                                    <th>Nom du contact</th>
-                                    <th>Adresse email du contact</th>
-                                    <th>Numéro de téléphone du contact</th>
-                                    <th>Adresse de l'entreprise</th>
-                                    <th class="text-right">Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td><code>Charlestown</code></td>
-                                    <td>Aurélien Caballero</td>
-                                    <td class="text-center"><a href="">acaballero@charlestown.fr</a></td>
-                                    <td class="text-center">(+33) 01 64 08 43 51</td>
-                                    <td>52 Rue kléber, 92100 Levallois-Perret</td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-primary btn-sm btn-m5"><i class="fa fa-envelope"></i> Contacter</a>
-                                        <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
-                                        <br>
-                                        <a href="" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
-                                        <a href="" class="btn btn-danger btn-sm btn-m5"><i class="fa fa-times"></i> Supprimer</a>
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
 
             </div>
         </div>

@@ -18,17 +18,32 @@ class PrestataireEntity extends Entity {
      * @Type string
      * @Length 255
      */
-    protected $nom;
+    protected $entrepriseName;
 
     /**
      * @Type string
      * @Length 255
      */
-    protected $fonction;
+    protected $contactName;
+
+    /**
+     * @Type string
+     * @Length 255
+     * @FormType email
+     */
+    protected $contactEmail;
+
+    /**
+     * @Type string
+     * @Length 255
+     * @FormType phone
+     */
+    protected $contactPhone;
 
     /**
      * @Relation OneToOne
      * @Target AppBundle:AdressEntity
+     * @FormRelationType create
      */
     protected $adress;
 
@@ -41,20 +56,24 @@ class PrestataireEntity extends Entity {
      * Getters and Setters
      */
 
-    public function getId() { return $this->id; }
+    public function getEntrepriseName() { return $this->entrepriseName;}
+    public function setEntrepriseName($entrepriseName) { $this->entrepriseName = $entrepriseName;}
 
-    public function getNom() { return $this->nom; }
-    public function setNom($nom) { $this->nom = $nom; return $this; }
+    public function getContactName() { return $this->contactName;}
+    public function setContactName($contactName) { $this->contactName = $contactName;}
 
-    public function getFonction() { return $this->fonction; }
-    public function setFonction($fonction) { $this->fonction = $fonction; return $this; }
+    public function getContactEmail() { return $this->contactEmail;}
+    public function setContactEmail($contactEmail) { $this->contactEmail = $contactEmail;}
+
+    public function getContactPhone() { return $this->contactPhone;}
+    public function setContactPhone($contactPhone) { $this->contactPhone = $contactPhone;}
 
     public function getAdress() { return $this->adress->get(); }
     public function setAdress($adress) { return $this->adress->set($adress); }
 
     public function __toString()
     {
-        return $this->getNom() . ' - ' . $this->getAdress();
+        return $this->getEntrepriseName() . ' - ' . $this->getAdress();
     }
 
 }

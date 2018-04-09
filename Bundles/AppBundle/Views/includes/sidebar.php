@@ -82,11 +82,11 @@
         <span>Accés Admin</span>
       </a>
       <ul class="sub-menu">
-        <li><a href="<?= App::generateUrl('gestion_equipes') ?>">Gestion des équipes</a></li>
-        <li><a href="<?= App::generateUrl('gestion_membres') ?>">Gestion des membres</a></li>
-        <li><a href="<?= App::generateUrl('gestion_cadres') ?>">Gestion de cadres</a></li>
-        <li><a href="<?= App::generateUrl('gestion_prestataires') ?>">Gestion des prestataires</a></li>
-        <li><a href="<?= App::generateUrl('gestion_formations') ?>">Gestion des formations</a></li>
+        <li><a href="<?= App::generateUrl('list_equipes') ?>">Gestion des équipes</a></li>
+        <li><a href="<?= App::generateUrl('list_membres') ?>">Gestion des membres</a></li>
+        <li><a href="<?= App::generateUrl('list_cadres') ?>">Gestion de cadres</a></li>
+        <li><a href="<?= App::generateUrl('list_prestataires') ?>">Gestion des prestataires</a></li>
+        <li><a href="<?= App::generateUrl('list_formations') ?>">Gestion des formations</a></li>
       </ul>
     </li>
   </ul>

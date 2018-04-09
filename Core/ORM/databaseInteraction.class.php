@@ -146,7 +146,7 @@ class databaseInteraction {
             return $this->relationOneToOneTypeQuery($propertyName, $propertyOpt, $tableName);
 
         }elseif(array_key_exists('relation', $propertyOpt) AND $propertyOpt['relation'] == 'OneToMany'){
-            $this->relationOneToManyTypeQuery($propertyName, $propertyOpt, $tableName);
+            $this->relationOneToManyTypeQuery($propertyName, $propertyOpt, $tableName, $propertyOpt['target']);
 
         }elseif(array_key_exists('type', $propertyOpt)){
             return $this->simpleTypeQuery($propertyName, $propertyOpt);
@@ -231,7 +231,7 @@ class databaseInteraction {
     /*
      * Renvoie la requete d'un paramétre d'une entité : "OneToMany"
      */
-    protected function relationOneToManyTypeQuery($propertyName, $propertyOpt, $tableName){
+    protected function relationOneToManyTypeQuery($propertyName, $propertyOpt, $tableName, $target){
 
         if($propertyOpt['relation'] == "OneToMany"){
 
@@ -239,7 +239,7 @@ class databaseInteraction {
             $foreignKeyTableName = strtolower(str_replace("Entity", "", $bundleEntity));
             $relationTableName = $tableName . '_' . $foreignKeyTableName;
 
-            $foreignKeyColName = $propertyName . "_id";
+            $foreignKeyColName = $foreignKeyTableName . "_id";
             $entityColName = $tableName . "_id";
 
             $fk1 = $this->generateIdentifierName($relationTableName, $foreignKeyTableName);
