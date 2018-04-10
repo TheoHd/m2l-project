@@ -50,6 +50,7 @@ Class EquipeController extends Controller {
             'pageTitle' => "Ajout d'un nouveau equipe",
             'pageDesc' => "",
             'previousUrl' => "list_equipes",
+            'previousParams' => [],
             'btnText' => "Retour à la liste des equipes",
             'form' => $form->render(),
         ]);
@@ -70,6 +71,7 @@ Class EquipeController extends Controller {
             'pageTitle' => "Modification du equipe #" . $entity->getId(),
             'pageDesc' => "",
             'previousUrl' => "list_equipes",
+            'previousParams' => [],
             'btnText' => "Retour à la liste des equipes",
             'form' => $form->render(),
         ]);

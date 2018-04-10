@@ -131,6 +131,8 @@ class Controller {
     }
 
     public function getForm( $formPath, $formName, $datas = [] ) : Form{
+        $formPath .= 'Form';
+
         list($bundle, $formFileName) = explode(':', $formPath);
 
         $bundle = str_replace('bundle', "Bundle", ucfirst($bundle));

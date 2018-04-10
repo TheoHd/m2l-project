@@ -33,6 +33,7 @@ Class MembreController extends Controller {
             'pageTitle' => "Ajout d'un nouveau membre",
             'pageDesc' => "",
             'previousUrl' => "list_membres",
+            'previousParams' => [],
             'btnText' => "Retour à la liste des membres",
             'form' => $form->render(),
         ]);
@@ -53,6 +54,7 @@ Class MembreController extends Controller {
             'pageTitle' => "Modification du membre #" . $entity->getId(),
             'pageDesc' => "",
             'previousUrl' => "list_membres",
+            'previousParams' => [],
             'btnText' => "Retour à la liste des membres",
             'form' => $form->render(),
         ]);

@@ -15,6 +15,15 @@ Class ProfilController extends Controller {
     }
 
     /**
+     * @RouteName showUserProfil
+     * @RouteUrl /profil/{:id}
+     * @RouteParam id ([0-9]+)
+     */
+    public function showUserAction(){
+        $this->render('appBundle:profil:profil');
+    }
+
+    /**
      * @RouteName history
      * @RouteUrl /history
      */

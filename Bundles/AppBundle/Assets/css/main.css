@@ -10572,3 +10572,12 @@ b{
   margin:  0 auto;
   display:  block;
 }
+
+span.star {
+  font-size:  25px;
+  margin-right:  5px;
+}
+
+span.star.start-active {
+  color: orange;
+}

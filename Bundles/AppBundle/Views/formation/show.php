@@ -6,10 +6,10 @@
                 <a href="<?= BASE_URL ?>">Accueil</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="<?= App::generateUrl('formations_list') ?>">Formations</a>
+                <a href="<?= App::generateUrl('list_formations') ?>">Formations</a>
             </li>
             <li class="breadcrumb-item">
-                <span>Formation Google</span>
+                <span><?= $formation->getNom() ?></span>
             </li>
         </ul>
         <div class="content-panel-toggler">
@@ -21,30 +21,18 @@
                 <div class="element-wrapper">
                     <div class="element-box">
                         <h5 class="form-header">
-                            Plus d'infos : <code>Formation Google</code>
+                            Plus d'infos : <code><?= $formation->getNom() ?></code>
                         </h5>
                         <div class="form-desc">
                             Le contenu / descriptif de la formation est donné à titre indicatif, il est susceptible d'être modifié. <a href="" target="_blank">Voir nos conditions générales d'utilisations</a> pour plus d'infos.
                         </div>
                         <div class="form-content">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium adipisci aliquam asperiores assumenda et fuga, fugiat fugit itaque maiores mollitia, natus nostrum quaerat recusandae rem sapiente sed, sit unde. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium adipisci aliquam asperiores assumenda et fuga, fugiat fugit itaque maiores mollitia, natus nostrum quaerat recusandae rem sapiente sed, sit unde.
-                            <br> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium adipisci aliquam asperiores assumenda et fuga, fugiat fugit itaque maiores mollitia, natus nostrum quaerat recusandae rem sapiente sed, sit unde.
-                            <br><br>
-                            <ul>
-                                <li>#1 - Drive</li>
-                                <li>#5 - Gmail</li>
-                                <li>#2 - Word</li>
-                                <li>#3 - Sheet</li>
-                                <li>#4 - Slide</li>
-                            </ul>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab at atque aut consectetur eaque eos expedita facilis fugiat, harum ipsa laborum laudantium molestiae natus officiis, quae quod rerum, tenetur voluptas.
-                            <br>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque fugit natus ratione recusandae repudiandae rerum saepe vero. Aut, consequuntur culpa dolores doloribus ducimus et ex fuga hic itaque nulla totam!
+                            <?= $formation->getContenu() ?>
                         </div>
                         <br>
                         <div class="form-desc"></div>
                         <div class="">
-                            <small>Cette formation vous est proposé par <a href=""><code>Alphabet</code></a>. Elle se déroulera sur <code>3 Jours</code>. Vous devez disposez de <code>450 crédits</code> pour pouvoir y participer.</small>
+                            <small>Cette formation vous est proposé par <a href="<?= App::generateUrl('show_prestataire', ['id' => $formation->getPrestataire()->getId()]) ?>"><code><?= $formation->getPrestataire()->getEntrepriseName() ?></code></a>. Elle se déroulera sur <code><?= $formation->getDuree() ?> Jours</code>. Vous devez disposez de <code><?= $formation->getPrerequis() ?> crédits</code> pour pouvoir y participer.</small>
                         </div>
                     </div>
                 </div>
@@ -54,7 +42,7 @@
                             Lieu de la formation
                         </div>
                         <div class="form-content">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d83998.94722620735!2d2.2770204997132493!3d48.85883773952196!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b70f%3A0x40b82c3688c9460!2sParis!5e0!3m2!1sfr!2sfr!4v1522509921668" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                            <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDp8sy6lzY-CS0TR-wTAKwyUbtv0cxe89U&q=<?= str_ireplace(' ', '+', $formation->getPrestataire()->getAdress()) ?>" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>
@@ -69,7 +57,7 @@
                         </div>
                         <div class="form-list" style="margin-top: 95px;">
                             <div class="aec-full-message-w show-pack">
-                                <a href="<?= App::generateUrl('formation_show_avis', ['id' => 1]) ?>" class="more-messages" style="top: -70px;">
+                                <a href="<?= App::generateUrl('avis_formations', ['id' => $formation->getId()]) ?>" class="more-messages" style="top: -70px;">
                                     Voir tout les avis (7)
                                 </a>
                                 <div class="aec-full-message">

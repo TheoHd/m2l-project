@@ -18,15 +18,39 @@ Class FormationController extends Controller {
      * @RouteUrl /formation/{:id}/avis
      * @RouteParam id ([0-9]+)
      */
-    public function showAvisAction(){
-        $this->render('appBundle:formation:avis');
+    public function showAvisAction($params){
+        $formation = App::getTable('appBundle:formation')->findById($params['id']);
+        $avis = App::getTable('appBundle:avis')->findBy(['formation_id' => $formation->getId()], ['date' => 'DESC']);
+
+        $myAvis = App::getTable('appBundle:avis')->findOneBy(['formation_id' => $formation->getId(), 'user_id' => App::getUser()->getId()]);
+
+        $authorizeNewAvis = $myAvis === false;
+
+        $this->render('appBundle:formation:avis', [
+            'formation' => $formation,
+            'avis' => $avis,
+            'authorizeNewAvis' => $authorizeNewAvis
+        ]);
+    }
+
+    /**
+     * @RouteName show_formation
+     * @RouteUrl /formation/{:id}
+     * @RouteParam :id ([0-9]+)
+     */
+    public function showAction($params){
+        $formation = App::getTable('appBundle:formation')->findById($params['id']);
+
+        $this->render('appBundle:formation:show', [
+            'formation' => $formation
+        ]);
     }
 
     /**
      * @RouteName list_formations
-     * @RouteUrl /admin/formations
+     * @RouteUrl /formations
      */
-    public function showFormationAction(){
+    public function listFormationAction(){
 
         $formations = App::getTable('appBundle:formation')->findAll();
 
@@ -54,7 +78,7 @@ Class FormationController extends Controller {
 
     /**
      * @RouteName add_formation
-     * @RouteUrl /admin/formations/add
+     * @RouteUrl /formations/add
      */
     public function addFormationAction(){
         $form = $this->getEntityForm('appBundle:formation', Request::all());
@@ -63,6 +87,7 @@ Class FormationController extends Controller {
             'pageTitle' => "Ajout d'une nouvelle formation",
             'pageDesc' => "",
             'previousUrl' => "list_formations",
+            'previousParams' => [],
             'btnText' => "Retour à la liste des formations",
             'form' => $form->render(),
         ]);
@@ -70,7 +95,7 @@ Class FormationController extends Controller {
 
     /**
      * @RouteName update_formation
-     * @RouteUrl /admin/formations/update/{:id}
+     * @RouteUrl /formations/update/{:id}
      * @RouteParam :id ([0-9]+)
      */
     public function updateFormationAction($params){
@@ -83,6 +108,7 @@ Class FormationController extends Controller {
             'pageTitle' => "Modification d'une formation #" . $entity->getId(),
             'pageDesc' => "",
             'previousUrl' => "list_formations",
+            'previousParams' => [],
             'btnText' => "Retour à la liste des formations",
             'form' => $form->render(),
         ]);
@@ -90,7 +116,7 @@ Class FormationController extends Controller {
 
     /**
      * @RouteName delete_formation
-     * @RouteUrl /admin/formations/delete/{:id}
+     * @RouteUrl /formations/delete/{:id}
      * @RouteParam :id ([0-9]+)
      */
     public function deleteFormationAction($params){

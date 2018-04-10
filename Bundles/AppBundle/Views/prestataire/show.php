@@ -1,3 +1,4 @@
+<?php use Core\Session\Session; ?>
 <?= App::render('appBundle:includes:header') ?>
 
     <div class="content-w">
@@ -9,43 +10,27 @@
                 <a href="#">Administration - Admin</a>
             </li>
             <li class="breadcrumb-item">
-                <span>Formations</span>
+                <span>Prestataire</span>
             </li>
         </ul>
 
         <div class="element-box-tp">
-
             <div class="content-i" style="padding:20px;">
 
                 <div class="element-wrapper">
                     <div class="element-box">
                         <h5 class="form-header">
-                            Gestion des formations
+                            Formations dispensé par <code><?= $prestataire->getEntrepriseName() ?></code>
                         </h5>
                         <div class="form-desc">
-                            Listing des différents préstataires enregistrés dans la base de données de la maison des ligues de lorraine.
-                            <br><br>
-                            <code>Si il y a plusieurs contacts pour une entreprise, veuillez créer plusieurs préstataires différents.</code>
-                            <br><br>
-                            <a href="<?= App::generateUrl('add_formation') ?>" class="btn btn-primary btn-sm">Ajouter une formation</a>
+                            Listing des différentes formations dispensé par la société.
                         </div>
-                    </div>
-                </div>
-
-                <div class="os-tabs-w">
-                    <div class="os-tabs-controls">
-                        <ul class="nav nav-tabs upper">
-                            <li class="nav-item"><a class="nav-link active" href="#progress">En cours</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#finished">Terminées</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#canceled">Annulées</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#reported">Reportées</a></li>
-                        </ul>
                     </div>
                 </div>
 
                 <div id="progress" style="display:block;" class="tab-element element-wrapper">
                     <div class="element-box">
-                        <h5 class="form-header" style="margin-bottom: 0;">Formations en cours</h5>
+                        <h5 class="form-header text-success" style="margin-bottom: 0;">Formations en cours</h5>
                         <div class="form-desc"></div>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered" style="margin-bottom:0;">
@@ -81,9 +66,9 @@
                         </div>
                     </div>
                 </div>
-                <div id="finished" style="display:none;" class="tab-element element-wrapper">
+                <div id="finished" class="tab-element element-wrapper">
                     <div class="element-box">
-                        <h5 class="form-header" style="margin-bottom: 0;">Formations terminées</h5>
+                        <h5 class="form-header text-primary" style="margin-bottom: 0;">Formations terminées</h5>
                         <div class="form-desc"></div>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered" style="margin-bottom:0;">
@@ -119,9 +104,9 @@
                         </div>
                     </div>
                 </div>
-                <div id="canceled" style="display:none;" class="tab-element element-wrapper">
+                <div id="canceled" class="tab-element element-wrapper">
                     <div class="element-box">
-                        <h5 class="form-header" style="margin-bottom: 0;">Formations annulées</h5>
+                        <h5 class="form-header text-danger" style="margin-bottom: 0;">Formations annulées</h5>
                         <div class="form-desc"></div>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered" style="margin-bottom:0;">
@@ -157,9 +142,9 @@
                         </div>
                     </div>
                 </div>
-                <div id="reported" style="display:none;" class="tab-element element-wrapper">
+                <div id="reported" class="tab-element element-wrapper">
                     <div class="element-box">
-                        <h5 class="form-header" style="margin-bottom: 0;">Formations reportées</h5>
+                        <h5 class="form-header text-warning" style="margin-bottom: 0;">Formations reportées</h5>
                         <div class="form-desc"></div>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered" style="margin-bottom:0;">
@@ -195,7 +180,6 @@
                         </div>
                     </div>
                 </div>
-
 
             </div>
         </div>

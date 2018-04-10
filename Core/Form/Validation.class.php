@@ -107,7 +107,7 @@ class Validation{
         if(!isset($value) or empty($value)){ return; }
 
         if(is_numeric($value)){
-            if( $value >= $max ){
+            if( $value > $max ){
                 $this->addFormError($index, "La valeur du champ $index doit être inférieur à $max");
             }
         }else{
@@ -120,7 +120,7 @@ class Validation{
         if(!isset($value) or empty($value)){ return; }
 
         if(is_numeric($value)){
-            if( $value <= $min ){
+            if( $value < $min ){
                 $this->addFormError($index, "La valeur du champ $index doit être supérieur à $min");
             }
         }else{
@@ -602,10 +602,10 @@ class Validation{
         return $newRules;
     }
 
-    public function addValidationRules($entityPropName, $entityRules){
-        foreach ($entityRules as $propertyName => $rules){
-            $this->addValidation($entityPropName .'_' . $propertyName, $rules);
-        }
-    }
+//    public function addValidationRules($entityPropName, $entityRules){
+//        foreach ($entityRules as $propertyName => $rules){
+//            $this->addValidation($entityPropName .'_' . $propertyName, $rules);
+//        }
+//    }
 
 }

@@ -58,7 +58,7 @@
                                     <td><?= $prestataire->getAdress() ?></td>
                                     <td class="text-right">
                                         <a href="" class="btn btn-primary btn-sm btn-m5"><i class="fa fa-envelope"></i> Contacter</a>
-                                        <a href="" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
+                                        <a href="<?= App::generateUrl('show_prestataire', ['id' => $prestataire->getId()]) ?>" class="btn btn-info btn-sm btn-m5"><i class="fa fa-eye"></i> Voir</a>
                                         <br>
                                         <a href="<?= App::generateUrl('update_prestataire', ['id' => $prestataire->getId()]) ?>" class="btn btn-warning btn-sm btn-m5"><i class="fa fa-pencil"></i> Modifier</a>
                                         <a href="<?= App::generateUrl('delete_prestataire', ['id' => $prestataire->getId()]) ?>" class="btn btn-danger btn-sm btn-m5 btn-delete-trigger"><i class="fa fa-times"></i> Supprimer</a>

@@ -67,6 +67,8 @@ class Utils{
             return $jour_fr[$nom_jour] . ' ' . $jour . ' ' . $mois_fr[$mois] . ' ' . $annee;
         }elseif($format == 4){
             return $annee;
+        }elseif($format == 5){
+            return $hours . 'h' . $minutes;
         }else{
             return $date;
         }

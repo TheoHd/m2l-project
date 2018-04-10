@@ -28,7 +28,7 @@ Class AccountController extends Controller {
 
     public function changePasswordAction(){
 
-        $form = $this->getForm('userBundle:AccountForm', 'changePassword', $_POST);
+        $form = $this->getForm('userBundle:Account', 'changePassword', $_POST);
 
         if( $this->request->is('post') ){
             $auth = App::getAuthentification();
@@ -68,7 +68,7 @@ Class AccountController extends Controller {
 
     public function changeEmailAction(){
 
-        $form = $this->getForm('userBundle:AccountForm', 'changeEmail', $_POST);
+        $form = $this->getForm('userBundle:Account', 'changeEmail', $_POST);
         $auth = App::getAuthentification();
         $currentUser = $auth->getUser();
         $currentUserEmail = $currentUser->getEmail();

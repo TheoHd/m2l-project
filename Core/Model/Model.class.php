@@ -361,7 +361,7 @@ class Model{
             }
             return $result;
         }
-        return false;
+        return [];
     }
 
     public function findById($id){

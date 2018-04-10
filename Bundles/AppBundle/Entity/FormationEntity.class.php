@@ -94,4 +94,9 @@ class FormationEntity extends Entity {
 
     public function getStatut(){ return $this->statut; }
     public function setStatut($statut){ $this->statut = $statut;}
+
+    public function __toString()
+    {
+        return $this->getNom();
+    }
 }

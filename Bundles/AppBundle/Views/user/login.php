@@ -29,11 +29,13 @@
                 M2L - Connection
             </h4>
 
-            <?= Session::hasFlashes('error') ? "<p class='alert-msg error-msg'>".Session::getFlash('error')."</p>" : '' ; ?>
-            <?= Session::hasFlashes('success') ? "<p class='alert-msg success-msg'>".Session::getFlash('success')."</p>" : '' ; ?>
+            <div class="container">
+                <?= Session::hasFlashes('error') ? "<p class='alert-msg error-msg'>".Session::getFlash('error')."</p>" : '' ; ?>
+                <?= Session::hasFlashes('success') ? "<p class='alert-msg success-msg'>".Session::getFlash('success')."</p>" : '' ; ?>
 
-            <?= $form->hasError() ? "<p class='alert-msg error-msg'>".$form->getErrors()."</p>" : '' ; ?>
-            <?= $form->hasSuccess() ? "<p class='alert-msg success-msg'>".$form->getSuccess()."</p>" : '' ; ?>
+                <?= $form->hasError() ? "<p class='alert-msg error-msg'>".$form->getErrors()."</p>" : '' ; ?>
+                <?= $form->hasSuccess() ? "<p class='alert-msg success-msg'>".$form->getSuccess()."</p>" : '' ; ?>
+            </div>
 
             <?= $form->start() ?>
                 <div class="form-group">

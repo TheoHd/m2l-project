@@ -17,7 +17,7 @@ Class LoginController extends Controller {
 
     public function loginAction($params){
 
-        $form = $this->getForm('UserBundle:LoginForm', 'login', $_POST);
+        $form = $this->getForm('UserBundle:Login', 'login', $_POST);
         $auth = App::getAuthentification();
 
         if( $this->request->is('post') ){
@@ -49,7 +49,7 @@ Class LoginController extends Controller {
             App::redirect( BASE_URL );
         }
 
-        $form = $this->getForm('UserBundle:LoginForm', 'register', $_POST);
+        $form = $this->getForm('UserBundle:Login', 'register', $_POST);
         $userManager = App::getManager('UserBundle:user');
         $auth = App::getAuthentification();
 
@@ -167,7 +167,7 @@ Class LoginController extends Controller {
             App::redirect( BASE_URL );
         }
 
-        $form = $this->getForm('UserBundle:LoginForm', 'forgotPassword', $_POST);
+        $form = $this->getForm('UserBundle:Login', 'forgotPassword', $_POST);
 
         $auth = App::getAuthentification();
         $userManager = App::getTable('UserBundle:user');
@@ -235,7 +235,7 @@ Class LoginController extends Controller {
             App::redirect( BASE_URL );
         }
 
-        $form = $this->getForm('UserBundle:LoginForm', 'resetPassword', $_POST);
+        $form = $this->getForm('UserBundle:Login', 'resetPassword', $_POST);
 
         $auth = App::getAuthentification();
         $userManager = App::getTable('UserBundle:user');

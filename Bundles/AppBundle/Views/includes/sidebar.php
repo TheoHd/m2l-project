@@ -32,7 +32,7 @@
         <span>Mon Profil</span></a>
     </li>
     <li class="">
-      <a href="<?= App::generateUrl('formations_list'); ?>">
+      <a href="<?= App::generateUrl('list_formations'); ?>">
         <div class="icon-w">
           <div class="os-icon os-icon-delivery-box-2"></div>
         </div>

@@ -1,3 +1,8 @@
+<?php
+    use Core\Session\Session;
+    use Core\Utils\Utils;
+?>
+
 <?= App::render('appBundle:includes:header') ?>
 
     <div class="content-w">
@@ -6,10 +11,10 @@
                 <a href="<?= BASE_URL ?>">Accueil</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="<?= App::generateUrl('formations_list') ?>">Formations</a>
+                <a href="<?= App::generateUrl('list_formations') ?>">Formations</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="<?= App::generateUrl('formation_show', ['id' => 1]) ?>">Formation Google</a>
+                <a href="<?= App::generateUrl('show_formation', ['id' => $formation->getId()]) ?>"><?= $formation->getNom() ?></a>
             </li>
             <li class="breadcrumb-item">
                 <span>Avis</span>
@@ -23,9 +28,16 @@
                         <h5 class="form-header">
                             Avis : <code>Formation Google</code>
                         </h5>
+                        <?php if($authorizeNewAvis) : ?>
+                            <a href="<?= App::generateUrl('add_avis', ['formation' => $formation->getId()]) ?>" class="btn btn-success btn-sm">Ajouter mon avis sur la formation</a>
+                        <?php endif; ?>
+
+                        <?= Session::hasFlashes('success') ? "<p class='alert-msg success-msg'>".Session::getFlash('success')."</p>" : '' ; ?>
                     </div>
                 </div>
                 <div class="element-wrapper">
+
+                    <?php foreach ($avis as $a) : ?>
                     <div class="aec-full-message-w">
                         <div class="aec-full-message">
                             <div class="message-head">
@@ -36,124 +48,30 @@
                                         </div>
                                     </div>
                                     <div class="user-name">
-                                        <h6 class="user-title">John Mayers</h6>
-                                        <div class="user-role">Salarié<span>&lt; john@solutions.com &gt;</span></div>
+                                        <h6 class="user-title"><?= $a->getUser()->getNom() ?></h6>
+                                        <div class="user-role">Salarié<span>&lt; <?= $a->getUser()->getEmail() ?> &gt;</span></div>
                                     </div>
                                 </div>
-                                <div class="message-info">January 12th, 2017<br>1:24pm</div>
+                                <div class="message-info"><?= Utils::format_date($a->getDate(), 3) ?><br> à <?= Utils::format_date($a->getDate(), 5) ?></div>
                             </div>
                             <div class="message-content">
-                                Hi Mike,
-                                <br><br>When the equation, first to ability the forwards, the a but travelling, outlines sentinels bad expand to goodness. Behind if have at the even I and how work, completely deference who boss actually designer; Monstrous with geared from far and these, morals, phase rome; Class. Called get amidst of next.
-                                <br><br>Monstrous with geared from far and these, morals, phase rome; Class. Called get amidst of next.Monstrous with geared from far and these, morals, phase rome; Class. Called get amidst of next.
-                                <br><br>Regards,
-                                <br>Mike Mayers
+                               <?= $a->getContent() ?>
 
                                 <div class="message-attachments">
                                     <div class="attachments-heading">Notes</div>
                                     <div class="attachments-docs">
-
+                                        <?php
+                                            for($i = 1; $i <= 5; $i++){
+                                                $class = ($i <= $a->getNote()) ? 'start-active' : '' ;
+                                                echo '<span class="star '.$class.'"><i class="fa fa-star"></i></span>';
+                                            }
+                                        ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="aec-full-message-w">
-                        <div class="aec-full-message">
-                            <div class="message-head">
-                                <div class="user-w with-status status-green">
-                                    <div class="user-avatar-w">
-                                        <div class="user-avatar">
-                                            <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                                        </div>
-                                    </div>
-                                    <div class="user-name">
-                                        <h6 class="user-title">John Mayers</h6>
-                                        <div class="user-role">Salarié<span>&lt; john@solutions.com &gt;</span></div>
-                                    </div>
-                                </div>
-                                <div class="message-info">January 12th, 2017<br>1:24pm</div>
-                            </div>
-                            <div class="message-content">
-                                Hi Mike,
-                                <br><br>When the equation, first to ability the forwards, the a but travelling, outlines sentinels bad expand to goodness. Behind if have at the even I and how work, completely deference who boss actually designer; Monstrous with geared from far and these, morals, phase rome; Class. Called get amidst of next.
-                                <br><br>Monstrous with geared from far and these, morals, phase rome; Class. Called get amidst of next.Monstrous with geared from far and these, morals, phase rome; Class. Called get amidst of next.
-                                <br><br>Regards,
-                                <br>Mike Mayers
-
-                                <div class="message-attachments">
-                                    <div class="attachments-heading">Notes</div>
-                                    <div class="attachments-docs">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="aec-full-message-w">
-                        <div class="aec-full-message">
-                            <div class="message-head">
-                                <div class="user-w with-status status-green">
-                                    <div class="user-avatar-w">
-                                        <div class="user-avatar">
-                                            <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                                        </div>
-                                    </div>
-                                    <div class="user-name">
-                                        <h6 class="user-title">John Mayers</h6>
-                                        <div class="user-role">Salarié<span>&lt; john@solutions.com &gt;</span></div>
-                                    </div>
-                                </div>
-                                <div class="message-info">January 12th, 2017<br>1:24pm</div>
-                            </div>
-                            <div class="message-content">
-                                Hi Mike,
-                                <br><br>When the equation, first to ability the forwards, the a but travelling, outlines sentinels bad expand to goodness. Behind if have at the even I and how work, completely deference who boss actually designer; Monstrous with geared from far and these, morals, phase rome; Class. Called get amidst of next.
-                                <br><br>Monstrous with geared from far and these, morals, phase rome; Class. Called get amidst of next.Monstrous with geared from far and these, morals, phase rome; Class. Called get amidst of next.
-                                <br><br>Regards,
-                                <br>Mike Mayers
-
-                                <div class="message-attachments">
-                                    <div class="attachments-heading">Notes</div>
-                                    <div class="attachments-docs">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="aec-full-message-w">
-                        <div class="aec-full-message">
-                            <div class="message-head">
-                                <div class="user-w with-status status-green">
-                                    <div class="user-avatar-w">
-                                        <div class="user-avatar">
-                                            <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                                        </div>
-                                    </div>
-                                    <div class="user-name">
-                                        <h6 class="user-title">John Mayers</h6>
-                                        <div class="user-role">Salarié<span>&lt; john@solutions.com &gt;</span></div>
-                                    </div>
-                                </div>
-                                <div class="message-info">January 12th, 2017<br>1:24pm</div>
-                            </div>
-                            <div class="message-content">
-                                Hi Mike,
-                                <br><br>When the equation, first to ability the forwards, the a but travelling, outlines sentinels bad expand to goodness. Behind if have at the even I and how work, completely deference who boss actually designer; Monstrous with geared from far and these, morals, phase rome; Class. Called get amidst of next.
-                                <br><br>Monstrous with geared from far and these, morals, phase rome; Class. Called get amidst of next.Monstrous with geared from far and these, morals, phase rome; Class. Called get amidst of next.
-                                <br><br>Regards,
-                                <br>Mike Mayers
-
-                                <div class="message-attachments">
-                                    <div class="attachments-heading">Notes</div>
-                                    <div class="attachments-docs">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>

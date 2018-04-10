@@ -23,7 +23,7 @@
                         </h5>
                         <div class="form-desc">
                             <?= $pageDesc ?>
-                            <a href="<?= App::generateUrl($previousUrl) ?>" class="btn btn-info btn-sm"><i class="fa fa-arrow-left"></i> <?= $btnText ?></a>
+                            <a href="<?= App::generateUrl($previousUrl, $previousParams) ?>" class="btn btn-info btn-sm"><i class="fa fa-arrow-left"></i> <?= $btnText ?></a>
                         </div>
                     </div>
                 </div>
