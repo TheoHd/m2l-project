@@ -27,7 +27,12 @@ Class AppController extends Controller {
 
         $administrateur = App::getDb()->query('SELECT * FROM user WHERE roles LIKE "%ROLE_ADMIN%"', true, PDO::FETCH_CLASS, UserEntity::class);
         $chefId = App::getDb()->query('SELECT e.chef_id as id FROM equipe_user eu, equipe e WHERE eu.equipe_id = e.id AND eu.user_id = ' . $user->getId(), true);
-        $chef = App::getDb()->query('SELECT * FROM user WHERE id = ' . $chefId->id, true, PDO::FETCH_CLASS, UserEntity::class);
+        if($chefId != false){
+            $chef = App::getDb()->query('SELECT * FROM user WHERE id = ' . $chefId->id, true, PDO::FETCH_CLASS, UserEntity::class);
+        }else{
+            $chef = App::getUser();
+        }
+
 
         $last3formations = App::getTable('appBundle:formation')->findBy(['statut' => 1], ['deb' => 'DESC'], 3);
         foreach ($last3formations as $f){
@@ -56,9 +61,10 @@ Class AppController extends Controller {
         }
 
         $lastNote = reset($notes);
+        $lastNote = ($lastNote !== false) ? $lastNote->getNote() : 0 ;
 
         $moyenne = 0;
-        $nbNotes = count($notes);
+        $nbNotes = count($notes) > 1 ? count($notes) : 1;
         foreach ($notes as $n){
             $moyenne += $n->getNote();
         }
@@ -67,7 +73,7 @@ Class AppController extends Controller {
         return $this->render('appBundle:pages:home', [
             'user' => $user,
             'moyenne' => $r,
-            'lastNote' => $lastNote->getNote(),
+            'lastNote' => $lastNote,
             'nbFormations' => count($formations),
             'administrateur' => $administrateur,
             'chef' => $chef,

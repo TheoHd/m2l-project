@@ -22,10 +22,10 @@ Class ChefController extends Controller {
      * @RouteUrl /chef/equipes
      */
     public function showEquipeAction(){
-        $equipe = App::getTable('appBundle:equipe')->findById( App::getTable()->getId());
+        $equipe = App::getTable('appBundle:equipe')->findById( App::getUser()->getId() );
 
         $this->render('appBundle:chef:equipe', [
-            'equipe' => $equipe
+            'employes' => $equipe->getEmploye()->all()
         ]);
     }
 

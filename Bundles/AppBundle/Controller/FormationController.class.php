@@ -40,7 +40,7 @@ Class FormationController extends Controller {
 
         $alreadyHasDemand = count($demand) > 0;
 
-        $note = 'Aucune notes';
+        $note = false;
         if(!empty($avisFormation)){
             $noteFormation = 0;
             foreach ($avisFormation as $avis){

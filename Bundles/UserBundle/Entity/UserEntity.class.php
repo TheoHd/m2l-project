@@ -80,7 +80,6 @@ class UserEntity extends Entity {
      * @FormRelationType select
      */
     protected $adress;
-
     /**
      * @Type date
      * @Nullable true

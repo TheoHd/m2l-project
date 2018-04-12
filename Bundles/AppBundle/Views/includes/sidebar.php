@@ -1,3 +1,4 @@
+<?php use Bundles\AppBundle\Controller\ProfilController; ?>
 <div class="desktop-menu menu-side-w color-scheme-dark">
 <div class="logo-w">
   <a class="logo" href="<?= BASE_URL ?>"><img src="<?= App::getRessource('appBundle:images:logo.png') ?>"><span>Maison des ligues de Lorraine</span></a>
@@ -9,16 +10,16 @@
     </div>
     <div class="logged-user-info-w">
       <div class="logged-user-name">
-        Baptiste Vasseur
+        <?= App::getUser()->getNom() ?>
       </div>
       <div class="logged-user-role">
-        Administrateur
+        <?= ProfilController::getRole(App::getUser()) ?>
       </div>
     </div>
   </div>
   <ul class="main-menu">
     <li class="">
-      <a href="<?= App::generateUrl(''); ?>">
+      <a href="<?= BASE_URL ?>">
         <div class="icon-w">
           <div class="os-icon os-icon-window-content"></div>
         </div>
@@ -62,7 +63,7 @@
     </li>
     <br>
     <br>
-      <?php if(App::getUser()->hasRole('ROLE_CHEF')) : ?>
+      <?php if(App::getUser()->hasRole('ROLE_CHEF') and !App::getUser()->hasRole('ROLE_ADMIN')) : ?>
     <li class="has-sub-menu">
       <a href="<?= App::generateUrl(''); ?>">
         <div class="icon-w">
@@ -85,6 +86,7 @@
         <span>Accés Admin</span>
       </a>
       <ul class="sub-menu">
+          <li><a href="<?= App::generateUrl('gestion_demand') ?>">Gérer les demandes</a></li>
         <li><a href="<?= App::generateUrl('list_equipes') ?>">Gestion des équipes</a></li>
         <li><a href="<?= App::generateUrl('list_membres') ?>">Gestion des membres</a></li>
         <li><a href="<?= App::generateUrl('list_cadres') ?>">Gestion de cadres</a></li>
@@ -93,6 +95,15 @@
       </ul>
     </li>
       <?php endif; ?>
+      <br><br>
+      <li class="">
+          <a href="<?= App::generateUrl('logout'); ?>">
+              <div class="icon-w">
+                  <div class="os-icon os-icon-signs-11"></div>
+              </div>
+              <span>Déconnexion</span></a>
+      </li>
   </ul>
 </div>
+    <div style="position: absolute; bottom: 10px; left: 0; right: 0; text-align: center;"><small>Dernière connexion le <b>12 Avril 2018</b>.</small></div>
 </div>

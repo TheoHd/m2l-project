@@ -67,7 +67,13 @@ Class ProfilController extends Controller {
      * @RouteUrl /history
      */
     public function historyAction(){
-        return $this->render('appBundle:profil:history');
+        $user = App::getUser();
+
+        $demands = App::getTable('appBundle:demand')->findBy(['user_id' => $user->getId()]);
+
+        return $this->render('appBundle:profil:history', [
+            'demands' => $demands
+        ]);
     }
 
 
@@ -76,7 +82,7 @@ Class ProfilController extends Controller {
             return "Administrateur";
         }else if($user->hasRole('ROLE_CHEF')){
             return 'Chef';
-        }else if($user->hasRole('ROLE_EMPLOYE')){
+        }else if($user->hasRole('ROLE_SALARIE')){
             return 'Salarié';
         }
     }

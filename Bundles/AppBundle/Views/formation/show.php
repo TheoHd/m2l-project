@@ -73,14 +73,22 @@ use Core\Utils\Utils; ?>
                             Avis sur la formation
                         </h5>
                         <div class="form-desc">Cette formation à été choisi
-                            <code><?= $nbDemand ?> fois</code> et à obtenu une note moyenne de
-                            <code><?= $note ?>/5</code>.
+                            <code><?= $nbDemand ?> fois</code>
+
+                            <?php if($note !== false) : ?>
+                                et à obtenu une note moyenne de <code><?= $note ?>/5</code>.
+                            <?php else: ?>
+                                . <code>Aucune note disponible</code>
+                            <?php endif; ?>
+
                         </div>
                         <div class="form-list" style="margin-top: 95px;">
                             <div class="aec-full-message-w show-pack">
                                 <a href="<?= App::generateUrl('avis_formations', ['id' => $formation->getId()]) ?>" class="more-messages" style="top: -70px;">
                                     Voir tout les avis (<?= $nbAvis ?>)
                                 </a>
+
+                                <?php if($lastAvis !== false) : ?>
                                 <div class="aec-full-message">
                                     <div class="message-head">
                                         <div class="user-w with-status status-green">
@@ -112,6 +120,9 @@ use Core\Utils\Utils; ?>
                                         </div>
                                     </div>
                                 </div>
+                                <?php else: ?>
+                                    <div class="alert-msg alert-warning">Aucun avis</div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

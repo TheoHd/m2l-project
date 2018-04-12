@@ -3,6 +3,7 @@
 namespace Bundles\AppBundle\Controller;
 
 use App;
+use Bundles\AppBundle\Entity\EquipeEntity;
 use Core\Config\Config;
 use Core\Controller\Controller;
 use Core\Request\Request;
@@ -90,13 +91,19 @@ Class MembreController extends Controller {
      * @RouteParam id ([0-9]+)
      */
     public function promoteUserAction($params){
-        $manager = App::getTable('userBundle:user');
-        $user = $manager->findById($params['id']);
+        $userManager = App::getTable('userBundle:user');
+        $user = $userManager->findById($params['id']);
+
+        $equipeManager = App::getTable('appBundle:equipe');
+        $equipe = new EquipeEntity();
+        $equipe->setNom($user->getNom());
+        $equipe->setChef($user);
+        $equipeManager->persist($equipe)->save();
 
         App::getDb()->query('DELETE FROM equipe_user WHERE user_id = ' . $user->getId(), true);
 
         $user->setRoles('ROLE_CHEF');
-        $manager->save();
+        $userManager->save();
 
         App::redirectToPreviousRoute();
     }
@@ -107,10 +114,14 @@ Class MembreController extends Controller {
      * @RouteParam id ([0-9]+)
      */
     public function demoteUserAction($params){
-        $manager = App::getTable('userBundle:user');
-        $user = $manager->findById($params['id']);
+        $userManager = App::getTable('userBundle:user');
+        $user = $userManager->findById($params['id']);
         $user->setRoles('ROLE_SALARIE');
-        $manager->save();
+        $userManager->save();
+
+        $equipeManager = App::getTable('appBundle:equipe');
+        $equipe = $equipeManager->findOneBy(['chef_id' => $user->getId()]);
+        $equipeManager->remove($equipe);
 
         App::redirectToPreviousRoute();
     }

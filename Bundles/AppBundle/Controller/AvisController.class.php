@@ -33,8 +33,10 @@ Class AvisController extends Controller {
         $avis = App::getTable('appBundle:avis')->findBy(['formation_id' => $formation->getId()], ['date' => 'DESC']);
 
         $myAvis = App::getTable('appBundle:avis')->findOneBy(['formation_id' => $formation->getId(), 'user_id' => App::getUser()->getId()]);
+        $demand = App::getTable('appBundle:demand')->findOneBy(['formation_id' => $formation->getId(), 'user_id' => App::getUser()->getId()]);
 
-        $authorizeNewAvis = $myAvis === false;
+        $authorizeNewAvis = $myAvis === false ;
+        $authorizeNewAvis = $authorizeNewAvis && $demand != false;
 
         $this->render('appBundle:formation:avis', [
             'formation' => $formation,

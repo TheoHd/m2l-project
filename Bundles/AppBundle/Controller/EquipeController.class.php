@@ -31,7 +31,7 @@ Class EquipeController extends Controller {
         $equipe = App::getTable('appBundle:equipe')->findById($params['id']);
 
         $this->render('appBundle:chef:equipe', [
-            'equipe' => $equipe
+            'employes' => $equipe->getEmploye()->all()
         ]);
     }
 

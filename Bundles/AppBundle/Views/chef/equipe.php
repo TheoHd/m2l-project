@@ -31,7 +31,7 @@
                     </div>
                 </div>
 
-                <?php foreach($equipe->getEmploye()->all() as $employe) : ?>
+                <?php foreach($employes as $employe) : ?>
                 <div style="float:left; height: 141px;" class="profile-tile col-md-4">
                     <div class="profile-tile-box">
                         <div class="pt-avatar-w">

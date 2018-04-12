@@ -112,6 +112,7 @@ use Core\Utils\Utils; ?>
                                     Mes dernières formations
                                 </h6>
                                 <div class="timed-activities compact">
+                                        <?php if(count($lastFormations) > 0) :?>
                                     <div class="timed-activity">
                                         <div class="ta-record-w">
                                             <?php foreach($lastFormations as $l) :?>
@@ -126,6 +127,9 @@ use Core\Utils\Utils; ?>
                                             <?php endforeach; ?>
                                         </div>
                                     </div>
+                                    <?php else : ?>
+                                        <div class="alert-msg alert-warning"><small>Vous n'avez postuler à aucune formation</small></div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -144,7 +148,7 @@ use Core\Utils\Utils; ?>
                                                     Réglages de votre profil
                                                 </h5>
                                                 <div class="element-inner-desc">
-                                                    Merci de saisir des informations valides. <a href="" target="_blank">Voir les conditions générales d'utilisations</a>
+                                                    Votre compte à été validé le <b><?= Utils::format_date($user->getValidationDate(), 3) ?></b>.
                                                 </div>
                                             </div>
                                         </div>
