@@ -30,6 +30,9 @@ Class LoginController extends Controller {
         }
 
         if($auth->logged()){
+            App::getTable('userBundle:user')->update(App::getUser(), ['lastCo' => App::getUser()->getCurrentCo()]);
+            $currentDate = (new \DateTime())->format('Y-m-d H:i:s');
+            App::getTable('userBundle:user')->update(App::getUser(), ['currentCo' => $currentDate]);
             App::redirect( BASE_URL );
         }
 

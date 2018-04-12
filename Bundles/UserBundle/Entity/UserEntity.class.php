@@ -80,14 +80,27 @@ class UserEntity extends Entity {
      * @FormRelationType select
      */
     protected $adress;
+
     /**
      * @Type date
      * @Nullable true
      */
     protected $birthday;
 
+    /**
+     * @Type datetime
+     * @Nullable true
+     */
+    protected $lastCo;
+
+    /**
+     * @Type datetime
+     * @Nullable true
+     */
+    protected $currentCo;
+
     public function __construct()
-    {
+{
         $this->adress = new OneToOneCollection('adress', $this);
     }
 
@@ -127,6 +140,11 @@ class UserEntity extends Entity {
 
     public function getBirthday() { return $this->birthday; }
     public function setBirthday($birthday) { $this->birthday = $birthday; }
+
+    public function getLastCo() { return $this->lastCo;}
+    public function setLastCo($lastCo) { $this->lastCo = $lastCo;}
+    public function getCurrentCo() { return $this->currentCo;}
+    public function setCurrentCo($currentCo) { $this->currentCo = $currentCo;}
 
 //    public function addAdress($adress) { return $this->adress->add($adress); }
 //    public function removeAdress($adress) { return $this->adress->remove($adress); }

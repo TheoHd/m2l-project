@@ -1,4 +1,5 @@
-<?php use Bundles\AppBundle\Controller\ProfilController; ?>
+<?php use Bundles\AppBundle\Controller\ProfilController;
+use Core\Utils\Utils; ?>
 <div class="desktop-menu menu-side-w color-scheme-dark">
 <div class="logo-w">
   <a class="logo" href="<?= BASE_URL ?>"><img src="<?= App::getRessource('appBundle:images:logo.png') ?>"><span>Maison des ligues de Lorraine</span></a>
@@ -105,5 +106,5 @@
       </li>
   </ul>
 </div>
-    <div style="position: absolute; bottom: 10px; left: 0; right: 0; text-align: center;"><small>Dernière connexion le <b>12 Avril 2018</b>.</small></div>
+    <div style="position: absolute; bottom: 10px; left: 0; right: 0; text-align: center;"><small>Dernière connexion le <b><?= Utils::format_date(App::getAuthentification()->refresh()->getLastCo(), 3) ?></b>.</small></div>
 </div>
