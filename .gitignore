@@ -2,4 +2,4 @@ Config/Database.xml
 .idea
 *.DS_STORE
 Core/Database/structure.txt
-Logs
+Logs/
