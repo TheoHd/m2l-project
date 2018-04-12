@@ -2,16 +2,51 @@
 
 namespace Bundles\AppBundle\Controller;
 
+use App;
 use Core\Controller\Controller;
+use Core\Request\Request;
 
 Class ProfilController extends Controller {
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        if(!App::getUser()){
+            App::redirectToRoute('login');
+        }
+    }
 
     /**
      * @RouteName showProfil
      * @RouteUrl /profil
      */
     public function showAction(){
-        $this->render('appBundle:profil:profil');
+        $manager = App::getTable('userBundle:user');
+        $user = $manager->findById(App::getUser()->getId());
+
+        $lastFormations = App::getTable('appBundle:demand')->findBy(['user_id' => $user->getId()], ['date' => 'DESC'], 3);
+
+        if($this->request->is('post')){
+
+            $nom = Request::get('nom', $user->getNom());
+            $prenom = Request::get('prenom');
+            $birthday = Request::get('birthday', $user->getBirthday());
+            $phone = Request::get('phone', $user->getPhone());
+
+            $nom = $nom . " " . $prenom;
+
+            $user->setNom($nom);
+            $user->setBirthday($birthday);
+            $user->setPhone($phone);
+
+            $manager->save();
+        }
+
+        $this->render('appBundle:profil:profil', [
+            'user' => $user,
+            'lastFormations' => $lastFormations
+        ]);
     }
 
     /**
@@ -19,8 +54,12 @@ Class ProfilController extends Controller {
      * @RouteUrl /profil/{:id}
      * @RouteParam id ([0-9]+)
      */
-    public function showUserAction(){
-        $this->render('appBundle:profil:profil');
+    public function showUserAction($params){
+        $user = App::getTable('userBundle:user')->findById($params['id']);
+
+        $this->render('appBundle:profil:profil', [
+            'user' => $user
+        ]);
     }
 
     /**
@@ -29,6 +68,17 @@ Class ProfilController extends Controller {
      */
     public function historyAction(){
         return $this->render('appBundle:profil:history');
+    }
+
+
+    public static function getRole($user){
+        if($user->hasRole('ROLE_ADMIN')){
+            return "Administrateur";
+        }else if($user->hasRole('ROLE_CHEF')){
+            return 'Chef';
+        }else if($user->hasRole('ROLE_EMPLOYE')){
+            return 'Salarié';
+        }
     }
 
 

@@ -27,6 +27,11 @@ class DemandEntity extends Entity {
     protected $user;
 
     /**
+     * @Type datetime
+     */
+    protected $date;
+
+    /**
      * @Type integer
      * @Default 1
      */
@@ -52,5 +57,8 @@ class DemandEntity extends Entity {
 
     public function getEtat() { return $this->etat; }
     public function setEtat($etat) { $this->etat = $etat; return $this; }
+
+    public function getDate() { return $this->date;}
+    public function setDate($date) { $this->date = $date;}
 
 }

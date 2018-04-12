@@ -58,7 +58,6 @@ class UserEntity extends Entity {
     /**
      * @Type string
      * @Length 255
-     * @Nullable true
      * @FormPlaceholder Numéro de téléphone...
      * @FormValidation (isPhone())
      */
@@ -66,13 +65,11 @@ class UserEntity extends Entity {
 
     /**
      * @Type integer
-     * @Nullable true
      */
     protected $nbJour;
 
     /**
      * @Type integer
-     * @Nullable true
      */
     protected $credits;
 
@@ -83,6 +80,12 @@ class UserEntity extends Entity {
      * @FormRelationType select
      */
     protected $adress;
+
+    /**
+     * @Type date
+     * @Nullable true
+     */
+    protected $birthday;
 
     public function __construct()
     {
@@ -123,6 +126,9 @@ class UserEntity extends Entity {
     public function getAdress() { return $this->adress->get(); }
     public function setAdress($adress) { $this->adress->set($adress); return $this; }
 
+    public function getBirthday() { return $this->birthday; }
+    public function setBirthday($birthday) { $this->birthday = $birthday; }
+
 //    public function addAdress($adress) { return $this->adress->add($adress); }
 //    public function removeAdress($adress) { return $this->adress->remove($adress); }
 //    public function getAdress() { return $this->adress->instance(); }
@@ -130,7 +136,7 @@ class UserEntity extends Entity {
 
     public function getRoles() { return $this->roles; }
     public function addRole($roles) { $this->roles = Security::addRole($this->roles, $roles); }
-    public function setRoles($roles) { $this->roles = Security::setRoles($this->roles, $roles); }
+    public function setRoles($roles) { $this->roles = Security::setRoles($roles); }
     public function removeRole($roles) { $this->roles = Security::removeRole($this->roles, $roles); }
     public function hasRole($role) { return Security::hasRole($this->roles, $role); }
 

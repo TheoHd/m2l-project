@@ -304,7 +304,7 @@ class Model{
      *
      */
 
-    protected function getQuery($params, $order){
+    protected function getQuery($params, $order, $limit = false, $offset = false){
         $tableName = $this->getTableName();
 
         $orderByQueryConstructor = '';
@@ -325,6 +325,17 @@ class Model{
         }
 
         $query = "SELECT * FROM $tableName " . $paramsQueryConstructor . $orderByQueryConstructor;
+
+        $limitConstructor = "";
+        if($limit !== false){
+            $limitConstructor = " LIMIT $limit";
+        }
+
+        if($limit !== false and $offset !== false){
+            $limitConstructor .= " OFFSET $offset";
+        }
+
+        $query = $query . $limitConstructor;
 
         return [$query, $paramsQueryValues];
     }
@@ -349,9 +360,9 @@ class Model{
         return false;
     }
 
-    public function findBy($params = [], $order = []){
+    public function findBy($params = [], $order = [], $limit = false, $offset = false){
         $entityName = $this->getEntityName();
-        list($query, $paramsQueryValues) = $this->getQuery($params, $order);
+        list($query, $paramsQueryValues) = $this->getQuery($params, $order, $limit, $offset);
         $result = $this->db->prepare($query, $paramsQueryValues , false, PDO::FETCH_CLASS, $entityName);
 
         if($result){

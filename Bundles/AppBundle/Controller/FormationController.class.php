@@ -3,6 +3,7 @@
 namespace Bundles\AppBundle\Controller;
 
 use App;
+use Bundles\AppBundle\Entity\FormationEntity;
 use Bundles\AppBundle\Form\FormEntity;
 use Bundles\UserBundle\Entity\UserEntity;
 use Core\Controller\Controller;
@@ -10,27 +11,17 @@ use Core\Form\Form;
 use Core\Form\FormEntityTraitement;
 use Core\Request\Request;
 use Core\Session\Session;
+use PDO;
 
 Class FormationController extends Controller {
 
-    /**
-     * @RouteName avis_formations
-     * @RouteUrl /formation/{:id}/avis
-     * @RouteParam id ([0-9]+)
-     */
-    public function showAvisAction($params){
-        $formation = App::getTable('appBundle:formation')->findById($params['id']);
-        $avis = App::getTable('appBundle:avis')->findBy(['formation_id' => $formation->getId()], ['date' => 'DESC']);
+    public function __construct()
+    {
+        parent::__construct();
 
-        $myAvis = App::getTable('appBundle:avis')->findOneBy(['formation_id' => $formation->getId(), 'user_id' => App::getUser()->getId()]);
-
-        $authorizeNewAvis = $myAvis === false;
-
-        $this->render('appBundle:formation:avis', [
-            'formation' => $formation,
-            'avis' => $avis,
-            'authorizeNewAvis' => $authorizeNewAvis
-        ]);
+        if(!App::getUser()){
+            App::redirectToRoute('login');
+        }
     }
 
     /**
@@ -40,17 +31,40 @@ Class FormationController extends Controller {
      */
     public function showAction($params){
         $formation = App::getTable('appBundle:formation')->findById($params['id']);
+        $user = App::getUser();
+
+        $nbDemand = count( App::getTable('appBundle:demand')->findBy(['formation_id' => $formation->getId()]) );
+        $demand = App::getTable('appBundle:demand')->findBy(['formation_id' => $formation->getId(), 'user_id' => $user->getId()]);
+        $avisFormation = App::getTable('appBundle:avis')->findBy(['formation_id' => $formation->getId()]);
+        $lastAvis = reset($avisFormation);
+
+        $alreadyHasDemand = count($demand) > 0;
+
+        $note = 'Aucune notes';
+        if(!empty($avisFormation)){
+            $noteFormation = 0;
+            foreach ($avisFormation as $avis){
+                $noteFormation += $avis->getNote();
+            }
+            $note = (int) round($noteFormation / count($avisFormation));
+        }
 
         $this->render('appBundle:formation:show', [
-            'formation' => $formation
+            'formation' => $formation,
+            'alreadyHasDemand' => $alreadyHasDemand,
+            'nbAvis' => count($avisFormation),
+            'note' => $note,
+            'nbDemand' => $nbDemand,
+            'lastAvis' => $lastAvis,
+            'demands' => $demand,
         ]);
     }
 
     /**
-     * @RouteName list_formations
-     * @RouteUrl /formations
+     * @RouteName manage_formations
+     * @RouteUrl /formations/manage
      */
-    public function listFormationAction(){
+    public function manageFormationAction(){
 
         $formations = App::getTable('appBundle:formation')->findAll();
 
@@ -68,11 +82,41 @@ Class FormationController extends Controller {
             }
         }
 
-        $this->render('appBundle:admin:formations', [
+        $this->render('appBundle:formation:manage', [
             'canceled' => $canceled,
             'soon' => $soon,
             'ended' => $ended,
             'reported' => $reported,
+        ]);
+    }
+
+    /**
+     * @RouteName search_formations
+     * @RouteUrl /home/search
+     */
+    public function searchqHomeFormationAction(){
+
+        $search = Request::get('search');
+
+        $formations = App::getDb()->query("SELECT * FROM formation WHERE nom LIKE '%".$search."%'", false, PDO::FETCH_CLASS, FormationEntity::class);
+
+        $this->render('appBundle:formation:ajax-template', [
+            'formations' => $formations
+        ]);
+    }
+
+    /**
+     * @RouteName search_formations_salarie
+     * @RouteUrl /formations/search
+     */
+    public function searchFormationAction(){
+
+        $search = Request::get('search');
+
+        $formations = App::getDb()->query("SELECT * FROM formation WHERE nom LIKE '%".$search."%'", false, PDO::FETCH_CLASS, FormationEntity::class);
+
+        $this->render('appBundle:formation:ajax-template-search', [
+            'formations' => $formations
         ]);
     }
 
@@ -86,7 +130,7 @@ Class FormationController extends Controller {
         $this->render('appBundle:includes:form', [
             'pageTitle' => "Ajout d'une nouvelle formation",
             'pageDesc' => "",
-            'previousUrl' => "list_formations",
+            'previousUrl' => "manage_formations",
             'previousParams' => [],
             'btnText' => "Retour à la liste des formations",
             'form' => $form->render(),
@@ -107,7 +151,7 @@ Class FormationController extends Controller {
         $this->render('appBundle:includes:form', [
             'pageTitle' => "Modification d'une formation #" . $entity->getId(),
             'pageDesc' => "",
-            'previousUrl' => "list_formations",
+            'previousUrl' => "manage_formations",
             'previousParams' => [],
             'btnText' => "Retour à la liste des formations",
             'form' => $form->render(),
@@ -122,7 +166,63 @@ Class FormationController extends Controller {
     public function deleteFormationAction($params){
         App::getTable('appBundle:formation')->remove($params['id']);
         Session::success('Le formation à bien été supprimé !');
-        App::redirectToRoute('list_formations');
+        App::redirectToRoute('manage_formations');
+    }
+
+
+
+    /**
+     * @RouteName list_formations
+     * @RouteUrl /formations
+     */
+    public function listFormationAction(){
+
+        $manager = App::getTable('userBundle:user');
+        $user = $manager->findById(App::getUser()->getId());
+        $formations = App::getTable('appBundle:formation')->findAll();
+
+        $myFormation = App::getTable('appBundle:demand')->findBy(['user_id' => $user->getId()]);
+
+        $nbFormation = count($myFormation);
+        $totalDays = 0;
+        if($nbFormation > 0){
+            foreach ($myFormation as $f){
+                $totalDays += $f->getFormation()->getDuree();
+            }
+        }
+
+        foreach ($formations as $f){
+            $avisFormation = App::getTable('appBundle:avis')->findBy(['formation_id' => $f->getId()]);
+
+            if(!empty($avisFormation)){
+                $noteFormation = 0;
+                foreach ($avisFormation as $avis){
+                    $noteFormation += $avis->getNote();
+                }
+
+                $round = (int) round($noteFormation / count($avisFormation));
+                if($round == 1) { $noteTitle = 'Facile';
+                } elseif($round == 2) { $noteTitle = 'Moyen';
+                } elseif($round == 3) { $noteTitle = 'Intermédiaire';
+                } elseif($round == 4) { $noteTitle = 'Difficile';
+                } elseif($round == 5) { $noteTitle = 'Trés difficile';
+                } else{ $noteTitle = 'Aucun avis'; }
+
+                $f->noteTitle = $noteTitle;
+                $f->notePercent = ($noteFormation / count($avisFormation)) * 100 / 5;
+            }else{
+                $f->notePercent = "0";
+                $f->noteTitle = "Aucun avis";
+            }
+        }
+
+
+        $this->render('appBundle:formation:list', [
+            'user' => $user,
+            'formations' => $formations,
+            'nbFormation' => $nbFormation,
+            'totalDays' => $totalDays,
+        ]);
     }
 
 }

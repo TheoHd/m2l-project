@@ -290,8 +290,15 @@ class Router {
     }
 
     public static function redirectToPreviousRoute(){
-        // TODO :
+        if(isset($_SERVER['HTTP_REFERER'])) {
+            $previous = $_SERVER['HTTP_REFERER'];
+        }else{
+            $previous = BASE_URL;
+        }
+
+        self::redirect($previous);
     }
+
 
 
 

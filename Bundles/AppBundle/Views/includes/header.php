@@ -7,6 +7,7 @@
     <link href="apple-touch-icon.png" rel="apple-touch-icon">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
       <?= App::getRessource('appBundle:css:main.css') ?>
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="all-wrapper menu-side with-side-panel">

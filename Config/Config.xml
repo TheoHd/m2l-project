@@ -15,4 +15,8 @@
     <email_SiteName>baptiste-theo.m2l.fr</email_SiteName>
     <email_Signature>Votre prince Baptiste</email_Signature>
 
+
+    <site_maxJours>21</site_maxJours>
+    <site_maxCredits>5000</site_maxCredits>
+
 </parameters>

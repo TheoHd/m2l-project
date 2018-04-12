@@ -33,25 +33,29 @@
                     </div>
                 </div>
 
-                <?php foreach($membres as $membre) : ?>
-                <div class="element-wrapper col-md-3" style="float: left;">
-                    <div class="element-box full-chat-w">
-                        <div class="user-intro">
-                            <div class="avatar">
-                                <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                            </div>
-                            <div class="user-intro-info">
-                                <a href=""><h5 class="user-name"><?= $membre->getNom() ?></h5></a>
-                                <div class="user-sub"><?= $membre->getEmail() ?></div>
-                                <div class="user-social">
-                                    <a href="#" class="btn btn-primary btn-sm">Voir le profil</a>
-                                    <a href="#" class="btn btn-success btn-sm">Promouvoir</a>
+                <?php if(count($membres) > 0) : ?>
+                    <?php foreach($membres as $membre) : ?>
+                    <div class="element-wrapper col-md-3" style="float: left;">
+                        <div class="element-box full-chat-w">
+                            <div class="user-intro">
+                                <div class="avatar">
+                                    <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
+                                </div>
+                                <div class="user-intro-info">
+                                    <a href=""><h5 class="user-name"><?= $membre->getNom() ?></h5></a>
+                                    <div class="user-sub"><?= $membre->getEmail() ?></div>
+                                    <div class="user-social">
+                                        <a href="<?= App::generateUrl('showUserProfil', ['id' => $membre->getId()]) ?>" class="btn btn-primary btn-sm">Voir le profil</a>
+                                        <a href="<?= App::generateUrl('promote_user', ['id' => $membre->getId()]) ?>" class="btn btn-success btn-sm">Promouvoir</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="alert-msg info-msg">Aucun membre</div>
+                <?php endif; ?>
 
             </div>
         </div>

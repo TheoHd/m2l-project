@@ -14,6 +14,34 @@ use Core\Session\Session;
 
 Class AvisController extends Controller {
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        if(!App::getUser()){
+            App::redirectToRoute('login');
+        }
+    }
+
+    /**
+     * @RouteName avis_formations
+     * @RouteUrl /formation/{:id}/avis
+     * @RouteParam id ([0-9]+)
+     */
+    public function showAvisAction($params){
+        $formation = App::getTable('appBundle:formation')->findById($params['id']);
+        $avis = App::getTable('appBundle:avis')->findBy(['formation_id' => $formation->getId()], ['date' => 'DESC']);
+
+        $myAvis = App::getTable('appBundle:avis')->findOneBy(['formation_id' => $formation->getId(), 'user_id' => App::getUser()->getId()]);
+
+        $authorizeNewAvis = $myAvis === false;
+
+        $this->render('appBundle:formation:avis', [
+            'formation' => $formation,
+            'avis' => $avis,
+            'authorizeNewAvis' => $authorizeNewAvis
+        ]);
+    }
 
     /**
      * @RouteName add_avis

@@ -23,9 +23,9 @@
                             Gestion des formations
                         </h5>
                         <div class="form-desc">
-                            Listing des différents préstataires enregistrés dans la base de données de la maison des ligues de lorraine.
+                            Listing des différents formations enregistrés dans la base de données de la maison des ligues de lorraine.
                             <br><br>
-                            <code>Si il y a plusieurs contacts pour une entreprise, veuillez créer plusieurs préstataires différents.</code>
+                            <code>Vous pouvez postuler aux formations uniquement si vous possédez assez de crédits et de jours restants</code>
                             <br><br>
                             <a href="<?= App::generateUrl('add_formation') ?>" class="btn btn-primary btn-sm">Ajouter une formation</a>
                         </div>

@@ -9,6 +9,15 @@ use Core\Session\Session;
 
 Class PrestataireController extends Controller {
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        if(!App::getUser()){
+            App::redirectToRoute('login');
+        }
+    }
+
     /**
      * @RouteName list_prestataires
      * @RouteUrl /prestataires

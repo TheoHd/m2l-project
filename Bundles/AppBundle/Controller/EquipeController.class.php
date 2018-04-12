@@ -13,6 +13,15 @@ use Core\Session\Session;
 
 Class EquipeController extends Controller {
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        if(!App::getUser()){
+            App::redirectToRoute('login');
+        }
+    }
+
     /**
      * @RouteName list_equipe
      * @RouteUrl /admin/equipe/{:id}

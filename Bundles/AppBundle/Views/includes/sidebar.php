@@ -62,6 +62,7 @@
     </li>
     <br>
     <br>
+      <?php if(App::getUser()->hasRole('ROLE_CHEF')) : ?>
     <li class="has-sub-menu">
       <a href="<?= App::generateUrl(''); ?>">
         <div class="icon-w">
@@ -74,6 +75,8 @@
         <li><a href="<?= App::generateUrl('gestion_demand') ?>">Gérer les demandes</a></li>
       </ul>
     </li>
+      <?php endif; ?>
+      <?php if(App::getUser()->hasRole('ROLE_ADMIN')) : ?>
     <li class="has-sub-menu">
       <a href="<?= App::generateUrl(''); ?>">
         <div class="icon-w">
@@ -86,9 +89,10 @@
         <li><a href="<?= App::generateUrl('list_membres') ?>">Gestion des membres</a></li>
         <li><a href="<?= App::generateUrl('list_cadres') ?>">Gestion de cadres</a></li>
         <li><a href="<?= App::generateUrl('list_prestataires') ?>">Gestion des prestataires</a></li>
-        <li><a href="<?= App::generateUrl('list_formations') ?>">Gestion des formations</a></li>
+        <li><a href="<?= App::generateUrl('manage_formations') ?>">Gestion des formations</a></li>
       </ul>
     </li>
+      <?php endif; ?>
   </ul>
 </div>
 </div>

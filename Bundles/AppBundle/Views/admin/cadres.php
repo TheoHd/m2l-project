@@ -26,7 +26,7 @@
                             <br><br>
                             <code>Chaques équipes doit bénéficier d'un chef afin que celui-ci puisse valider les demandes.</code>
                             <br><br>
-                            <a href="<?= App::generateUrl('add_membre') ?>" class="btn btn-primary btn-sm">Ajouter un cadre</a>
+                            <a href="<?= App::generateUrl('list_membres') ?>" class="btn btn-primary btn-sm">Ajouter un cadre</a>
                         </div>
                         <form action="">
                             <input type="text" placeholder="Rechercher un chef/cadre..." class="form-control">
@@ -34,6 +34,7 @@
                     </div>
                 </div>
 
+                <?php foreach($cadres as $cadre) : ?>
                 <div class="element-wrapper col-md-3" style="float: left;">
                     <div class="element-box full-chat-w">
                         <div class="user-intro">
@@ -41,135 +42,17 @@
                                 <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
                             </div>
                             <div class="user-intro-info">
-                                <a href=""><h5 class="user-name">Baptiste Vasseur</h5></a>
-                                <div class="user-sub">bvasseur77@gmail.com</div>
+                                <a href=""><h5 class="user-name"><?= $cadre->getNom() ?></h5></a>
+                                <div class="user-sub"><?= $cadre->getEmail() ?></div>
                                 <div class="user-social">
-                                    <a href="#" class="btn btn-primary btn-sm">Voir l'équipe</a>
-                                    <a href="#" class="btn btn-danger btn-sm">Rétrograder</a>
+                                    <a href="<?= App::generateUrl('list_equipe', ['id' => $cadre->getId()]) ?>" class="btn btn-primary btn-sm">Voir l'équipe</a>
+                                    <a href="<?= App::generateUrl('demote_user', ['id' => $cadre->getId()]) ?>" class="btn btn-danger btn-sm">Rétrograder</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="element-wrapper col-md-3" style="float: left;">
-                    <div class="element-box full-chat-w">
-                        <div class="user-intro">
-                            <div class="avatar">
-                                <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                            </div>
-                            <div class="user-intro-info">
-                                <a href=""><h5 class="user-name">Baptiste Vasseur</h5></a>
-                                <div class="user-sub">bvasseur77@gmail.com</div>
-                                <div class="user-social">
-                                    <a href="#" class="btn btn-primary btn-sm">Voir l'équipe</a>
-                                    <a href="#" class="btn btn-danger btn-sm">Rétrograder</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="element-wrapper col-md-3" style="float: left;">
-                    <div class="element-box full-chat-w">
-                        <div class="user-intro">
-                            <div class="avatar">
-                                <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                            </div>
-                            <div class="user-intro-info">
-                                <a href=""><h5 class="user-name">Baptiste Vasseur</h5></a>
-                                <div class="user-sub">bvasseur77@gmail.com</div>
-                                <div class="user-social">
-                                    <a href="#" class="btn btn-primary btn-sm">Voir l'équipe</a>
-                                    <a href="#" class="btn btn-danger btn-sm">Rétrograder</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="element-wrapper col-md-3" style="float: left;">
-                    <div class="element-box full-chat-w">
-                        <div class="user-intro">
-                            <div class="avatar">
-                                <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                            </div>
-                            <div class="user-intro-info">
-                                <a href=""><h5 class="user-name">Baptiste Vasseur</h5></a>
-                                <div class="user-sub">bvasseur77@gmail.com</div>
-                                <div class="user-social">
-                                    <a href="#" class="btn btn-primary btn-sm">Voir l'équipe</a>
-                                    <a href="#" class="btn btn-danger btn-sm">Rétrograder</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="element-wrapper col-md-3" style="float: left;">
-                    <div class="element-box full-chat-w">
-                        <div class="user-intro">
-                            <div class="avatar">
-                                <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                            </div>
-                            <div class="user-intro-info">
-                                <a href=""><h5 class="user-name">Baptiste Vasseur</h5></a>
-                                <div class="user-sub">bvasseur77@gmail.com</div>
-                                <div class="user-social">
-                                    <a href="#" class="btn btn-primary btn-sm">Voir l'équipe</a>
-                                    <a href="#" class="btn btn-danger btn-sm">Rétrograder</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="element-wrapper col-md-3" style="float: left;">
-                    <div class="element-box full-chat-w">
-                        <div class="user-intro">
-                            <div class="avatar">
-                                <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                            </div>
-                            <div class="user-intro-info">
-                                <a href=""><h5 class="user-name">Baptiste Vasseur</h5></a>
-                                <div class="user-sub">bvasseur77@gmail.com</div>
-                                <div class="user-social">
-                                    <a href="#" class="btn btn-primary btn-sm">Voir l'équipe</a>
-                                    <a href="#" class="btn btn-danger btn-sm">Rétrograder</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="element-wrapper col-md-3" style="float: left;">
-                    <div class="element-box full-chat-w">
-                        <div class="user-intro">
-                            <div class="avatar">
-                                <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                            </div>
-                            <div class="user-intro-info">
-                                <a href=""><h5 class="user-name">Baptiste Vasseur</h5></a>
-                                <div class="user-sub">bvasseur77@gmail.com</div>
-                                <div class="user-social">
-                                    <a href="#" class="btn btn-primary btn-sm">Voir l'équipe</a>
-                                    <a href="#" class="btn btn-danger btn-sm">Rétrograder</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="element-wrapper col-md-3" style="float: left;">
-                    <div class="element-box full-chat-w">
-                        <div class="user-intro">
-                            <div class="avatar">
-                                <img alt="" src="<?= App::getRessource('appbundle:images:avatar1.jpg') ?>">
-                            </div>
-                            <div class="user-intro-info">
-                                <a href=""><h5 class="user-name">Baptiste Vasseur</h5></a>
-                                <div class="user-sub">bvasseur77@gmail.com</div>
-                                <div class="user-social">
-                                    <a href="#" class="btn btn-primary btn-sm">Voir l'équipe</a>
-                                    <a href="#" class="btn btn-danger btn-sm">Rétrograder</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
 
 
             </div>

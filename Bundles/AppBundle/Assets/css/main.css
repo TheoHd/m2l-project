@@ -10553,7 +10553,11 @@ b{
 }
 
 .error-msg, .alert-danger{
-    background: #e15249;
+  background: #e15249;
+}
+
+.error-msg, .alert-warning {
+  background: #e1a431;
 }
 
 .success-msg, .alert-success{

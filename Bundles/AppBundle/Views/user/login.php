@@ -37,6 +37,13 @@
                 <?= $form->hasSuccess() ? "<p class='alert-msg success-msg'>".$form->getSuccess()."</p>" : '' ; ?>
             </div>
 
+            <?php
+
+            $form->beforeSurround = "";
+            $form->afterSurround = "";
+
+            ?>
+
             <?= $form->start() ?>
                 <div class="form-group">
                     <?= $form->get('email') ?>

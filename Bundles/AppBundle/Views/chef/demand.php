@@ -33,6 +33,17 @@
                     </div>
                 </div>
 
+<!--                <div class="element-wrapper">-->
+<!--                    <div class="element-box">-->
+<!--                        <h5 class="form-header">-->
+<!--                            Gestion des demandes-->
+<!--                        </h5>-->
+<!--                        <div class="form-desc">-->
+<!--                            <a href="--><?//= App::generateUrl('') ?><!--" class="btn btn-sm btn-primary">Voir les demandes </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
                 <div class="element-wrapper">
                     <div class="element-box">
                         <div class="table-responsive">
@@ -50,76 +61,37 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+
+                                <?php foreach($demands as $demand) : ?>
                                 <tr>
                                     <td><img alt="" src="<?= App::getRessource('appBundle:images:flags-icons/us.png') ?>" width="25px"></td>
-                                    <td>John Mayers</td>
-                                    <td>bvasseur77@gmail.com</td>
-                                    <td>Formation Google</td>
-                                    <td class="text-center"><small>340 / <b>2030</b></small></td>
-                                    <td class="text-center"><small>2 / <b>18</b></small></td>
-                                    <td class="text-center"><div class="status-pill green"></div></td>
+                                    <td><?= $demand->getUser()->getNom() ?></td>
+                                    <td><?= $demand->getUser()->getEmail() ?></td>
+                                    <td><?= $demand->getFormation()->getNom() ?></td>
+                                    <td class="text-center"><small><?= $demand->getFormation()->getPrerequis() ?> / <b><?= $demand->getUser()->getCredits() ?></b></small></td>
+                                    <td class="text-center"><small><?= $demand->getFormation()->getDuree() ?> / <b><?= $demand->getUser()->getNbJour() ?></b></small></td>
+                                    <td class="text-center">
+                                        <?php
+
+                                        if($demand->getEtat() == -1){
+                                            echo '<div class="status-pill red"></div>';
+                                        }elseif($demand->getEtat() == 1){
+                                            echo '<div class="status-pill yellow"></div>';
+                                        }elseif($demand->getEtat() == 2){
+                                            echo '<div class="status-pill green"></div>';
+                                        }
+
+                                        ?>
+                                    </td>
                                     <td class="text-right">
-                                        <a href="" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>
-                                        <a href="" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></a>
-                                        <a href="" class="btn btn-warning btn-sm"><i class="fa fa-spinner fa-spin"></i></a>
+                                        <a href="<?= App::generateUrl('accept_demand', ['id' => $demand->getId()]) ?>" class="btn btn-sm btn-success"><i class="fa fa-check"></i></a>
+                                        <a href="<?= App::generateUrl('deny_demand', ['id' => $demand->getId()]) ?>" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a>
+                                        <a href="<?= App::generateUrl('wait_demand', ['id' => $demand->getId()]) ?>" class="btn btn-sm btn-warning"><i class="fa fa-spin fa-spinner"></i></a>
+
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td><img alt="" src="<?= App::getRessource('appBundle:images:flags-icons/ca.png') ?>" width="25px"></td>
-                                    <td>Kelly Brans</td>
-                                    <td>theohd@gmail.com</td>
-                                    <td>Formation Microsoft</td>
-                                    <td class="text-center"><small>200 / <b>600</b></small></td>
-                                    <td class="text-center"><small>2 / <b>4</b></small></td>
-                                    <td class="text-center"><div class="status-pill red"></div></td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>
-                                        <a href="" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></a>
-                                        <a href="" class="btn btn-warning btn-sm"><i class="fa fa-spinner fa-spin"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img alt="" src="<?= App::getRessource('appBundle:images:flags-icons/uk.png') ?>" width="25px"></td>
-                                    <td>Tim Howard</td>
-                                    <td>baptiste77370@hotmail.fr</td>
-                                    <td>Formation Wordpress</td>
-                                    <td class="text-center"><small>112 / <b>2300</b></small></td>
-                                    <td class="text-center"><small>12 / <b>28</b></small></td>
-                                    <td class="text-center"><div class="status-pill green"></div></td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>
-                                        <a href="" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></a>
-                                        <a href="" class="btn btn-warning btn-sm"><i class="fa fa-spinner fa-spin"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img alt="" src="<?= App::getRessource('appBundle:images:flags-icons/es.png') ?>" width="25px"></td>
-                                    <td>Joe Trulli</td>
-                                    <td>bvasseur@charlestown.fr</td>
-                                    <td>Formation Wix</td>
-                                    <td class="text-center"><small>2000 / <b>1500</b></small></td>
-                                    <td class="text-center"><small>2 / <b>5</b></small></td>
-                                    <td class="text-center"><div class="status-pill yellow"></div></td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>
-                                        <a href="" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></a>
-                                        <a href="" class="btn btn-warning btn-sm"><i class="fa fa-spinner fa-spin"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img alt="" src="<?= App::getRessource('appBundle:images:flags-icons/fr.png') ?>" width="25px"></td>
-                                    <td>Fred Kolton</td>
-                                    <td>johndoe@gmail.com</td>
-                                    <td>Formation Gmail</td>
-                                    <td class="text-center"><small>18 / <b>24</b></small></td>
-                                    <td class="text-center"><small>540 / <b>2000</b></small></td>
-                                    <td class="text-center"><div class="status-pill green"></div></td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>
-                                        <a href="" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></a>
-                                        <a href="" class="btn btn-warning btn-sm"><i class="fa fa-spinner fa-spin"></i></a>
-                                    </td>
-                                </tr>
+                                <?php endforeach; ?>
+
                                 </tbody>
                             </table>
                         </div>

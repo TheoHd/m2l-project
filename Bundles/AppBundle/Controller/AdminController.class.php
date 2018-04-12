@@ -9,10 +9,15 @@ use Core\Request\Request;
 Class AdminController extends Controller {
 
     /**
-     * @RouteName gestion_cadres
+     * @RouteName list_cadres
      * @RouteUrl /admin/cadres
      */
-    public function showCadreAction(){
-        $this->render('appBundle:admin:cadres');
+    public function showMembreAction(){
+
+        $cadres = App::getTable('userBundle:user')->findBy(['roles' => '{"ROLE_CHEF":"ROLE_CHEF"}']);
+
+        $this->render('appBundle:admin:cadres', [
+            'cadres' => $cadres
+        ]);
     }
 }

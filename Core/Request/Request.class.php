@@ -71,8 +71,8 @@ class Request extends Singleton {
         return count(self::$parameters);
     }
 
-    public static function get($key){
-        return self::$parameters[$key];
+    public static function get($key, $default = ""){
+        return (isset(self::$parameters[$key]) and !empty(self::$parameters[$key])) ? self::$parameters[$key] : $default ;
     }
 
 

@@ -198,6 +198,10 @@ class App
      */
 
 
+    public static function redirectToPreviousRoute() {
+        Router::redirectToPreviousRoute();
+    }
+
     public static function redirectToRoute($routeName, $params = [], $absoluthPath = true) {
         Router::redirectToRoute($routeName, $params, $absoluthPath);
     }
