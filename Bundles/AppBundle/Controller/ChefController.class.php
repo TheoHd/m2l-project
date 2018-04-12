@@ -23,9 +23,14 @@ Class ChefController extends Controller {
      */
     public function showEquipeAction(){
         $equipe = App::getTable('appBundle:equipe')->findById( App::getUser()->getId() );
+        if($equipe == false){
+            $employe = [];
+        }else{
+            $employe = $equipe->getEmploye()->all();
+        }
 
         $this->render('appBundle:chef:equipe', [
-            'employes' => $equipe->getEmploye()->all()
+            'employes' => $employe
         ]);
     }
 
