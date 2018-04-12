@@ -42,6 +42,7 @@ Class MembreController extends Controller {
 
         $form->setData('credits', Config::get('app:site_maxCredits'));
         $form->setData('nbJour', Config::get('app:site_maxJours'));
+        $form->setData('currentCo', (new \DateTime())->format('Y-m-d H:i:s') );
 
         $this->render('appBundle:includes:form', [
             'pageTitle' => "Ajout d'un nouveau membre",

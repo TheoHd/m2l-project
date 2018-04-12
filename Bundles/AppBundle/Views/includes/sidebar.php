@@ -106,5 +106,5 @@ use Core\Utils\Utils; ?>
       </li>
   </ul>
 </div>
-    <div style="position: absolute; bottom: 10px; left: 0; right: 0; text-align: center;"><small>Dernière connexion le <b><?= Utils::format_date(App::getAuthentification()->refresh()->getLastCo(), 3) ?></b>.</small></div>
+    <div style="position: absolute; bottom: 10px; left: 0; right: 0; text-align: center;"><small>Dernière connexion le <b><?= Utils::format_date(App::getAuthentification()->refresh()->getLastCo(), 1) ?></b>.</small></div>
 </div>
