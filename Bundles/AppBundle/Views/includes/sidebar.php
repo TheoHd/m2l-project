@@ -70,7 +70,7 @@ use Core\Utils\Utils; ?>
         <div class="icon-w">
           <div class="os-icon os-icon-hierarchy-structure-2"></div>
         </div>
-        <span>Accés Chef</span>
+        <span>Accès Chef</span>
       </a>
       <ul class="sub-menu">
         <li><a href="<?= App::generateUrl('gestion_equipe') ?>">Gérer mon équipe</a></li>
@@ -84,7 +84,7 @@ use Core\Utils\Utils; ?>
         <div class="icon-w">
           <div class="os-icon os-icon-robot-1"></div>
         </div>
-        <span>Accés Admin</span>
+        <span>Accès Admin</span>
       </a>
       <ul class="sub-menu">
           <li><a href="<?= App::generateUrl('gestion_demand') ?>">Gérer les demandes</a></li>
