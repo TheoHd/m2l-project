@@ -280,10 +280,11 @@ class Model{
 
         $query = "UPDATE $table SET $QueConstructor WHERE id = " . $element->getId();
 
+
         if($debug){ var_dump($query, $values); }
         $result = $this->db->add($query, $values);
 
-        if($result){
+//        if($result){
 
             if(method_exists($element, '__afterUpdate')){
                 $element->__afterUpdate();
@@ -291,10 +292,10 @@ class Model{
 
             if($debug){ echo App::translate('app:entityUpdatedSuccess'); }
             return $element->getId();
-        }else{
-            if($debug){ echo App::translate('app:entityUpdatedError'); }
-            return false;
-        }
+//        }else{
+//            if($debug){ echo App::translate('app:entityUpdatedError'); }
+//            return false;
+//        }
     }
 
 

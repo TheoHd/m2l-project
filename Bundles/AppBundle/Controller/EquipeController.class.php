@@ -53,12 +53,22 @@ Class EquipeController extends Controller {
      * @RouteUrl /admin/equipes/add
      */
     public function addEquipeAction(){
-        $form = $this->getEntityForm('appBundle:equipe', Request::all());
+        $form = $this->getForm('appBundle:equipe', 'new', Request::all());
+
+        if( $this->request->is('post') ){
+            if( $form->isValid() ){
+                $traitement = new FormEntityTraitement('appBundle:equipe', Request::all());
+                if($traitement){
+                    $form->clear();
+                    App::redirectToRoute('list_equipes');
+                }
+            }
+        }
 
         $this->render('appBundle:includes:form', [
             'pageTitle' => "Ajout d'un nouveau equipe",
             'pageDesc' => "",
-            'previousUrl' => "list_equipes",
+            'previousUrl' => 'list_equipes',
             'previousParams' => [],
             'btnText' => "Retour à la liste des equipes",
             'form' => $form->render(),
@@ -71,15 +81,44 @@ Class EquipeController extends Controller {
      * @RouteParam :id ([0-9]+)
      */
     public function updateEquipeAction($params){
-        $entity = App::getTable('appBundle:equipe')->findById($params['id']);
+        $equipeManager = App::getTable('appBundle:equipe');
+        $entity = $equipeManager->findById($params['id']);
 
-        $form = $this->getEntityForm('appBundle:equipe', Request::all());
+        $form = $this->getForm('appBundle:equipe', 'update', Request::all(), ['equipe' => $entity]);
         $form->inject($entity);
+
+        if( $this->request->is('post') ){
+            if( $form->isValid() ){
+                $data = Request::get('appbundle_equipe');
+
+                $entity->setNom($data['nom']);
+
+                $newChef = App::getTable('userBundle:user')->findById($data['chef']);
+                $entity->setChef($newChef);
+
+                $employetoadd = $data['employetoadd'] ?? [];
+                foreach ($employetoadd as $toAdd){
+                    $employe = App::getTable('userBundle:user')->findById($toAdd);
+                    $entity->addEmploye($employe);
+                }
+
+                $employetoremove = $data['employetoremove'] ?? [];
+                foreach ($employetoremove as $toRemove){
+                    $employe = App::getTable('userBundle:user')->findById($toRemove);
+                    $entity->removeEmploye($employe);
+                }
+
+                $equipeManager->save();
+                Session::success('Equipe modifié avec succés');
+                App::redirect("#");
+            }
+        }
+
 
         $this->render('appBundle:includes:form', [
             'pageTitle' => "Modification du equipe #" . $entity->getId(),
             'pageDesc' => "",
-            'previousUrl' => "list_equipes",
+            'previousUrl' => 'list_equipes',
             'previousParams' => [],
             'btnText' => "Retour à la liste des equipes",
             'form' => $form->render(),

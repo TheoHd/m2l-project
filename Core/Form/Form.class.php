@@ -3,6 +3,7 @@
 namespace Core\Form;
 
 use App;
+use Core\Entity\Entity;
 use Core\Session\Session;
 
 class Form{
@@ -18,6 +19,7 @@ class Form{
 
 	protected $success = array(), $errors = array(), $messages = array(), $formConstructor = array(), $formScript = array();
     private $elementConstructor;
+    protected $classParams;
 
     public function __construct($data = [], $method = "POST", $action = '#', $formName = null){
 
@@ -80,7 +82,14 @@ class Form{
     public function setValidation(Validation $validation){ $this->validation = $validation; return $this; }
     public function getValidation() : Validation{ return $this->validation; }
 
-    public function isValid(){ return $this->validation->isValid(); }
+    public function isValid(){
+        if(isset($this->validation) and $this->validation instanceof Validation){
+            return $this->validation->isValid();
+        }else{
+            return true;
+        }
+    }
+
     public function databaseInteraction($result, $error){ return $this->validation->databaseInteraction($result, $error); }
     public function isEqual($champs1, $champs2, $error){ return $this->validation->isEqual($champs1, $champs2, $error); }
 
@@ -235,10 +244,20 @@ class Form{
 
         $returnElem = ($label != '') ? '<label for="'.$identifier.'">'.$label.' '.$asterisk.'</label><br>' : '' ;
 
-        $r = str_replace('[]', '', $realName);
-		$value = $this->getDefaultData( $r );
+		$value = $this->getDefaultData( $identifier );
+        if(is_array($value) and !isset($value['id'])){
+            foreach ($value as $k => $v){
+                if(isset($value[$k]['id']) and !empty(isset($value[$k]['id']))){
+                    $value[$k] = $value[$k]['id'];
+                }
+            }
+        }else{
+            if(isset($value['id']) and !empty(isset($value['id']))){
+                $value = $value['id'];
+            }
+        }
 
-		$returnElem .= '<select '.$elemOption.' name="'.$realName.'" id="'.$identifier.'" '.$multipleElem.' class="custom-select">';
+		$returnElem .= '<select '.$elemOption.' name="'.$realName.'" id="'.$identifier.'" '.$multipleElem.' '.$requiredElem.' class="custom-select">';
         if(!$isMultiple){
             $values = ['' => "Sélectionner"] + $values;
         }
@@ -248,7 +267,7 @@ class Form{
                     $selectedElem = 'selected';
                 }else{ $selectedElem = ''; }
             }else{ $selectedElem = ($value != '' && $value == $k) ? 'selected'  : '' ; }
-			$returnElem .= '<option value="'.$k.'" '.$requiredElem.' '.$selectedElem.'>'.$v.'</option>';
+			$returnElem .= '<option value="'.$k.'" '.$selectedElem.'>'.$v.'</option>';
 		}
 		$returnElem .= '</select>';
 
@@ -256,7 +275,11 @@ class Form{
 	}
 
     public function addRelationElement($identifier, $label, $entityRelation, $paramQuery, $paramOrder ,$isRequired, $options , $type ){
-        $results = App::getManager($entityRelation)->findBy($paramQuery, $paramOrder);
+	    if(is_string($entityRelation)){
+            $results = App::getManager($entityRelation)->findBy($paramQuery, $paramOrder);
+        }else{
+	        $results = $entityRelation;
+        }
 
         $values = [];
         if($results && count($results) > 0){
@@ -463,7 +486,16 @@ class Form{
 
     public function inject($entity){
         $data = new FormEntityInjection($entity);
-//        var_dump($data->getData());
         $this->data[ $this->getFormName() ] = $data->getData();
+    }
+
+    public function addParams($properties){
+        foreach ($properties as $propertyName => $propertyValue){
+            $this->classParams[$propertyName] = $propertyValue;
+        }
+    }
+
+    public function getParams($propertyName){
+        return $this->classParams[$propertyName] ?? null;
     }
 }

@@ -38,6 +38,7 @@
                                 <thead>
                                 <tr>
                                     <th>numéro</th>
+                                    <th>Nom de l'équipe</th>
                                     <th>Nom du responsable</th>
                                     <th>Adresse email du responsable</th>
                                     <th>Nombre de salariés</th>
@@ -48,12 +49,14 @@
                                 <?php foreach($equipes as $equipe) : ?>
                                     <tr>
                                         <td>#<?= $equipe->getId() ?></td>
+                                        <td><?= $equipe->getNom() ?></td>
                                         <td><?= $equipe->getChef()->getNom() ?></td>
                                         <td><?= $equipe->getChef()->getEmail() ?></td>
-                                        <td><?= count($equipe->getEmploye()->all()) ?></td>
+                                        <td><?= count($equipe->getEmploye()->all()) ?> membres</td>
                                         <td class="text-right">
                                             <a href="<?=App::generateUrl('list_equipe', ['id' => $equipe->getId()]) ?>" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Voir l'équipe</a>
                                             <a href="<?= App::generateUrl('update_equipe', ['id' => $equipe->getId()]) ?>" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i> Modifier l'équipe</a>
+                                            <br><div style="margin-top: 5px;"></div>
                                             <a href="<?= App::generateUrl('delete_equipe', ['id' => $equipe->getId()]) ?>" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Supprimer l'équipe</a>
                                             <a href="<?= App::generateUrl('update_equipe', ['id' => $equipe->getId()]) ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Ajouter un membre</a>
                                         </td>

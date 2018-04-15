@@ -90,7 +90,7 @@ use Core\Utils\Utils; ?>
           <li><a href="<?= App::generateUrl('gestion_demand') ?>">Gérer les demandes</a></li>
         <li><a href="<?= App::generateUrl('list_equipes') ?>">Gestion des équipes</a></li>
         <li><a href="<?= App::generateUrl('list_membres') ?>">Gestion des membres</a></li>
-        <li><a href="<?= App::generateUrl('list_cadres') ?>">Gestion de cadres</a></li>
+        <li><a href="<?= App::generateUrl('list_cadres') ?>">Gestion de chefs</a></li>
         <li><a href="<?= App::generateUrl('list_prestataires') ?>">Gestion des prestataires</a></li>
         <li><a href="<?= App::generateUrl('manage_formations') ?>">Gestion des formations</a></li>
       </ul>
@@ -106,5 +106,7 @@ use Core\Utils\Utils; ?>
       </li>
   </ul>
 </div>
-    <div style="position: absolute; bottom: 10px; left: 0; right: 0; text-align: center;"><small>Dernière connexion le <b><?= Utils::format_date(App::getAuthentification()->refresh()->getLastCo(), 1) ?></b>.</small></div>
+    <div style="position: absolute; bottom: 10px; left: 0; right: 0; text-align: center;">
+        <small>Dernière connexion le <b style="color:white;"><?= Utils::format_date(App::getAuthentification()->refresh()->getLastCo(), 6) ?></b>.</small>
+    </div>
 </div>

@@ -52,14 +52,14 @@ class OneToManyCollection{
         $this->loadElementFromDatabase();
         if(is_array($element)){
             foreach ($element as $e){
-                $key = $this->search($e, $this->elements);
+                $key = $this->search($e->getId(), $this->getElementsId());
                 if($key !== false){
                     $this->elementToRemove[] = $e;
                     unset($this->elements[$key]);
                 }
             }
         }else{
-            $key = $this->search($element, $this->elements);
+            $key = $this->search($element->getId(), $this->getElementsId());
             if($key !== false){
                 $this->elementToRemove[] = $element;
                 unset($this->elements[$key]);
@@ -72,7 +72,7 @@ class OneToManyCollection{
     public function search($element, $list){
         if(count($list) > 0){
             foreach ($list as $k => $e){
-                if($e == $element){
+                if($element === $e){
                     return $k;
                 }
             }
@@ -186,7 +186,7 @@ class OneToManyCollection{
     }
 
     public function __debugInfo() {
-        return $this->element ?? ['element' => 'null'];
+        return $this->elements ?? ['elements' => 'null'];
     }
 
 }

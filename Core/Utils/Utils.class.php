@@ -69,6 +69,10 @@ class Utils{
             return $annee;
         }elseif($format == 5){
             return $hours . 'h' . $minutes;
+        }elseif($format == 6){
+            if(strlen($jour) < 2){ $jour = '0'.$jour; }
+            if(strlen($mois) < 2){ $mois = '0'.$mois; }
+            return $jour . '/' . $mois  . '/' . $annee . ' à ' . $hours . 'h' . $minutes ;
         }else{
             return $date;
         }

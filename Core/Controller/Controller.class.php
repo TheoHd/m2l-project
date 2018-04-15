@@ -130,7 +130,7 @@ class Controller {
         return $return;
     }
 
-    public function getForm( $formPath, $formName, $datas = [] ) : Form{
+    public function getForm( $formPath, $formName, $datas = [], $params = [] ) : Form{
         $formPath .= 'Form';
 
         list($bundle, $formFileName) = explode(':', $formPath);
@@ -141,6 +141,7 @@ class Controller {
         $formClass = implode('\\', ["Bundles", $bundle, 'Form', $formFileName]);
         $method = $formName . "Form";
         $class = new $formClass($datas);
+        $class->addParams($params);
 
         return $class->$method();
     }

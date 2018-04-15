@@ -122,6 +122,7 @@ Class MembreController extends Controller {
 
         $equipeManager = App::getTable('appBundle:equipe');
         $equipe = $equipeManager->findOneBy(['chef_id' => $user->getId()]);
+        App::getDb()->query('DELETE FROM equipe_user WHERE equipe_id = ' . $equipe->getId());
         $equipeManager->remove($equipe);
 
         App::redirectToPreviousRoute();

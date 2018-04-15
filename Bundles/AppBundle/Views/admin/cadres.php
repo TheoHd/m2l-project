@@ -46,7 +46,7 @@
                                 <div class="user-sub"><?= $cadre->getEmail() ?></div>
                                 <div class="user-social">
                                     <a href="<?= App::generateUrl('list_equipe', ['id' => $cadre->getId()]) ?>" class="btn btn-primary btn-sm">Voir l'équipe</a>
-                                    <a href="<?= App::generateUrl('demote_user', ['id' => $cadre->getId()]) ?>" class="btn btn-danger btn-sm">Rétrograder</a>
+                                    <a href="<?= App::generateUrl('demote_user', ['id' => $cadre->getId()]) ?>" class="btn btn-danger btn-sm btn-demote">Rétrograder</a>
                                 </div>
                             </div>
                         </div>
@@ -60,4 +60,9 @@
 
     </div>
 
+    <script>
+        $('.btn-demote').click(function(e){
+           return confirm('En rétrogradant cet utilisateur, les membres associés à son équipe se retrouveront sans équipe, voulez-vous continuer ?');
+        });
+    </script>
 <?= App::render('appBundle:includes:footer') ?>

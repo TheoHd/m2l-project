@@ -1,3 +1,5 @@
+<?php use Core\Session\Session; ?>
+
 <?= App::render('appBundle:includes:header') ?>
 
     <div class="content-w">
@@ -29,6 +31,9 @@
                 </div>
 
                 <div class="element-wrapper">
+                    <?= Session::hasFlashes('error') ? "<p class='alert-msg error-msg'>".Session::getFlash('error')."</p>" : '' ; ?>
+                    <?= Session::hasFlashes('success') ? "<p class='alert-msg success-msg'>".Session::getFlash('success')."</p>" : '' ; ?>
+
                     <div class="element-box">
                         <?= $form ?>
                     </div>

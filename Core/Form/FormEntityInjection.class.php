@@ -20,7 +20,6 @@ class FormEntityInjection {
         $propertiesAnnotation = $this->getAnnotations();
         $this->injectValuesInEntity($propertiesAnnotation);
 
-
         if( !$this->isChildEntity ){
 //            var_dump($this->data);
         }
