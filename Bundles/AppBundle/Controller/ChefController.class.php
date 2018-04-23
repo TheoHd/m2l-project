@@ -22,7 +22,7 @@ Class ChefController extends Controller {
      * @RouteUrl /chef/equipes
      */
     public function showEquipeAction(){
-        $equipe = App::getTable('appBundle:equipe')->findById( App::getUser()->getId() );
+        $equipe = App::getTable('appBundle:equipe')->findBy( ['chef_id' => App::getUser()->getId()] );
         if($equipe == false){
             $employe = [];
         }else{
@@ -40,10 +40,27 @@ Class ChefController extends Controller {
      */
     public function showDemandAction(){
 
-        $demand = App::getTable('appBundle:demand')->findAll();
+        $demands = App::getTable('appBundle:demand')->findAll();
+
+        if(App::getUser()->hasRole('ROLE_ADMIN')){
+            $r = $demands;
+        }else{
+            $r = [];
+            foreach ($demands as $k => $demand){
+                $userId = $demand->getUser()->getId();
+                $demandEquipe = App::getDb()->query("SELECT * FROM equipe_user WHERE user_id = $userId")[0];
+                if($demandEquipe and !empty($demandEquipe)){
+                    $connectedUserEquipe = App::getTable('appBundle:equipe')->findOneBy(['chef_id' => App::getUser()->getId()]);
+                    if($demandEquipe->equipe_id == $connectedUserEquipe->getId()){
+                        $r[] = $demand;
+                    }
+                }
+            }
+
+        }
 
         $this->render('appBundle:chef:demand', [
-            'demands' => $demand
+            'demands' => $r
         ]);
     }
 
