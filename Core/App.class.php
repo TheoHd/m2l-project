@@ -47,9 +47,6 @@ class App
         require ROOT . '/Core/Autoloader.class.php';
         Core\Autoloader::register();
 
-        require ROOT . '/App/Autoloader.class.php';
-        App\Autoloader::register();
-
         require ROOT . '/Bundles/Autoloader.class.php';
         Bundles\Autoloader::register();
     }

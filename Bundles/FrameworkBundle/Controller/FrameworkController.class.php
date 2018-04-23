@@ -29,7 +29,7 @@ class FrameworkController extends Controller {
 
         $databaseNotUpToDate = ! App::database('', false)->compareDatabaseScript();
 
-        return $this->render('frameworkBundle:Includes:sidebar', [
+        return $this->render('frameworkBundle:includes:sidebar', [
             'databaseNotUpToDate' => $databaseNotUpToDate
         ]);
     }
