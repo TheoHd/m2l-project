@@ -9,6 +9,7 @@ use Core\Config\Config;
 use Core\Controller\Controller;
 use Core\Email\Email;
 use Core\Email\Exception;
+use Core\Logger\Logger;
 use Core\Router\Router;
 use Core\Server\Server;
 use Core\Session\Session;
@@ -30,6 +31,9 @@ Class LoginController extends Controller {
         }
 
         if($auth->logged()){
+            $log = new Logger('login.log');
+            $log->write('Nouvelle connexion : ' . App::getUser()->getEmail(), 'CONNEXION');
+
             App::getTable('userBundle:user')->update(App::getUser(), ['lastCo' => App::getUser()->getCurrentCo()]);
             $currentDate = (new \DateTime())->format('Y-m-d H:i:s');
             App::getTable('userBundle:user')->update(App::getUser(), ['currentCo' => $currentDate]);
