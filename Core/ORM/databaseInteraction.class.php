@@ -222,7 +222,7 @@ class databaseInteraction {
         list($bundleName, $bundleEntity) = explode(':', $propertyOpt['target']);
         $propertyName .= "_id";
         $foreignKeyTable = strtolower(str_replace("Entity", "", $bundleEntity));
-        $fk = $this->generateIdentifierName($tableName, $foreignKeyTable);
+        $fk = $this->generateIdentifierName($tableName, $propertyName);
         $this->queryContainer["TRIGGER_QUERIES"][] = "ALTER TABLE $tableName ADD CONSTRAINT $fk FOREIGN KEY ($propertyName) REFERENCES $foreignKeyTable(id);";
 
         return $propertyName . " INT " . $nullable;
