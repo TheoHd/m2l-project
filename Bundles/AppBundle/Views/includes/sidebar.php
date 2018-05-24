@@ -48,13 +48,13 @@ use Core\Utils\Utils; ?>
         </div>
         <span>Historique</span></a>
     </li>
-    <li class="">
-      <a href="<?= App::generateUrl('messagerie'); ?>">
-        <div class="icon-w">
-          <div class="os-icon os-icon-tasks-checked"></div>
-        </div>
-        <span>Messagerie</span></a>
-    </li>
+<!--    <li class="">-->
+<!--      <a href="--><?//= App::generateUrl('messagerie'); ?><!--">-->
+<!--        <div class="icon-w">-->
+<!--          <div class="os-icon os-icon-tasks-checked"></div>-->
+<!--        </div>-->
+<!--        <span>Messagerie</span></a>-->
+<!--    </li>-->
     <li class="">
       <a href="<?= App::generateUrl('contact'); ?>">
         <div class="icon-w">
