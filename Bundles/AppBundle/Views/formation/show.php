@@ -63,7 +63,7 @@ use Core\Utils\Utils; ?>
                             Lieu de la formation
                         </div>
                         <div class="form-content">
-                            <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDp8sy6lzY-CS0TR-wTAKwyUbtv0cxe89U&q=<?= str_ireplace(' ', '+', $formation->getPrestataire()->getAdress()) ?>" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                            <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD8LF6AzTexqR9nrPj8LgFS1si1NZ0zReI&q=<?= str_ireplace(' ', '+', $formation->getPrestataire()->getAdress()) ?>" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>
