@@ -37,6 +37,7 @@ Class AvisController extends Controller {
 
         $authorizeNewAvis = $myAvis === false ;
         $authorizeNewAvis = $authorizeNewAvis && $demand != false;
+        $authorizeNewAvis = $authorizeNewAvis && $demand->getEtat() == 2;
 
         $this->render('appBundle:formation:avis', [
             'formation' => $formation,

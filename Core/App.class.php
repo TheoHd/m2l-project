@@ -245,7 +245,11 @@ class App
         $nomModel = ucfirst($nomModel) . 'Model';
         $formClass = implode('\\', ['Bundles', ucfirst($moduleName), 'Model', $nomModel]);
 
-        return new $formClass( self::getDb() );
+        if(file_exists(ROOT . '/' . str_replace("\\", '/', $formClass . ".class.php"))){
+            return new $formClass( self::getDb() );
+        }else{
+            throw new Exception('Erreur ! Le model ' . $nomModel . ' dans le bundle ' .  ucfirst($moduleName) . ' n\'éxiste pas !');
+        }
     }
 
     public static function getTable($table){
