@@ -18,6 +18,6 @@ $router->addXMLRoutingFile(BASE_URL . '/Config/Routing.xml');
 if( $router->match() ){
     $router->execute();
 }else{
-    echo "erreur 404";
+    echo "Erreur 404 : La page demandée n'existe pas.";
     $router->exception('404');
 }

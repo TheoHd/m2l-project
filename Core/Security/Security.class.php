@@ -77,7 +77,7 @@ class Security extends Singleton {
         if(empty($roles)){ $roles = json_encode([]); }
         $res = [];
         if( !empty((array) $roles) ){
-            $values = json_decode($roles);
+            $values = ((array)json_decode($roles));
             foreach ($values as $v){
                 $v = trim($v);
                 $res[$v] = $v;

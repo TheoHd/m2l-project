@@ -2,8 +2,9 @@
 
 namespace Bundles\AppBundle\Controller;
 
+use App;
 use Core\Controller\Controller;
-use Spipu\Html2Pdf\MyPdf;
+use Spipu\Html2Pdf\Html2Pdf;
 
 class PdfController extends Controller
 {
@@ -11,9 +12,9 @@ class PdfController extends Controller
     {
         parent::__construct();
 
-//        if (!App::getUser()) {
-//            App::redirectToRoute('login');
-//        }
+        if (!App::getUser()) {
+            App::redirectToRoute('login');
+        }
     }
 
     /**
@@ -25,7 +26,7 @@ class PdfController extends Controller
         $this->render('appBundle:pdf:generateur');
         $content = ob_get_clean();
         try{
-            $pdf = new MyPdf('P','A4','fr');
+            $pdf = new Html2Pdf('P','A4','fr');
             $pdf->writeHTML($content);
             $pdf->Output('test.pdf');
 
