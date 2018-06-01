@@ -16,7 +16,7 @@ use Core\Server\Server;
 use Core\Session\Session;
 use Core\Translations\Translations;
 
-Class AccountController extends Controller {
+class AccountController extends Controller {
 
     public function __construct()
     {

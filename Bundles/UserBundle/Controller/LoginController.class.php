@@ -14,7 +14,7 @@ use Core\Router\Router;
 use Core\Server\Server;
 use Core\Session\Session;
 
-Class LoginController extends Controller {
+class LoginController extends Controller {
 
     public function loginAction($params){
 

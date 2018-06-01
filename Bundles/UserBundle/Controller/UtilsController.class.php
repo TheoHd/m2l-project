@@ -5,7 +5,7 @@ namespace Bundles\UserBundle\Controller;
 use Core\Controller\Controller;
 use Core\Security\Security;
 
-Class UtilsController extends Controller {
+class UtilsController extends Controller {
 
     public function changeRole($params){
         $id = $params['id'];
