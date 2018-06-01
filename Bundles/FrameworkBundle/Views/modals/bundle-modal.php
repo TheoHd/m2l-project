@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputLink">Lien du site de l'auteur, lien page Github ...</label>
+                        <label for="inputLink">Lien du site de l'auteur, lien page GitHub ...</label>
                         <input class="form-control" id="inputLink" name="inputLink" placeholder="http://github.com/">
                     </div>
                     <br>

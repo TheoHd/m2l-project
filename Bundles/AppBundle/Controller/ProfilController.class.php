@@ -6,13 +6,14 @@ use App;
 use Core\Controller\Controller;
 use Core\Request\Request;
 
-Class ProfilController extends Controller {
+class ProfilController extends Controller
+{
 
     public function __construct()
     {
         parent::__construct();
 
-        if(!App::getUser()){
+        if (!App::getUser()) {
             App::redirectToRoute('login');
         }
     }
@@ -21,13 +22,14 @@ Class ProfilController extends Controller {
      * @RouteName showProfil
      * @RouteUrl /profil
      */
-    public function showAction(){
+    public function showAction()
+    {
         $manager = App::getTable('userBundle:user');
         $user = $manager->findById(App::getUser()->getId());
 
         $lastFormations = App::getTable('appBundle:demand')->findBy(['user_id' => $user->getId()], ['date' => 'DESC'], 3);
 
-        if($this->request->is('post')){
+        if ($this->request->is('post')) {
 
             $nom = Request::get('nom', $user->getNom());
             $prenom = Request::get('prenom');
@@ -54,7 +56,8 @@ Class ProfilController extends Controller {
      * @RouteUrl /profil/{:id}
      * @RouteParam id ([0-9]+)
      */
-    public function showUserAction($params){
+    public function showUserAction($params)
+    {
         $user = App::getTable('userBundle:user')->findById($params['id']);
 
         $this->render('appBundle:profil:profil', [
@@ -66,7 +69,8 @@ Class ProfilController extends Controller {
      * @RouteName history
      * @RouteUrl /history
      */
-    public function historyAction(){
+    public function historyAction()
+    {
         $user = App::getUser();
 
         $demands = App::getTable('appBundle:demand')->findBy(['user_id' => $user->getId()]);
@@ -77,12 +81,13 @@ Class ProfilController extends Controller {
     }
 
 
-    public static function getRole($user){
-        if($user->hasRole('ROLE_ADMIN')){
+    public static function getRole($user)
+    {
+        if ($user->hasRole('ROLE_ADMIN')) {
             return "Administrateur";
-        }else if($user->hasRole('ROLE_CHEF')){
+        } else if ($user->hasRole('ROLE_CHEF')) {
             return 'Chef';
-        }else if($user->hasRole('ROLE_SALARIE')){
+        } else if ($user->hasRole('ROLE_SALARIE')) {
             return 'Salarié';
         }
     }

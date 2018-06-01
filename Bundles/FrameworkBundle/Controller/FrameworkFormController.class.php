@@ -17,10 +17,12 @@ use Core\Request\Request;
 use Exception;
 use PDO;
 
-class FrameworkFormController extends Controller {
+class FrameworkFormController extends Controller
+{
 
     // Création Bundle
-    public function bundleFormAction($params){
+    public function bundleFormAction($params)
+    {
         $nom = Request::get('inputNom');
         $auteur = Request::get('inputAuteur');
         $link = Request::get('inputLink');
@@ -31,7 +33,8 @@ class FrameworkFormController extends Controller {
     }
 
     // Suppresion Bundle
-    public function bundleRemoveAction($params){
+    public function bundleRemoveAction($params)
+    {
         $bundleName = $params["bundleName"];
 
         GenerateBundle::delete($bundleName);
@@ -39,7 +42,8 @@ class FrameworkFormController extends Controller {
     }
 
     // Création Controller
-    public function controllerFormAction($params){
+    public function controllerFormAction($params)
+    {
         $nom = Request::get('inputNom');
         $bundle = Request::get('inputBundle');
 
@@ -48,7 +52,8 @@ class FrameworkFormController extends Controller {
     }
 
     // Suppresion Controller
-    public function controllerRemoveAction($params){
+    public function controllerRemoveAction($params)
+    {
         $bundleName = $params["bundleName"];
         $controllerName = $params["controllerName"];
 
@@ -57,7 +62,8 @@ class FrameworkFormController extends Controller {
     }
 
     // Création Entité
-    public function entityFormAction($params){
+    public function entityFormAction($params)
+    {
 
         $inputNom = Request::get('inputNom');
         $inputBundle = Request::get('inputBundle');
@@ -67,8 +73,9 @@ class FrameworkFormController extends Controller {
         App::redirectToRoute("framework_admin_entity_route");
     }
 
-    // Suppresion Entité
-    public function entityRemoveAction($params){
+    // Suppression entité
+    public function entityRemoveAction($params)
+    {
         $bundleName = $params["bundleName"];
         $entityName = $params["entityName"];
 
@@ -76,7 +83,8 @@ class FrameworkFormController extends Controller {
         App::redirectToRoute("framework_admin_entity_route");
     }
 
-    public function formFormAction($params){
+    public function formFormAction($params)
+    {
 //        $inputNom = Request::get('inputNom');
 //        $inputBundle = Request::get('inputBundle');
 //        $properties = Request::get('inputProperties');
@@ -85,7 +93,8 @@ class FrameworkFormController extends Controller {
 //        App::redirectToRoute("framework_admin_entity_route");
     }
 
-    public function configFormAction($params){
+    public function configFormAction($params)
+    {
         $inputNom = Query::get('inputNom');
         $inputValue = Query::get('inputValue');
         $inputBundle = Query::get('inputBundle');
@@ -94,20 +103,23 @@ class FrameworkFormController extends Controller {
         App::redirectToRoute("framework_admin_config_route");
     }
 
-    public function routeFormAction(){
+    public function routeFormAction()
+    {
         $inputNom = Request::get('inputNom');
         $inputSaveBundleName = Request::get('inputSaveBundleName');
         $inputUrl = Request::get('inputUrl');
         $inputBundle = Request::get('inputBundle');
         $inputController = Request::get('inputController');
         $inputAction = Request::get('inputAction');
-        $params = Request::get('inputParams'); unset($params['__NAME__']);
+        $params = Request::get('inputParams');
+        unset($params['__NAME__']);
 
         GenerateRoute::generate($inputSaveBundleName, $inputNom, $inputUrl, $inputBundle, $inputController, $inputAction, $params);
         App::redirectToRoute("framework_admin_route_route");
     }
 
-    public function actionFormAction(){
+    public function actionFormAction()
+    {
         $bundleName = Query::get('inputBundle');
         $controllerName = Query::get('inputController');
         $actionToCreate = Query::get('inputAction');
@@ -115,52 +127,55 @@ class FrameworkFormController extends Controller {
         GenerateAction::generate($actionToCreate, $controllerName, $bundleName);
     }
 
-    public function databaseTestConnectionAction(){
+    public function databaseTestConnectionAction()
+    {
         $inputUsername = Request::get('inputUsername');
         $inputPassword = Request::get('inputPassword');
         $inputHost = Request::get('inputHost');
         $inputDBName = Request::get('inputDBName');
         $inputPort = Request::get('inputPort');
-        try{
-            new PDO("mysql:host=$inputHost:$inputPort;dbname=$inputDBName", $inputUsername , $inputPassword);
+        try {
+            new PDO("mysql:host=$inputHost:$inputPort;dbname=$inputDBName", $inputUsername, $inputPassword);
             echo "success-with-database";
-        }catch (Exception $e){
-            try{
-                new PDO("mysql:host=$inputHost:$inputPort", $inputUsername , $inputPassword);
+        } catch (Exception $e) {
+            try {
+                new PDO("mysql:host=$inputHost:$inputPort", $inputUsername, $inputPassword);
                 echo "success-without-database";
-            }catch (Exception $e){
+            } catch (Exception $e) {
                 echo $e;
             }
         }
     }
 
-    public function databaseCreateDatabaseAction(){
+    public function databaseCreateDatabaseAction()
+    {
         $inputUsername = Request::get('inputUsername');
         $inputPassword = Request::get('inputPassword');
         $inputHost = Request::get('inputHost');
         $inputDBName = Request::get('inputDBName');
         $inputPort = Request::get('inputPort');
 
-        $pdo = new PDO("mysql:host=$inputHost:$inputPort", $inputUsername , $inputPassword);
+        $pdo = new PDO("mysql:host=$inputHost:$inputPort", $inputUsername, $inputPassword);
         $pdo->query('CREATE DATABASE ' . $inputDBName);
 
-        try{
-            $pdo = new PDO("mysql:host=$inputHost:$inputPort;dbname=$inputDBName", $inputUsername , $inputPassword);
+        try {
+            $pdo = new PDO("mysql:host=$inputHost:$inputPort;dbname=$inputDBName", $inputUsername, $inputPassword);
             App::database('create', false, $pdo);
-        }catch (Exception $e){
+        } catch (Exception $e) {
             echo $e;
         }
         echo "created";
     }
 
-    public function databaseSaveConfigDatabaseAction(){
+    public function databaseSaveConfigDatabaseAction()
+    {
         $inputUsername = Request::get('inputUsername');
         $inputPassword = Request::get('inputPassword');
         $inputHost = Request::get('inputHost');
         $inputDBName = Request::get('inputDBName');
         $inputPort = Request::get('inputPort');
 
-        GenerateDatabaseConfig::generate($inputUsername, $inputPassword, $inputHost.':'.$inputPort, $inputDBName);
+        GenerateDatabaseConfig::generate($inputUsername, $inputPassword, $inputHost . ':' . $inputPort, $inputDBName);
         echo "saved";
     }
 

@@ -9,7 +9,7 @@ use Core\Controller\Controller;
 use Core\Request\Request;
 use Core\Session\Session;
 
-Class MembreController extends Controller {
+class MembreController extends Controller {
 
     public function __construct()
     {

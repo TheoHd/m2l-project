@@ -6,7 +6,7 @@ use App;
 use Core\Controller\Controller;
 use Core\Request\Request;
 
-Class ChefController extends Controller {
+class ChefController extends Controller {
 
     public function __construct()
     {

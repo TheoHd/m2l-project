@@ -7,13 +7,14 @@ use Core\Controller\Controller;
 use Core\Request\Request;
 use Core\Session\Session;
 
-Class PrestataireController extends Controller {
+class PrestataireController extends Controller
+{
 
     public function __construct()
     {
         parent::__construct();
 
-        if(!App::getUser()){
+        if (!App::getUser()) {
             App::redirectToRoute('login');
         }
     }
@@ -22,7 +23,8 @@ Class PrestataireController extends Controller {
      * @RouteName list_prestataires
      * @RouteUrl /prestataires
      */
-    public function listPrestataireAction(){
+    public function listPrestataireAction()
+    {
 
         $prestataires = App::getTable('appBundle:prestataire')->findAll();
 
@@ -35,7 +37,8 @@ Class PrestataireController extends Controller {
      * @RouteName add_prestataire
      * @RouteUrl /prestataires/add
      */
-    public function addPrestataireAction(){
+    public function addPrestataireAction()
+    {
         $form = $this->getEntityForm('appBundle:prestataire', Request::all());
 
         $this->render('appBundle:includes:form', [
@@ -53,7 +56,8 @@ Class PrestataireController extends Controller {
      * @RouteUrl /prestataires/update/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function updatePrestataireAction($params){
+    public function updatePrestataireAction($params)
+    {
         $entity = App::getTable('appBundle:prestataire')->findById($params['id']);
 
         $form = $this->getEntityForm('appBundle:prestataire', Request::all());
@@ -74,7 +78,8 @@ Class PrestataireController extends Controller {
      * @RouteUrl /prestataires/delete/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function deletePrestataireAction($params){
+    public function deletePrestataireAction($params)
+    {
         App::getTable('appBundle:prestataire')->remove($params['id']);
         Session::success('Le prestataire à bien été supprimé !');
         App::redirectToRoute('list_prestataires');
@@ -85,21 +90,25 @@ Class PrestataireController extends Controller {
      * @RouteUrl /prestataire/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function showPrestataireAction($params){
+    public function showPrestataireAction($params)
+    {
         $prestataire = App::getTable('appBundle:prestataire')->findById($params['id']);
 
         $formations = App::getTable('appBundle:formation')->findBy(['prestataire_id' => $prestataire->getId()]);
 
-        $soon = []; $ended = []; $canceled = []; $reported = [];
+        $soon = [];
+        $ended = [];
+        $canceled = [];
+        $reported = [];
 
-        foreach ($formations as $f){
-            if($f->getStatut() == 0){
+        foreach ($formations as $f) {
+            if ($f->getStatut() == 0) {
                 $canceled[] = $f;
-            }elseif($f->getStatut() == 1){
+            } elseif ($f->getStatut() == 1) {
                 $soon[] = $f;
-            }elseif($f->getStatut() == 2){
+            } elseif ($f->getStatut() == 2) {
                 $ended[] = $f;
-            }elseif($f->getStatut() == -1){
+            } elseif ($f->getStatut() == -1) {
                 $reported[] = $f;
             }
         }

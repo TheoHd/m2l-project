@@ -11,7 +11,7 @@ use Core\Form\FormEntityTraitement;
 use Core\Request\Request;
 use Core\Session\Session;
 
-Class EquipeController extends Controller {
+class EquipeController extends Controller {
 
     public function __construct()
     {

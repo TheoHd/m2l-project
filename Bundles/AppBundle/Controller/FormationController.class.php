@@ -13,7 +13,7 @@ use Core\Request\Request;
 use Core\Session\Session;
 use PDO;
 
-Class FormationController extends Controller {
+class FormationController extends Controller {
 
     public function __construct()
     {

@@ -6,7 +6,7 @@ use App;
 use Core\Controller\Controller;
 use Core\Request\Request;
 
-Class AdminController extends Controller {
+class AdminController extends Controller {
 
     /**
      * @RouteName list_cadres

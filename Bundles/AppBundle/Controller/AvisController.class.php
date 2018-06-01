@@ -12,7 +12,7 @@ use Core\Form\FormEntityTraitement;
 use Core\Request\Request;
 use Core\Session\Session;
 
-Class AvisController extends Controller {
+class AvisController extends Controller {
 
     public function __construct()
     {

@@ -10,7 +10,7 @@ use Core\Email\Email;
 use Core\Router\Router;
 use PDO;
 
-Class DemandController extends Controller {
+class DemandController extends Controller {
 
     public function __construct()
     {

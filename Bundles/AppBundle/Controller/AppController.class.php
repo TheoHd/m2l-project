@@ -7,7 +7,7 @@ use Bundles\UserBundle\Entity\UserEntity;
 use Core\Controller\Controller;
 use PDO;
 
-Class AppController extends Controller {
+class AppController extends Controller {
 
     public function __construct()
     {
