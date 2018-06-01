@@ -10,7 +10,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Administration des formulaires</h4>
-                                <p class="card-category"><b>13 formulaires</b> repartis en 23 bundles</p>
+                                <p class="card-category"><b>13 formulaires</b> répartis en 23 bundles</p>
                                 <br>
                             </div>
                         </div>

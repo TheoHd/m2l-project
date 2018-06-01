@@ -9,7 +9,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Administration des controllers</h4>
-                                <p class="card-category"><b>40 controllers</b> repartis en 12 bundles</p>
+                                <p class="card-category"><b>40 controllers</b> répartis en 12 bundles</p>
                                 <br>
                             </div>
                         </div>

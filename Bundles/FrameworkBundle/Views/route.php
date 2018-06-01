@@ -9,7 +9,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Administration des routes / url</h4>
-                                <p class="card-category"><b>12 urls</b> disponibles</p>
+                                <p class="card-category"><b>12 URL(s)</b> disponibles</p>
                                 <br>
                             </div>
                         </div>

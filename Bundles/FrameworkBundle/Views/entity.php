@@ -15,7 +15,7 @@
                                             $entityNB++;
                                         endforeach;
                                     endforeach; ?>
-                                <p class="card-category"><b><?= $entityNB ?> entitées</b> repartis en <?= count($bundles) ?> bundles</p>
+                                <p class="card-category"><b><?= $entityNB ?> entitées</b> réparties en <?= count($bundles) ?> bundles</p>
                                 <br>
                             </div>
                         </div>
