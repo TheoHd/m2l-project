@@ -1,4 +1,6 @@
-<html lang="fr"><head>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,29 +13,31 @@
 
     <!-- Bootstrap core CSS -->
     <link href="<?= BASE_URL ?>/Public/Assets/css/bootstrap.css" rel="stylesheet">
-  </head>
+</head>
 
-  <body cz-shortcut-listen="true">
+<body cz-shortcut-listen="true">
 
-    <nav class="navbar navbar-inverse navbar-fixed-top" style="    position: relative;">
-      <div class="container">
+<nav class="navbar navbar-inverse navbar-fixed-top" style="    position: relative;">
+    <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">Portflio Template</a>
+            <a class="navbar-brand" href="#">Portflio Template</a>
         </div>
-      </div>
-    </nav>
+    </div>
+</nav>
 
-    <div class="container" style="padding: 100px;">
+<div class="container" style="padding: 100px;">
 
-      <div class="starter-template">
+    <div class="starter-template">
         <h1>Template test Framework</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a
+            mostly barebones HTML document.</p>
 
 
         <?= $content; ?>
-      </div>
-
     </div>
-  
 
-</body></html>
+</div>
+
+
+</body>
+</html>

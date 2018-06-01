@@ -1,4 +1,5 @@
-<html lang="fr-FR">
+<!DOCTYPE html>
+<html lang="fr">
   <head>
     <title><?= App::getConfig()::get('app:siteName') ?></title>
     <meta charset="utf-8">
