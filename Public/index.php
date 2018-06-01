@@ -2,6 +2,7 @@
 
 define('ROOT', dirname(__DIR__));
 require ROOT . '/Core/App.class.php';
+require ROOT. '/Vendor/autoload.php';
 define('BASE_URL', App::getBaseUrl() );
 
 App::initialize();

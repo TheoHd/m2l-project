@@ -1,0 +1,8 @@
+{
+    "autoload": {
+        "psr-4": {"Spipu\\": "Vendor/spipu"}
+    },
+    "require": {
+        "spipu/html2pdf": "^5.1"
+    }
+}
