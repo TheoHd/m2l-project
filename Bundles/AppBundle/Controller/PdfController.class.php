@@ -23,8 +23,7 @@ class PdfController extends Controller
      */
     public function showPdfAction(){
         ob_start();
-        $this->render('appBundle:pdf:generateur');
-        $content = ob_get_clean();
+        $content = $this->render('appBundle:pdf:generateur',null,true);
         try{
             $pdf = new Html2Pdf('P','A4','fr');
             $pdf->writeHTML($content);
