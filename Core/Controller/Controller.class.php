@@ -91,7 +91,9 @@ class Controller {
         $bundle = str_replace("bundle", "Bundle", ucfirst($bundle));
         $filePath = ROOT . "/Bundles/" . $bundle . "/Views/" . $folder . $ressourceName . '.php';
 
-        extract($templateVars);
+        if($templateVars != null){
+            extract($templateVars);
+        }
 
         if($getRenderedTemplate){
             ob_start();
