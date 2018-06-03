@@ -9,13 +9,14 @@ use Core\Controller\Controller;
 use Core\Request\Request;
 use Core\Session\Session;
 
-class MembreController extends Controller {
+class MembreController extends Controller
+{
 
     public function __construct()
     {
         parent::__construct();
 
-        if(!App::getUser()){
+        if (!App::getUser()) {
             App::redirectToRoute('login');
         }
     }
@@ -24,7 +25,8 @@ class MembreController extends Controller {
      * @RouteName list_membres
      * @RouteUrl /admin/membres
      */
-    public function showMembreAction(){
+    public function showMembreAction()
+    {
 
         $membres = App::getTable('userBundle:user')->findBy(['roles' => '{"ROLE_SALARIE":"ROLE_SALARIE"}']);
 
@@ -37,12 +39,13 @@ class MembreController extends Controller {
      * @RouteName add_membre
      * @RouteUrl /admin/membres/add
      */
-    public function addMembreAction(){
+    public function addMembreAction()
+    {
         $form = $this->getEntityForm('userBundle:user', Request::all());
 
         $form->setData('credits', Config::get('app:site_maxCredits'));
         $form->setData('nbJour', Config::get('app:site_maxJours'));
-        $form->setData('currentCo', (new \DateTime())->format('Y-m-d H:i:s') );
+        $form->setData('currentCo', (new \DateTime())->format('Y-m-d H:i:s'));
 
         $this->render('appBundle:includes:form', [
             'pageTitle' => "Ajout d'un nouveau membre",
@@ -59,7 +62,8 @@ class MembreController extends Controller {
      * @RouteUrl /admin/membres/update/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function updateMembreAction($params){
+    public function updateMembreAction($params)
+    {
         $entity = App::getTable('userBundle:user')->findById($params['id']);
 
         $form = $this->getEntityForm('appBundle:membre', Request::all());
@@ -80,7 +84,8 @@ class MembreController extends Controller {
      * @RouteUrl /admin/membres/delete/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function deleteMembreAction($params){
+    public function deleteMembreAction($params)
+    {
         App::getTable('userBundle:user')->remove($params['id']);
         Session::success('Le membre à bien été supprimé !');
         App::redirectToRoute('list_membres');
@@ -91,7 +96,8 @@ class MembreController extends Controller {
      * @RouteUrl /user/promote/{:id}
      * @RouteParam id ([0-9]+)
      */
-    public function promoteUserAction($params){
+    public function promoteUserAction($params)
+    {
         $userManager = App::getTable('userBundle:user');
         $user = $userManager->findById($params['id']);
 
@@ -114,7 +120,8 @@ class MembreController extends Controller {
      * @RouteUrl /user/demote/{:id}
      * @RouteParam id ([0-9]+)
      */
-    public function demoteUserAction($params){
+    public function demoteUserAction($params)
+    {
         $userManager = App::getTable('userBundle:user');
         $user = $userManager->findById($params['id']);
         $user->setRoles('ROLE_SALARIE');

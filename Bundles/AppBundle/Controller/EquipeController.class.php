@@ -11,13 +11,14 @@ use Core\Form\FormEntityTraitement;
 use Core\Request\Request;
 use Core\Session\Session;
 
-class EquipeController extends Controller {
+class EquipeController extends Controller
+{
 
     public function __construct()
     {
         parent::__construct();
 
-        if(!App::getUser()){
+        if (!App::getUser()) {
             App::redirectToRoute('login');
         }
     }
@@ -27,7 +28,8 @@ class EquipeController extends Controller {
      * @RouteUrl /admin/equipe/{:id}
      * @RouteParam id ([0-9]+)
      */
-    public function showChefEquipeAction($params){
+    public function showChefEquipeAction($params)
+    {
         $equipe = App::getTable('appBundle:equipe')->findById($params['id']);
 
         $this->render('appBundle:chef:equipe', [
@@ -39,7 +41,8 @@ class EquipeController extends Controller {
      * @RouteName list_equipes
      * @RouteUrl /admin/equipes
      */
-    public function showEquipeAction(){
+    public function showEquipeAction()
+    {
 
         $equipes = App::getTable('appBundle:equipe')->findAll();
 
@@ -52,13 +55,14 @@ class EquipeController extends Controller {
      * @RouteName add_equipe
      * @RouteUrl /admin/equipes/add
      */
-    public function addEquipeAction(){
+    public function addEquipeAction()
+    {
         $form = $this->getForm('appBundle:equipe', 'new', Request::all());
 
-        if( $this->request->is('post') ){
-            if( $form->isValid() ){
+        if ($this->request->is('post')) {
+            if ($form->isValid()) {
                 $traitement = new FormEntityTraitement('appBundle:equipe', Request::all());
-                if($traitement){
+                if ($traitement) {
                     $form->clear();
                     App::redirectToRoute('list_equipes');
                 }
@@ -80,15 +84,16 @@ class EquipeController extends Controller {
      * @RouteUrl /admin/equipes/update/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function updateEquipeAction($params){
+    public function updateEquipeAction($params)
+    {
         $equipeManager = App::getTable('appBundle:equipe');
         $entity = $equipeManager->findById($params['id']);
 
         $form = $this->getForm('appBundle:equipe', 'update', Request::all(), ['equipe' => $entity]);
         $form->inject($entity);
 
-        if( $this->request->is('post') ){
-            if( $form->isValid() ){
+        if ($this->request->is('post')) {
+            if ($form->isValid()) {
                 $data = Request::get('appbundle_equipe');
 
                 $entity->setNom($data['nom']);
@@ -97,13 +102,13 @@ class EquipeController extends Controller {
                 $entity->setChef($newChef);
 
                 $employetoadd = $data['employetoadd'] ?? [];
-                foreach ($employetoadd as $toAdd){
+                foreach ($employetoadd as $toAdd) {
                     $employe = App::getTable('userBundle:user')->findById($toAdd);
                     $entity->addEmploye($employe);
                 }
 
                 $employetoremove = $data['employetoremove'] ?? [];
-                foreach ($employetoremove as $toRemove){
+                foreach ($employetoremove as $toRemove) {
                     $employe = App::getTable('userBundle:user')->findById($toRemove);
                     $entity->removeEmploye($employe);
                 }
@@ -130,7 +135,8 @@ class EquipeController extends Controller {
      * @RouteUrl /admin/equipes/delete/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function deleteEquipeAction($params){
+    public function deleteEquipeAction($params)
+    {
         App::getTable('appBundle:equipe')->remove($params['id']);
         Session::success('Le equipe à bien été supprimé !');
         App::redirectToRoute('list_equipes');

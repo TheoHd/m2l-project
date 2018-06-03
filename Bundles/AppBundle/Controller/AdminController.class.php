@@ -6,13 +6,15 @@ use App;
 use Core\Controller\Controller;
 use Core\Request\Request;
 
-class AdminController extends Controller {
+class AdminController extends Controller
+{
 
     /**
      * @RouteName list_cadres
      * @RouteUrl /admin/cadres
      */
-    public function showMembreAction(){
+    public function showMembreAction()
+    {
 
         $cadres = App::getTable('userBundle:user')->findBy(['roles' => '{"ROLE_CHEF":"ROLE_CHEF"}']);
 

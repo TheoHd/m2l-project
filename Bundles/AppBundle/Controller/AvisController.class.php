@@ -12,13 +12,14 @@ use Core\Form\FormEntityTraitement;
 use Core\Request\Request;
 use Core\Session\Session;
 
-class AvisController extends Controller {
+class AvisController extends Controller
+{
 
     public function __construct()
     {
         parent::__construct();
 
-        if(!App::getUser()){
+        if (!App::getUser()) {
             App::redirectToRoute('login');
         }
     }
@@ -28,14 +29,15 @@ class AvisController extends Controller {
      * @RouteUrl /formation/{:id}/avis
      * @RouteParam id ([0-9]+)
      */
-    public function showAvisAction($params){
+    public function showAvisAction($params)
+    {
         $formation = App::getTable('appBundle:formation')->findById($params['id']);
         $avis = App::getTable('appBundle:avis')->findBy(['formation_id' => $formation->getId()], ['date' => 'DESC']);
 
         $myAvis = App::getTable('appBundle:avis')->findOneBy(['formation_id' => $formation->getId(), 'user_id' => App::getUser()->getId()]);
         $demand = App::getTable('appBundle:demand')->findOneBy(['formation_id' => $formation->getId(), 'user_id' => App::getUser()->getId()]);
 
-        $authorizeNewAvis = $myAvis === false ;
+        $authorizeNewAvis = $myAvis === false;
         $authorizeNewAvis = $authorizeNewAvis && $demand != false;
         $authorizeNewAvis = $authorizeNewAvis && $demand->getEtat() == 2;
 
@@ -51,12 +53,13 @@ class AvisController extends Controller {
      * @RouteUrl /avis/add/{:formation}
      * @RouteParam :formation ([0-9]+)
      */
-    public function addAdviceAction($params){
+    public function addAdviceAction($params)
+    {
         $formation = App::getTable('appBundle:formation')->findById($params['formation']);
         $form = $this->getForm('appBundle:avis', 'new', Request::all());
 
-        if($this->request->is('post')){
-            if($form->isValid()){
+        if ($this->request->is('post')) {
+            if ($form->isValid()) {
 
                 $table = App::getTable('appBundle:avis');
 
@@ -65,10 +68,10 @@ class AvisController extends Controller {
 
                 $avis = new AvisEntity();
                 $avis->setContent($contenu);
-                $avis->setDate( new \DateTime() );
+                $avis->setDate(new \DateTime());
                 $avis->setNote($note);
-                $avis->setFormation( $formation );
-                $avis->setUser( App::getUser() );
+                $avis->setFormation($formation);
+                $avis->setUser(App::getUser());
 
                 $table->persist($avis);
                 $table->save();
@@ -92,7 +95,8 @@ class AvisController extends Controller {
      * @RouteUrl /avis/update/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function updateAdviceAction($params){
+    public function updateAdviceAction($params)
+    {
         $entity = App::getTable('appBundle:avis')->findById($params['id']);
 
         $form = $this->getEntityForm('appBundle:avis', Request::all());
@@ -113,7 +117,8 @@ class AvisController extends Controller {
      * @RouteUrl /avis/delete/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function deleteFormationAction($params){
+    public function deleteFormationAction($params)
+    {
         App::getTable('appBundle:avis')->remove($params['id']);
         Session::success('Le commentaire à bien été supprimé !');
         App::redirectToRoute('list_avis');

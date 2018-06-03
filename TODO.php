@@ -8,9 +8,6 @@
 //    UserController
 //    AdminUserController
 
-
-//    revoir system upload de fichier
-
 //    //$router->add('/changePseudo/{:id}', 'App/Controller/UserController@changePseudo', 'change_pseudo_route_id', ['id' => $router::TYPE_INT]);
 //    //$router->add('/changeEmail/{:id}', 'App/Controller/UserController@changeEmail', 'change_email_route_id', ['id' => $router::TYPE_INT]);
 //    //$router->add('/changePassword/{:id}', 'App/Controller/UserController@changePassword', 'change_password_route_id', ['id' => $router::TYPE_INT]);

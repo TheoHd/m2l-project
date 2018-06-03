@@ -13,13 +13,14 @@ use Core\Request\Request;
 use Core\Session\Session;
 use PDO;
 
-class FormationController extends Controller {
+class FormationController extends Controller
+{
 
     public function __construct()
     {
         parent::__construct();
 
-        if(!App::getUser()){
+        if (!App::getUser()) {
             App::redirectToRoute('login');
         }
     }
@@ -29,11 +30,12 @@ class FormationController extends Controller {
      * @RouteUrl /formation/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function showAction($params){
+    public function showAction($params)
+    {
         $formation = App::getTable('appBundle:formation')->findById($params['id']);
         $user = App::getUser();
 
-        $nbDemand = count( App::getTable('appBundle:demand')->findBy(['formation_id' => $formation->getId()]) );
+        $nbDemand = count(App::getTable('appBundle:demand')->findBy(['formation_id' => $formation->getId()]));
         $demand = App::getTable('appBundle:demand')->findBy(['formation_id' => $formation->getId(), 'user_id' => $user->getId()]);
         $avisFormation = App::getTable('appBundle:avis')->findBy(['formation_id' => $formation->getId()]);
         $lastAvis = reset($avisFormation);
@@ -41,12 +43,12 @@ class FormationController extends Controller {
         $alreadyHasDemand = count($demand) > 0;
 
         $note = false;
-        if(!empty($avisFormation)){
+        if (!empty($avisFormation)) {
             $noteFormation = 0;
-            foreach ($avisFormation as $avis){
+            foreach ($avisFormation as $avis) {
                 $noteFormation += $avis->getNote();
             }
-            $note = (int) round($noteFormation / count($avisFormation));
+            $note = (int)round($noteFormation / count($avisFormation));
         }
 
         $this->render('appBundle:formation:show', [
@@ -64,20 +66,24 @@ class FormationController extends Controller {
      * @RouteName manage_formations
      * @RouteUrl /formations/manage
      */
-    public function manageFormationAction(){
+    public function manageFormationAction()
+    {
 
         $formations = App::getTable('appBundle:formation')->findAll();
 
-        $soon = []; $ended = []; $canceled = []; $reported = [];
+        $soon = [];
+        $ended = [];
+        $canceled = [];
+        $reported = [];
 
-        foreach ($formations as $f){
-            if($f->getStatut() == 0){
+        foreach ($formations as $f) {
+            if ($f->getStatut() == 0) {
                 $canceled[] = $f;
-            }elseif($f->getStatut() == 1){
+            } elseif ($f->getStatut() == 1) {
                 $soon[] = $f;
-            }elseif($f->getStatut() == 2){
+            } elseif ($f->getStatut() == 2) {
                 $ended[] = $f;
-            }elseif($f->getStatut() == -1){
+            } elseif ($f->getStatut() == -1) {
                 $reported[] = $f;
             }
         }
@@ -94,11 +100,12 @@ class FormationController extends Controller {
      * @RouteName search_formations
      * @RouteUrl /home/search
      */
-    public function searchqHomeFormationAction(){
+    public function searchqHomeFormationAction()
+    {
 
         $search = Request::get('search');
 
-        $formations = App::getDb()->query("SELECT * FROM formation WHERE nom LIKE '%".$search."%'", false, PDO::FETCH_CLASS, FormationEntity::class);
+        $formations = App::getDb()->query("SELECT * FROM formation WHERE nom LIKE '%" . $search . "%'", false, PDO::FETCH_CLASS, FormationEntity::class);
 
         $this->render('appBundle:formation:ajax-template', [
             'formations' => $formations
@@ -109,11 +116,12 @@ class FormationController extends Controller {
      * @RouteName search_formations_salarie
      * @RouteUrl /formations/search
      */
-    public function searchFormationAction(){
+    public function searchFormationAction()
+    {
 
         $search = Request::get('search');
 
-        $formations = App::getDb()->query("SELECT * FROM formation WHERE nom LIKE '%".$search."%'", false, PDO::FETCH_CLASS, FormationEntity::class);
+        $formations = App::getDb()->query("SELECT * FROM formation WHERE nom LIKE '%" . $search . "%'", false, PDO::FETCH_CLASS, FormationEntity::class);
 
         $this->render('appBundle:formation:ajax-template-search', [
             'formations' => $formations
@@ -124,7 +132,8 @@ class FormationController extends Controller {
      * @RouteName add_formation
      * @RouteUrl /formations/add
      */
-    public function addFormationAction(){
+    public function addFormationAction()
+    {
         $form = $this->getEntityForm('appBundle:formation', Request::all());
 
         $this->render('appBundle:includes:form', [
@@ -142,7 +151,8 @@ class FormationController extends Controller {
      * @RouteUrl /formations/update/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function updateFormationAction($params){
+    public function updateFormationAction($params)
+    {
         $entity = App::getTable('appBundle:formation')->findById($params['id']);
 
         $form = $this->getEntityForm('appBundle:formation', Request::all());
@@ -163,19 +173,20 @@ class FormationController extends Controller {
      * @RouteUrl /formations/delete/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function deleteFormationAction($params){
+    public function deleteFormationAction($params)
+    {
         App::getTable('appBundle:formation')->remove($params['id']);
         Session::success('Le formation à bien été supprimé !');
         App::redirectToRoute('manage_formations');
     }
 
 
-
     /**
      * @RouteName list_formations
      * @RouteUrl /formations
      */
-    public function listFormationAction(){
+    public function listFormationAction()
+    {
 
         $manager = App::getTable('userBundle:user');
         $user = $manager->findById(App::getUser()->getId());
@@ -185,32 +196,39 @@ class FormationController extends Controller {
 
         $nbFormation = count($myFormation);
         $totalDays = 0;
-        if($nbFormation > 0){
-            foreach ($myFormation as $f){
+        if ($nbFormation > 0) {
+            foreach ($myFormation as $f) {
                 $totalDays += $f->getFormation()->getDuree();
             }
         }
 
-        foreach ($formations as $f){
+        foreach ($formations as $f) {
             $avisFormation = App::getTable('appBundle:avis')->findBy(['formation_id' => $f->getId()]);
 
-            if(!empty($avisFormation)){
+            if (!empty($avisFormation)) {
                 $noteFormation = 0;
-                foreach ($avisFormation as $avis){
+                foreach ($avisFormation as $avis) {
                     $noteFormation += $avis->getNote();
                 }
 
-                $round = (int) round($noteFormation / count($avisFormation));
-                if($round == 1) { $noteTitle = 'Facile';
-                } elseif($round == 2) { $noteTitle = 'Moyen';
-                } elseif($round == 3) { $noteTitle = 'Intermédiaire';
-                } elseif($round == 4) { $noteTitle = 'Difficile';
-                } elseif($round == 5) { $noteTitle = 'Trés difficile';
-                } else{ $noteTitle = 'Aucun avis'; }
+                $round = (int)round($noteFormation / count($avisFormation));
+                if ($round == 1) {
+                    $noteTitle = 'Facile';
+                } elseif ($round == 2) {
+                    $noteTitle = 'Moyen';
+                } elseif ($round == 3) {
+                    $noteTitle = 'Intermédiaire';
+                } elseif ($round == 4) {
+                    $noteTitle = 'Difficile';
+                } elseif ($round == 5) {
+                    $noteTitle = 'Trés difficile';
+                } else {
+                    $noteTitle = 'Aucun avis';
+                }
 
                 $f->noteTitle = $noteTitle;
                 $f->notePercent = ($noteFormation / count($avisFormation)) * 100 / 5;
-            }else{
+            } else {
                 $f->notePercent = "0";
                 $f->noteTitle = "Aucun avis";
             }

@@ -10,17 +10,17 @@ use Core\Email\Email;
 use Core\Router\Router;
 use PDO;
 
-class DemandController extends Controller {
+class DemandController extends Controller
+{
 
     public function __construct()
     {
         parent::__construct();
 
-        if(!App::getUser()){
+        if (!App::getUser()) {
             App::redirectToRoute('login');
         }
     }
-
 
 
     /**
@@ -28,9 +28,10 @@ class DemandController extends Controller {
      * @RouteUrl /demand/new/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function contactAction($params){
+    public function contactAction($params)
+    {
 
-        $formation = App::getTable('appBundle:formation')->findById( $params['id'] );
+        $formation = App::getTable('appBundle:formation')->findById($params['id']);
         $manager = App::getTable('appBundle:demand');
         $user = App::getUser();
 
@@ -39,11 +40,11 @@ class DemandController extends Controller {
         $demand->setUser($user);
         $demand->setFormation($formation);
         $demand->setEtat(1);
-        $demand->setDate( new \DateTime() );
+        $demand->setDate(new \DateTime());
 
         $manager->persist($demand)->save();
 
-        App::redirectToRoute('show_formation', ['id' => $params['id'] ]);
+        App::redirectToRoute('show_formation', ['id' => $params['id']]);
     }
 
     /**
@@ -51,19 +52,20 @@ class DemandController extends Controller {
      * @RouteUrl /demand/cancel/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function cancelAction($params){
+    public function cancelAction($params)
+    {
 
-        $formation = App::getTable('appBundle:formation')->findById( $params['id'] );
+        $formation = App::getTable('appBundle:formation')->findById($params['id']);
         $manager = App::getTable('appBundle:demand');
         $user = App::getUser();
 
         $demand = $manager->findOneBy(['user_id' => $user->getId(), 'formation_id' => $formation->getId()]);
 
-        if(count($demand) > 0){
+        if (count($demand) > 0) {
             $manager->remove($demand);
         }
 
-        App::redirectToRoute('show_formation', ['id' => $params['id'] ]);
+        App::redirectToRoute('show_formation', ['id' => $params['id']]);
     }
 
     /**
@@ -71,11 +73,12 @@ class DemandController extends Controller {
      * @RouteUrl /demand/accept/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function acceptAction($params){
+    public function acceptAction($params)
+    {
         $demandManager = App::getTable('appBundle:demand');
         $userManager = App::getTable('userBundle:user');
 
-        $demand = $demandManager->findById( $params['id'] );
+        $demand = $demandManager->findById($params['id']);
         $demandManager->update($demand, ['etat' => 2]);
 
         $user = $demand->getUser();
@@ -86,13 +89,13 @@ class DemandController extends Controller {
         $newJour = $nbJour - $formation->getDuree();
         $newCredits = $credits - $formation->getPrerequis();
 
-        $userManager->update($user, ['nbJour' => $newJour , 'credits' => $newCredits]);
+        $userManager->update($user, ['nbJour' => $newJour, 'credits' => $newCredits]);
 
         $email = new Email();
-        $email->setContent( $this->render('appBundle:email:demand_accepted', [
+        $email->setContent($this->render('appBundle:email:demand_accepted', [
             'formation' => $demand->getFormation(),
             'user' => $demand->getUser()
-        ], true) );
+        ], true));
         $email->setSubject('Candidature accepté');
         $email->addAddress($demand->getUser()->getEmail());
         $email->send();
@@ -105,13 +108,14 @@ class DemandController extends Controller {
      * @RouteUrl /demand/deny/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function denyAction($params){
+    public function denyAction($params)
+    {
         $demandManager = App::getTable('appBundle:demand');
         $userManager = App::getTable('userBundle:user');
-        $demand = $demandManager->findById( $params['id'] );
+        $demand = $demandManager->findById($params['id']);
         $demandManager->update($demand, ['etat' => -1]);
 
-        if($demand->getEtat() == 2){
+        if ($demand->getEtat() == 2) {
             $user = $demand->getUser();
             $formation = $demand->getFormation();
             $nbJour = $user->getNbJour();
@@ -120,14 +124,14 @@ class DemandController extends Controller {
             $newJour = $nbJour + $formation->getDuree();
             $newCredits = $credits + $formation->getPrerequis();
 
-            $userManager->update($user, ['nbJour' => $newJour , 'credits' => $newCredits]);
+            $userManager->update($user, ['nbJour' => $newJour, 'credits' => $newCredits]);
         }
 
         $email = new Email();
-        $email->setContent( $this->render('appBundle:email:demand_denied', [
+        $email->setContent($this->render('appBundle:email:demand_denied', [
             'formation' => $demand->getFormation(),
             'user' => $demand->getUser()
-        ], true) );
+        ], true));
         $email->setSubject('Candidature refusé');
         $email->addAddress($demand->getUser()->getEmail());
         $email->send();
@@ -140,11 +144,12 @@ class DemandController extends Controller {
      * @RouteUrl /demand/wait/{:id}
      * @RouteParam :id ([0-9]+)
      */
-    public function waitAction($params){
+    public function waitAction($params)
+    {
         $demandManager = App::getTable('appBundle:demand');
         $userManager = App::getTable('userBundle:user');
 
-        $demand = $demandManager->findById( $params['id'] );
+        $demand = $demandManager->findById($params['id']);
         $demandManager->update($demand, ['etat' => 1]);
 
         $user = $demand->getUser();
@@ -152,11 +157,11 @@ class DemandController extends Controller {
         $nbJour = $user->getNbJour();
         $credits = $user->getCredits();
 
-        if($demand->getEtat() == 2){
+        if ($demand->getEtat() == 2) {
 
             $newJour = $nbJour - $formation->getDuree();
             $newCredits = $credits - $formation->getPrerequis();
-            $userManager->update($user, ['nbJour' => $newJour , 'credits' => $newCredits]);
+            $userManager->update($user, ['nbJour' => $newJour, 'credits' => $newCredits]);
         }
 
         App::redirectToPreviousRoute();

@@ -21,15 +21,16 @@ class PdfController extends Controller
      * @RouteName pdf_facture
      * @RouteUrl /salarie/facture
      */
-    public function showPdfAction(){
+    public function showPdfAction()
+    {
         ob_start();
-        $content = $this->render('appBundle:pdf:generateur',null,true);
-        try{
-            $pdf = new Html2Pdf('P','A4','fr');
+        $content = $this->render('appBundle:pdf:generateur', null, true);
+        try {
+            $pdf = new Html2Pdf('P', 'A4', 'fr');
             $pdf->writeHTML($content);
             $pdf->Output('test.pdf');
 
-        }catch (HTML2PDF_exception $e){
+        } catch (HTML2PDF_exception $e) {
             $e->getMessage();
             die($e);
         }
