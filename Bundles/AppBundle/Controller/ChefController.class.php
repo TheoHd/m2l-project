@@ -54,8 +54,10 @@ class ChefController extends Controller
                 $demandEquipe = App::getDb()->query("SELECT * FROM equipe_user WHERE user_id = $userId")[0];
                 if ($demandEquipe and !empty($demandEquipe)) {
                     $connectedUserEquipe = App::getTable('appBundle:equipe')->findOneBy(['chef_id' => App::getUser()->getId()]);
-                    if ($demandEquipe->equipe_id == $connectedUserEquipe->getId()) {
-                        $r[] = $demand;
+                    if($connectedUserEquipe) {
+                        if ($demandEquipe->equipe_id == $connectedUserEquipe->getId()) {
+                            $r[] = $demand;
+                        }
                     }
                 }
             }
